@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="dashboard.html" class="nav-item">
+            <img src="Asset/home.png" alt="Home">
+        </a>
+        <a href="#" class="nav-item">
+            <img src="Asset/profile.png" alt="Profile">
+        </a>
+        <a class="nav-item">
+            <img src="Asset/translate.png" alt="Translate">
+        </a>
+        <a href="dictionary.html" class="nav-item">
+            <img src="Asset/folder.png" alt="Library">
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="left-panel">
+                <input type="text" id="videoNames" class="inputs" placeholder="Type something...">
+                <div class="scrollable-list">
+                    <ul id="suggestions"></ul>
+                </div>
+            </div>
+            <div class="right-panel">
+                AVATAR
+                <div id="videoPlayer">
+                    <img id="initialImage" src="Asset/still.jpeg" width="640" height="360" alt="Initial Image">
+                </div>
+                <div id="playbackButtons">
+                    <button id="btnSlow" onclick="setPlaybackSpeed(0.5)">x0.5</button>
+                    <button id="btnNormal" onclick="setPlaybackSpeed(1)">x1</button>
+                    <button id="btnFast" onclick="setPlaybackSpeed(2)">x2</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-controls">
+        <div class="left-controls">
+            <button class="btn mic-btn" onclick="record()">
+                <img src="M1.png" alt="Microphone">
+            </button>        
+            <button class="btn play-btn" onclick="playVideos()">
+                <img src="P1.png" alt="Play">
+            </button>
+        </div>
+        <div class="right-controls">
+            <div class="right-subtitle">
+                <div id="videoTitle">Subtitle</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>
