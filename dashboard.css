@@ -1,0 +1,159 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    overflow: hidden;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 100vh;
+    background-color: white;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    z-index: 1;
+}
+
+.nav-item {
+    margin-bottom: 20px;
+}
+
+.nav-item img {
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+.content {
+    margin-left: 60px;
+    padding: 20px;
+    position: relative;
+}
+
+.latest-story {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color: transparent;
+    border: none;
+}
+
+.box {
+    width: 95vw; /* Box width */
+    height: 60vh;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+    overflow: hidden;
+    padding: 0 0 2% 0;
+    box-sizing: border-box;
+    position: relative;
+    margin-top: 35px;
+}
+
+.box-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.circles {
+    position: absolute;
+    bottom: 2%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 0 10px;
+}
+
+.circle:nth-child(1) {
+    background-color: grey;
+}
+
+.circle:nth-child(2),
+.circle:nth-child(3) {
+    background-color: white;
+    border: 2px solid black;
+}
+
+.additional-content {
+    position: absolute;
+    top: calc(66vh + 10px);
+    left: 35px;
+    width: 95vw; /* Match the width of the box */
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.story-digest {
+    margin-bottom: 10px;
+}
+
+/* New CSS for horizontal layout */
+.horizontal-container {
+    display: flex; /* Align items horizontally */
+    gap: 20px; /* Space between sections */
+    flex-wrap: wrap; /* Allow items to wrap if needed */
+}
+
+.story {
+    display: flex;
+    align-items: flex-start;
+    width: calc(33.3% - 40px); /* Calculate width for 3 sections with gaps */
+    margin-bottom: 20px; /* Add margin-bottom for spacing between rows */
+    box-sizing: border-box; /* Include padding and border in the width and height */
+    text-decoration: none; /* Remove underline from links */
+    color: black; /* Ensure text is visible */
+}
+
+.story img {
+    width: 250px; /* Adjust width */
+    height: 250px; /* Adjust height */
+}
+
+.story-title {
+    font-size: 24px; /* Adjust font size to fit new layout */
+    font-weight: bold;
+    margin-left: 10px;
+    margin-bottom: auto;
+}
+
+.story-author {
+    font-size: 14px;
+    font-weight: normal;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.story-date {
+    font-size: 14px; /* Smaller font for date */
+    font-weight: normal;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.story-quote {
+    font-size: 14px; /* Slightly smaller font for quotes */
+    font-weight: normal;
+    margin-left: 10px;
+    margin-top: 10px;
+    max-width: 180px; /* Adjusted max width to fit section width */
+}
