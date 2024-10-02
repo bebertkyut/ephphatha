@@ -33,41 +33,46 @@ const firebaseConfig = {
   appId: "1:408778244868:web:43bb14d52f45c4c5424651",
 };
 
- // Initialize Firebase
- firebase.initializeApp(firebaseConfig);
- const db = firebase.firestore();
- 
- const loginForm = document.getElementById('loginForm');
- loginForm.addEventListener('submit', (e) => {
-   e.preventDefault();
- 
-   const email = document.getElementById('Email').value;
-   const password = document.getElementById('Password').value;
- 
-   // Check if the user is in the UsersAccount collection
-   db.collection("UserAccount").where("Email", "==", email).where("Password", "==", password).get()
-     .then((querySnapshot) => {
-       if (!querySnapshot.empty) {
-         // User found, redirect to user dashboard
-         window.location.href = "dashboard.html";
-       } else {
-         // Check if the user is in the AdminAccount collection
-         db.collection("AdminAccount").where("Email", "==", email).where("Password", "==", password).get()
-           .then((querySnapshot) => {
-             if (!querySnapshot.empty) {
-               // Admin found, redirect to admin dashboard
-               window.location.href = "AdminDashboard.html";
-             } else {
-               // No match found in either collection
-               document.getElementById("error-message").innerText = "Invalid login credentials";
-             }
-           })
-           .catch((error) => {
-             console.error("Error getting admin documents: ", error);
-           });
-       }
-     })
-     .catch((error) => {
-       console.error("Error getting user documents: ", error);
-     });
- });
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const loginForm = document.getElementById('loginForm');
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  db.collection("UserAccount").where("Email", "==", email).where("Password", "==", password).get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        querySnapshot.forEach((doc) => {
+          const userData = doc.data();
+          const userName = userData.Name;
+          const userStatus = userData.Status;
+          
+          // Store user data in localStorage
+          localStorage.setItem('userName', userName);
+          localStorage.setItem('userStatus', userStatus);
+
+          window.location.href = "user-dashboard.html";
+        });
+      } else {
+        db.collection("AdminAccount").where("Email", "==", email).where("Password", "==", password).get()
+          .then((querySnapshot) => {
+            if (!querySnapshot.empty) {
+              window.location.href = "admin-dashboard.html";
+            } else {
+              document.getElementById("error-message").innerText = "Invalid login credentials";
+            }
+          })
+          .catch((error) => {
+            console.error("Error getting admin documents: ", error);
+          });
+      }
+    })
+    .catch((error) => {
+      console.error("Error getting user documents: ", error);
+    });
+});
