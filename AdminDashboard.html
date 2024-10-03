@@ -36,7 +36,7 @@
     </table>
   </div>
 
-  <!-- Add Account-->
+  <!-- Add Account Modal -->
   <div id="accountModal" class="modal" style="display:none;">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
@@ -60,6 +60,46 @@
         
         <button type="button" onclick="addAccount()">Submit</button>
       </form>
+    </div>
+  </div>
+  
+  <!-- Edit Account Modal -->
+  <div id="editAccountModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeEditModal()">&times;</span>
+      <h2>Edit Account</h2>
+      <form id="editAccountForm">
+        <input type="hidden" id="editUserId">
+        
+        <label for="editName">Name:</label>
+        <input type="text" id="editName" name="editName" required>
+        
+        <label for="editEmail">Email:</label>
+        <input type="email" id="editEmail" name="editEmail" required>
+        
+        <label for="editPassword">Password:</label>
+        <input type="password" id="editPassword" name="editPassword" required>
+        
+        <label for="editStatus">Status:</label>
+        <select id="editStatus" name="editStatus" required>
+          <option value="Student">Student</option>
+          <option value="Teacher">Teacher</option>
+          <option value="Admin">Admin</option>
+        </select>
+        
+        <button type="button" onclick="updateUser()">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmRemoveModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeConfirmModal()">&times;</span>
+      <h2>Confirm Removal</h2>
+      <p>Are you sure you want to remove this user?</p>
+      <button id="confirmRemoveButton">Yes, Remove</button>
+      <button onclick="closeConfirmModal()">Cancel</button>
     </div>
   </div>
 
