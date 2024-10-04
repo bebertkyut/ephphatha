@@ -1,0 +1,122 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    overflow: hidden;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 100vh;
+    background-color: white;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    z-index: 1;
+}
+
+.nav-item {
+    margin-bottom: 20px;
+}
+
+.nav-item img {
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+.category-navbar {
+    margin-left: 60px;
+    width: 250px;
+    height: 100vh;
+    background-color: #f4f4f4;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.category-header {
+    padding: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #ddd;
+    border-bottom: 2px solid black;
+}
+
+.category-content {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-content li {
+    padding: 10px;
+}
+
+.category-content a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+.category-content a:hover {
+    background-color: #ddd;
+}
+
+#alphabet-list,
+#numbers-list,
+#word-list {
+    position: fixed;
+    top: 0;
+    left: 310px;
+    width: calc(100vw - 310px);
+    height: 100vh;
+    background-color: #f9f9f9;
+    border-left: 2px solid black;
+    overflow-y: auto;
+    padding: 10px;
+    z-index: 2;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.hidden {
+    display: none;
+}
+
+#alphabet-container,
+#numbers-container,
+#word-list-container {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#alphabet-container li,
+#numbers-container li,
+#word-list-container li {
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+#alphabet-container li:hover,
+#numbers-container li:hover,
+#word-list-container li:hover {
+    background-color: #eee;
+}
+
+#alphabet-container li:last-child,
+#numbers-container li:last-child,
+#word-list-container li:last-child {
+    border-bottom: none;
+}

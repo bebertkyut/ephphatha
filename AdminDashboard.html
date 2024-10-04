@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="AdminDashboard.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <a href="#page1">
+      <img src="AdminDashboardAssets/accounts.png" alt="Accounts Icon">
+      <span>Accounts</span>
+    </a>
+    <a href="#page2">
+      <img src="AdminDashboardAssets/library.png" alt="Library Icon">
+      <span>Library</span>
+    </a>
+  </div>
+
+  <div class="main-content">
+    <button class="add-account-button" onclick="openModal()">Add Account</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- table content -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Add Account Modal -->
+  <div id="accountModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Add Account</h2>
+      <form id="addAccountForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+          <option value="Student">Student</option>
+          <option value="Teacher">Teacher</option>
+          <option value="Admin">Admin</option>
+        </select>
+        
+        <button type="button" onclick="addAccount()">Submit</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Edit Account Modal -->
+  <div id="editAccountModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeEditModal()">&times;</span>
+      <h2>Edit Account</h2>
+      <form id="editAccountForm">
+        <input type="hidden" id="editUserId">
+        
+        <label for="editName">Name:</label>
+        <input type="text" id="editName" name="editName" required>
+        
+        <label for="editEmail">Email:</label>
+        <input type="email" id="editEmail" name="editEmail" required>
+        
+        <label for="editPassword">Password:</label>
+        <input type="password" id="editPassword" name="editPassword" required>
+        
+        <label for="editStatus">Status:</label>
+        <select id="editStatus" name="editStatus" required>
+          <option value="Student">Student</option>
+          <option value="Teacher">Teacher</option>
+          <option value="Admin">Admin</option>
+        </select>
+        
+        <button type="button" onclick="updateUser()">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmRemoveModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeConfirmModal()">&times;</span>
+      <h2>Confirm Removal</h2>
+      <p>Are you sure you want to remove this user?</p>
+      <button id="confirmRemoveButton">Yes, Remove</button>
+      <button onclick="closeConfirmModal()">Cancel</button>
+    </div>
+  </div>
+
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
+
+  <script type="module" src="AdminDashboard.js"></script>
+</body>
+</html>

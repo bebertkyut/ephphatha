@@ -1,0 +1,230 @@
+body {
+    margin: 0;
+    display: flex;
+}
+
+.sidebar {
+    width: 80px;
+    background-color: #fff;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar a {
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.sidebar a img {
+    width: 30px;
+    height: 30px;
+}
+
+.sidebar a span {
+    font-size: 12px;
+    color: black;
+    margin-top: 5px;
+}
+
+.sidebar a:hover {
+    background-color: #f0f0f0;
+}
+
+.main-content {
+    margin-left: 100px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+td.action-cell {
+    width: 1%;
+    white-space: nowrap;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    font-size: 24px;
+}
+
+td {
+    border-right: none;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f0f0f0;
+}
+
+.action-button {
+    background-color: white;
+    color: black;
+    font-size: 20px;
+    border: 2px solid;
+    border-radius: 4px;
+}
+
+.action-buttons {
+    display: none;
+}
+
+.add-account-button {
+    float: right;
+    padding: 8px 15px;
+    margin-bottom: 10px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    font-size: 16px;
+}
+
+.add-account-button:hover {
+    background-color: #0056b3;
+}
+
+.action-buttons {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+}
+
+.dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+td.action-cell {
+    position: relative;
+}
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#confirmRemoveModal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.7); 
+}
+
+#confirmRemoveModal .modal-content {
+    background-color: #fff; 
+    margin: auto; 
+    padding: 30px; 
+    border: 2px solid #007BFF; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+    width: 400px; 
+    text-align: center; 
+}
+
+#confirmRemoveModal .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#confirmRemoveModal .close:hover,
+#confirmRemoveModal .close:focus {
+    color: #007BFF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#confirmRemoveModal button {
+    margin: 10px; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+#confirmRemoveModal #confirmRemoveButton {
+    background-color: #007BFF; 
+    color: white; 
+    transition: background-color 0.3s; 
+}
+
+#confirmRemoveModal #confirmRemoveButton:hover {
+    background-color: #0056b3; 
+}
+
+#confirmRemoveModal button:nth-child(2) {
+    background-color: #ccc; 
+    color: black; 
+}
+
+#confirmRemoveModal button:nth-child(2):hover {
+    background-color: #bbb; 
+}

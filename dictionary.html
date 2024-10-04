@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="dictionary.css">
+    <title>Dictionary</title>
+</head>
+<body>
+    <div class="navbar">
+        <a href="dashboard.html" class="nav-item">
+            <img src="Asset/home.png" alt="Home">
+        </a>
+        <a href="#" class="nav-item">
+            <img src="Asset/profile.png" alt="Profile">
+        </a>
+        <a href="main.html" class="nav-item">
+            <img src="Asset/translate.png" alt="Translate">
+        </a>
+        <a class="nav-item">
+            <img src="Asset/folder.png" alt="Library">
+        </a>
+    </div>
+    
+    <div class="category-navbar">
+        <div class="category-header">Category</div>
+        <ul class="category-content">
+            <li><a href="#" id="word-list-link">Word List</a></li>
+            <li><a href="#" id="alphabet-link">Alphabet</a></li>
+            <li><a href="#" id="numbers-link">Numbers</a></li>
+        </ul>
+    </div>
+
+    <div id="alphabet-list" class="hidden">
+        <ul id="alphabet-container"></ul>
+    </div>
+
+    <div id="numbers-list" class="hidden">
+        <ul id="numbers-container"></ul>
+    </div>
+
+    <div id="word-list" class="hidden">
+        <ul id="word-list-container"></ul>
+    </div>
+
+    <script src="dictionary.js"></script>
+</body>
+</html>
