@@ -41,8 +41,8 @@ const loginForm = document.getElementById('loginForm');
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
+  const email = document.getElementById('Email').value;
+  const password = document.getElementById('Password').value;
 
   db.collection("UserAccount").where("Email", "==", email).where("Password", "==", password).get()
     .then((querySnapshot) => {
@@ -56,7 +56,7 @@ loginForm.addEventListener('submit', (e) => {
           localStorage.setItem('userName', userName);
           localStorage.setItem('userStatus', userStatus);
 
-          window.location.href = "user-dashboard.html";
+          window.location.href = "dashboard.html";
         });
       } else {
         db.collection("AdminAccount").where("Email", "==", email).where("Password", "==", password).get()
