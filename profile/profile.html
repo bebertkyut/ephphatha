@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="output.css">
+    <title>Profile</title>
+    <script src="https://kit.fontawesome.com/de8bfbb512.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="pop-up" class="fixed inset-0 bg-stone-500 bg-opacity-50 hidden justify-center items-center z-50">
+       <div class="flex justify-center items-center h-full w-full">
+            <div class="card">
+                <div class="relative pb-5">
+                    <a href="#" id="closeBtn" class="absolute right-56 -mx-44">
+                        <span class="closePopup"> x </span>
+                    </a>
+                </div>
+                <div class="mb-4">
+                    <a href="/ephphatha/profile/edit-information.html">
+                        <h3 class="hover:underline active:to-yellow-200"> Information </h3>
+                        <p> Edit your information </p>
+                    </a>
+                </div>
+                <div>
+                    <a href="/ephphatha/profile/edit-about.html">
+                        <h3 class="hover:underline active:to-yellow-200"> About </h3>
+                        <p> Add description about yourself </p>
+                    </a>
+                </div>
+            </div>
+       </div>
+    </div>
+    <script src="/ephphatha/profile/pop-up.js"></script>
+    <div class="flex ml-16 mr-2 px-40 pt-16 border-b border-gray-400">
+        <div class="pb-8">
+            <img id="user_photo" src="/ephphatha/img/default-user.png" class="w-40 h-40 rounded-full">
+            <input type="file" id="file" class="hidden">
+            <label for="file" id="upload_btn" class="upload_pic ml-52 -mt-10">
+                <i class="fa-solid fa-camera"></i>
+            </label>
+        </div>
+        <div>
+            <h1 class="pt-24 px-10"> Juan Dela Cruz </h1>
+        </div>
+    </div>
+    <script src="/ephphatha/profile/upload.js"></script>
+    <div>
+        <span class="flex items-center px-60 pt-5 gap-10 bg-slate-300 ml-16 mr-2">
+            <div>
+                <a href="/ephphatha/profile/info.html">
+                    <h2>Information</h2>
+                </a>
+            </div>
+            <div>
+                <a href="/ephphatha/profile/about.html">
+                    <h2>About</h2>
+                    <p id="aboutDisplay"></p>
+                </a>
+            </div>
+            <div class="flex pl-96 pb-3 mx-96">
+                <button id="editBtn" class="btn-edit">
+                    Edit
+                </button>
+            </div>
+        </span>
+    </div>
+    <div class="fixed top-0 left-0 h-screen w-14, border-r-4 border-black p-2">
+        <a href="/ephphatha/dashboard.html">
+            <img src="/ephphatha/img/home.png" alt="Home" class="w-10 h-10 mb-3">
+        </a>
+        <a href="/ephphatha/profile/profile.html" class="pt-5">
+            <img src="/ephphatha/img/user-profile.png" alt="Profile" class="w-10 h-10">
+        </a>
+    </div>
+</body>
+</html>

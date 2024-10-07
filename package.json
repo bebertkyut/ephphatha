@@ -7,10 +7,13 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tailwindcss -i ./src/input.css -o ./profile/output.css --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^3.4.12"
+  }
 }
