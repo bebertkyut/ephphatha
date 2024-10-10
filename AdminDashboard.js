@@ -191,8 +191,10 @@ window.addAccount = async function() {
   const about = "Add Description"; // Default value
   const status = "Active"; // Default status
   const dateCreated = new Date(); // Current date
+  const birthday = new Date();
 
   try {
+    // Add the new user account
     await addDoc(collection(db, "UserAccount"), {
       Name: name,
       Username: username,
@@ -200,16 +202,24 @@ window.addAccount = async function() {
       Role: role,
       Gender: gender,
       About: about,
-      Status: status, // Include Status field
+      Status: status,
       DateCreated: dateCreated,
+      Birthday: birthday,
     });
 
-    closeModal();
-    fetchUsers();
+    closeModal(); // Close the modal after adding the user
+    fetchUsers(); // Refresh the users list
+
+    // Reset form fields
+    document.getElementById('name').value = '';
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('role').value = '';
+
   } catch (error) {
     console.error("Error adding account:", error);
-  }
-}
+  } // Missing closing bracket was added here
+};
 
 // Function to deactivate a user
 window.deactivateUser = function(userId) {
@@ -233,23 +243,19 @@ window.deactivateUser = function(userId) {
 
   // Add event listener for confirmation button
   document.getElementById('confirmDeactivateButton').onclick = async function() {
-    await updateUserStatus(userId, "Inactive");
-    confirmDeactivateModal.remove();
+    try {
+      const userDocRef = doc(db, "UserAccount", userToRemoveId);
+      await updateDoc(userDocRef, {
+        Status: 'Inactive' // Update status to 'Inactive'
+      });
+
+      fetchUsers(); // Refresh the users list
+      confirmDeactivateModal.remove(); // Close the modal
+    } catch (error) {
+      console.error("Error deactivating user:", error);
+    }
   };
 };
 
-async function updateUserStatus(userId, newStatus) {
-  try {
-    const userDocRef = doc(db, "UserAccount", userId);
-    await updateDoc(userDocRef, {
-      Status: newStatus,
-    });
-
-    fetchUsers();
-  } catch (error) {
-    console.error("Error updating user status:", error);
-  }
-}
-
-// Initial fetch of user accounts
+// Initialize the user fetching on page load
 fetchUsers();
