@@ -4,21 +4,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const loginBtn = document.getElementById("loginBtn");
   const loginForm = document.getElementById("loginForm");
   const closeBtn = document.getElementById("closeBtn");
+  const submitBtn = document.getElementById("submit");
+  const errorMessage = document.getElementById("error-message");
 
-
+  // Toggle Navigation Menu
   hamburger.addEventListener("click", function () {
     navList.classList.toggle("active");
     hamburger.classList.toggle("active");
   });
 
+  // Show Login Form
   loginBtn.addEventListener("click", function () {
     loginForm.style.display = "flex";
   });
 
+  // Hide Login Form
   closeBtn.addEventListener("click", function () {
     loginForm.style.display = "none";
+    errorMessage.innerText = ""; // Clear any previous error messages
   });
-});
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -37,42 +41,67 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const loginForm = document.getElementById('loginForm');
-loginForm.addEventListener('submit', (e) => {
+const loginFormElement = document.getElementById('loginFormElement');
+loginFormElement.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const email = document.getElementById('Email').value;
-  const password = document.getElementById('Password').value;
+  const username = document.getElementById('Username').value.trim();
+  const password = document.getElementById('Password').value.trim();
 
-  db.collection("UserAccount").where("Email", "==", email).where("Password", "==", password).get()
+  if (!username || !password) {
+    errorMessage.innerText = "Please enter both username and password.";
+    return;
+  }
+
+  // Query UserAccount Collection
+  db.collection("UserAccount")
+    .where("Username", "==", username)
+    .where("Password", "==", password)
+    .get()
     .then((querySnapshot) => {
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
           const userData = doc.data();
           const userName = userData.Name;
           const userStatus = userData.Status;
-          
-          // Store user data in localStorage
-          localStorage.setItem('userName', userName);
-          localStorage.setItem('userStatus', userStatus);
 
-          window.location.href = "dashboard.html";
+          // Check if the account is active
+          if (userStatus === "Active") {
+            // Store user data in localStorage
+            localStorage.setItem('userName', userName);
+            localStorage.setItem('userStatus', userStatus);
+
+            // Redirect to user dashboard
+            window.location.href = "dashboard.html";
+          } else {
+            // If status is Inactive
+            errorMessage.innerText = "The Account is Inactive.";
+          }
         });
       } else {
-        db.collection("AdminAccount").where("Email", "==", email).where("Password", "==", password).get()
-          .then((querySnapshot) => {
-            if (!querySnapshot.empty) {
-              window.location.href = "admin-dashboard.html";
+        // If not found in UserAccount, check AdminAccount
+        db.collection("AdminAccount")
+          .where("Username", "==", username)
+          .where("Password", "==", password)
+          .get()
+          .then((adminSnapshot) => {
+            if (!adminSnapshot.empty) {
+              // Redirect to Admin Dashboard
+              window.location.href = "AdminDashboard.html";
             } else {
-              document.getElementById("error-message").innerText = "Invalid login credentials";
+              // Display error message
+              errorMessage.innerText = "Invalid login credentials.";
             }
           })
           .catch((error) => {
             console.error("Error getting admin documents: ", error);
+            errorMessage.innerText = "An error occurred. Please try again later.";
           });
       }
     })
     .catch((error) => {
       console.error("Error getting user documents: ", error);
+      errorMessage.innerText = "An error occurred. Please try again later.";
     });
+});
 });

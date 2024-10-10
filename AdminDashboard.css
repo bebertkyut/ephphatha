@@ -53,20 +53,11 @@ table {
     margin-top: 20px;
 }
 
-td.action-cell {
-    width: 1%;
-    white-space: nowrap;
-}
-
 th, td {
     padding: 10px;
     text-align: left;
     border-bottom: 2px solid #ddd;
     font-size: 24px;
-}
-
-td {
-    border-right: none;
 }
 
 th {
@@ -76,18 +67,6 @@ th {
 
 tr:hover {
     background-color: #f0f0f0;
-}
-
-.action-button {
-    background-color: white;
-    color: black;
-    font-size: 20px;
-    border: 2px solid;
-    border-radius: 4px;
-}
-
-.action-buttons {
-    display: none;
 }
 
 .add-account-button {
@@ -107,28 +86,6 @@ tr:hover {
     background-color: #0056b3;
 }
 
-.action-buttons {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: none;
-}
-
-.dropdown-item {
-    padding: 8px 12px;
-    cursor: pointer;
-}
-
-.dropdown-item:hover {
-    background-color: #f0f0f0;
-}
-
-td.action-cell {
-    position: relative;
-}
-
 .modal {
     display: none; 
     position: fixed; 
@@ -138,7 +95,6 @@ td.action-cell {
     width: 100%; 
     height: 100%; 
     overflow: auto; 
-    background-color: rgb(0,0,0); 
     background-color: rgba(0,0,0,0.4); 
 }
 
@@ -164,7 +120,7 @@ td.action-cell {
     cursor: pointer;
 }
 
-#confirmRemoveModal {
+#confirmRemoveModal, #confirmDeactivateModal {
     display: none; 
     position: fixed; 
     z-index: 1; 
@@ -176,7 +132,7 @@ td.action-cell {
     background-color: rgba(0, 0, 0, 0.7); 
 }
 
-#confirmRemoveModal .modal-content {
+#confirmRemoveModal .modal-content, #confirmDeactivateModal .modal-content {
     background-color: #fff; 
     margin: auto; 
     padding: 30px; 
@@ -187,21 +143,7 @@ td.action-cell {
     text-align: center; 
 }
 
-#confirmRemoveModal .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-#confirmRemoveModal .close:hover,
-#confirmRemoveModal .close:focus {
-    color: #007BFF;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#confirmRemoveModal button {
+#confirmRemoveModal button, #confirmDeactivateModal button {
     margin: 10px; 
     padding: 10px 20px; 
     font-size: 16px; 
@@ -210,21 +152,41 @@ td.action-cell {
     cursor: pointer; 
 }
 
-#confirmRemoveModal #confirmRemoveButton {
+#confirmRemoveModal #confirmRemoveButton, #confirmDeactivateModal #confirmDeactivateButton {
     background-color: #007BFF; 
     color: white; 
     transition: background-color 0.3s; 
 }
 
-#confirmRemoveModal #confirmRemoveButton:hover {
+#confirmRemoveModal #confirmRemoveButton:hover, #confirmDeactivateModal #confirmDeactivateButton:hover {
     background-color: #0056b3; 
 }
 
-#confirmRemoveModal button:nth-child(2) {
+#confirmRemoveModal button:nth-child(2), #confirmDeactivateModal button:nth-child(2) {
     background-color: #ccc; 
     color: black; 
 }
 
-#confirmRemoveModal button:nth-child(2):hover {
+#confirmRemoveModal button:nth-child(2):hover, #confirmDeactivateModal button:nth-child(2):hover {
     background-color: #bbb; 
+}
+
+.action-buttons {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+    max-width: 150px; /* Set a max width to prevent overflow */
+    overflow: hidden; /* Hide overflow */
+}
+
+.dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
 }
