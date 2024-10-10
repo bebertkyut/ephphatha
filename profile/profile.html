@@ -40,7 +40,7 @@
             </label>
         </div>
         <div>
-            <h1 class="pt-24 px-10" id="userName"> Juan Dela Cruz </h1>
+            <h1 class="pt-24 px-10"><span id="userName"></span> </h1>
         </div>
     </div>
     <script src="/ephphatha/profile/upload.js"></script>
@@ -78,8 +78,16 @@
             <img src="/ephphatha/Asset/folder.png" alt="Dictionary" class="w-10 h-10 mb-6">
         </a>
     </div>
-    <script src="user-read.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js"></script>
+    
+    <script>
+        // Retrieve the user's name and status from localStorage
+        const userName = localStorage.getItem('userName');
+        const userStatus = localStorage.getItem('userStatus');
+    
+        // Display the name and status on the page
+        document.getElementById('userName').innerText = userName;
+        document.getElementById('userStatus').innerText = userStatus;
+    
+      </script>
 </body>
 </html>
