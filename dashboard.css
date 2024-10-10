@@ -452,3 +452,45 @@ label .close-btn {
     max-width: 100px; 
     max-height: 100px; 
 }
+
+.user-img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin: 15% 45%;
+}
+
+#photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+}
+
+#file {
+    display: none;
+}
+
+#upload_btn {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    padding: 6px 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #fff;
+    background-color: rgb(173, 172, 172, 0.801);
+    box-shadow: 2px 4px 4px rgb(0, 0, 0, 0.644);
+}
+
+.profile-container{
+    display: flex;
+}
+
+.pop-up form {
+    position: fixed;
+    background-color: rgb(120 113 108);
+    visibility: hidden;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+}
