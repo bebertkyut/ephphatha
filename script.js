@@ -41,43 +41,29 @@ const loginForm = document.getElementById('loginForm');
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-<<<<<<< HEAD
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-=======
   const email = document.getElementById('Email').value;
   const password = document.getElementById('Password').value;
->>>>>>> 5f0a6638c855b9620a0266e71eba5056330f9ac4
 
   db.collection("UserAccount").where("Email", "==", email).where("Password", "==", password).get()
     .then((querySnapshot) => {
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
-<<<<<<< HEAD
           const userData = doc.data(); //Info from firestore
           //Name and Status in Firestore
           const userName = userData.Name; 
-=======
-          const userData = doc.data();
-          const userName = userData.Name;
->>>>>>> 5f0a6638c855b9620a0266e71eba5056330f9ac4
           const userStatus = userData.Status;
           
           // Store user data in localStorage
           localStorage.setItem('userName', userName);
           localStorage.setItem('userStatus', userStatus);
 
-<<<<<<< HEAD
-          window.location.href = "user-dashboard.html";
-=======
           window.location.href = "dashboard.html";
->>>>>>> 5f0a6638c855b9620a0266e71eba5056330f9ac4
         });
       } else {
         db.collection("AdminAccount").where("Email", "==", email).where("Password", "==", password).get()
           .then((querySnapshot) => {
             if (!querySnapshot.empty) {
-              window.location.href = "admin-dashboard.html";
+              window.location.href = "AdminDashboard.html";
             } else {
               document.getElementById("error-message").innerText = "Invalid login credentials";
             }
