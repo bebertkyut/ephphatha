@@ -1,4 +1,4 @@
-const img = document.querySelector('#user_photo');  
+const img = document.querySelector('#photo');  
 const file = document.querySelector('#file');       
 const upload_btn = document.querySelector('#upload_btn'); 
 
