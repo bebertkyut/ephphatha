@@ -228,21 +228,13 @@ window.deactivateUser = function(userId) {
 
   userToRemoveId = userId;
 
-  // Open confirmation modal
-  const confirmDeactivateModal = document.createElement('div');
-  confirmDeactivateModal.innerHTML = `
-    <div class="modal-content" style="display: flex; flex-direction: column;">
-      <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
-      <h2>Confirm Deactivation</h2>
-      <p>Are you sure you want to deactivate this user?</p>
-      <button id="confirmDeactivateButton">Yes, Deactivate</button>
-      <button onclick="this.parentElement.parentElement.remove()">Cancel</button>
-    </div>
-  `;
-  document.body.appendChild(confirmDeactivateModal);
+  // Display the confirmation modal for deactivation
+  const deactivateModal = document.getElementById('confirmDeactivateModal');
+  deactivateModal.style.display = 'block';
 
   // Add event listener for confirmation button
-  document.getElementById('confirmDeactivateButton').onclick = async function() {
+  const confirmButton = document.getElementById('confirmDeactivateButton');
+  confirmButton.onclick = async function() {
     try {
       const userDocRef = doc(db, "UserAccount", userToRemoveId);
       await updateDoc(userDocRef, {
@@ -250,11 +242,16 @@ window.deactivateUser = function(userId) {
       });
 
       fetchUsers(); // Refresh the users list
-      confirmDeactivateModal.remove(); // Close the modal
+      deactivateModal.style.display = 'none'; // Close the modal
     } catch (error) {
       console.error("Error deactivating user:", error);
     }
   };
+};
+
+// Function to close the deactivation confirmation modal
+window.closeDeactivateModal = function() {
+  document.getElementById('confirmDeactivateModal').style.display = 'none';
 };
 
 // Initialize the user fetching on page load
