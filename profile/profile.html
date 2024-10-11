@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://kit.fontawesome.com/de8bfbb512.js" crossorigin="anonymous"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profile</title>
+        <link rel="stylesheet" href="/ephphatha/dashboard.css"> 
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    </head>
+    <body>
+        <!--sidebar nav-->
+        <div class="container">
+            <input type="checkbox" id="click">
+            <div class="sidenav">
+                <div class="logo"></div>
+                <div class="icon_items">
+                    <label for="click">
+                        <i class='menu-btn bx bx-menu'></i>
+                        <i class='close-btn bx bx-x-circle'></i>
+                    </label>
+                    <ul>
+                        <li id="dashboard"> 
+                            <i class='bx bxs-home'></i>
+                            <a href="/ephphatha/dashboard.html" id="dashboard">Dashboard</a>
+                        </li>
+                        <li id="translator-item">
+                            <i class="fas fa-sign-language"></i>
+                            <a href="/ephphatha/translator.html" id="translator">Translator</a>
+                        </li>
+                        <li class="active">
+                            <i class='bx bxs-message-dots'></i>
+                            <a href="/ephphatha/profile/profile.html" id="profile">Profile</a>
+                        </li>
+                        <li id="content-item">
+                            <i class='bx bxs-folder'></i>
+                            <a href="/ephphatha/content.html" id="content">Content</a>
+                        </li>
+                        <li>
+                            <i class='bx bx-log-in'></i>
+                            <a href="/ephphatha/index.html">Logout</a> 
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            
+            <!--profile image and name-->
+            <div class="user-img">
+                <img src="/ephphatha/img/default-user.png" id="photo">
+                <input type="file" id="file">
+                <label for="file" id="upload_btn"><i class="fas fa-camera"></i></label>
+            </div>
+            <div>
+                <h1><span id="userName"></span> </h1>
+            </div>
+            <script src="/ephphatha/profile/upload.js"></script>
+            <!--retrieving and displaying the name of the user-->
+            <script>
+                // Retrieve the user's name and status from localStorage
+                const userName = localStorage.getItem('userName');
+                const userStatus = localStorage.getItem('userStatus');
+            
+                // Display the name and status on the page
+                document.getElementById('userName').innerText = userName;
+                document.getElementById('userStatus').innerText = userStatus;
+            
+            </script>
+            <script src="dashboard.js"></script>
+        </div>
+    </body>
+</html>

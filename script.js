@@ -48,8 +48,9 @@ loginForm.addEventListener('submit', (e) => {
     .then((querySnapshot) => {
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
-          const userData = doc.data();
-          const userName = userData.Name;
+          const userData = doc.data(); //Info from firestore
+          //Name and Status in Firestore
+          const userName = userData.Name; 
           const userStatus = userData.Status;
           
           // Store user data in localStorage
@@ -62,7 +63,7 @@ loginForm.addEventListener('submit', (e) => {
         db.collection("AdminAccount").where("Email", "==", email).where("Password", "==", password).get()
           .then((querySnapshot) => {
             if (!querySnapshot.empty) {
-              window.location.href = "admin-dashboard.html";
+              window.location.href = "AdminDashboard.html";
             } else {
               document.getElementById("error-message").innerText = "Invalid login credentials";
             }
