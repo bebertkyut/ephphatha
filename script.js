@@ -61,8 +61,9 @@ loginFormElement.addEventListener('submit', (e) => {
     .then((querySnapshot) => {
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
-          const userData = doc.data();
-          const userName = userData.Name;
+          const userData = doc.data(); //Info from firestore
+          //Name and Status in Firestore
+          const userName = userData.Name; 
           const userStatus = userData.Status;
 
           // Check if the account is active
