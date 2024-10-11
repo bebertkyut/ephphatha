@@ -163,30 +163,31 @@
 <!--contactpage-->
 <!--loginpage-->
 <span class="close-btn material-symbols-rounded">close</span>
-<div class="login-form" id="loginForm">
+<div class="login-form" id="loginForm" style="display: none;">
   <div class="login-container">
     <div class="image-half">
       <img src="lpic.png" alt="Login Image">
     </div>
     <div class="form-half">
-     <form>
-    <h2>EPHPHATHA</h2>
-    <div class="line" style="padding-left: 50px; padding-bottom: 20px;">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>  
-      <div class="input-container">
-        <label for="Email">Email:</label>
-        <input type="email" id="Email" name="email" required placeholder="Enter your email.">
-      </div>
-     <div class="input-container">
-        <label for="Password">Password:</label>
-        <input type="password" id="Password" name="password" required placeholder="Enter your password.">
-     </div>
-      <button type="submit" id="submit" class="cta login-btn">Log In</button>
-     </form>
-    <button class="close-btn" id="closeBtn">&times;</button>
+      <form id="loginFormElement">
+        <h2>EPHPHATHA</h2>
+        <div class="line" style="padding-left: 50px; padding-bottom: 20px;">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>  
+        <div class="input-container">
+          <label for="Username">Username:</label>
+          <input type="text" id="Username" name="username" required placeholder="Enter your username.">
+        </div>
+        <div class="input-container">
+          <label for="Password">Password:</label>
+          <input type="password" id="Password" name="password" required placeholder="Enter your password.">
+        </div>
+        <button type="submit" id="submit" class="cta login-btn">Log In</button>
+      </form>
+      <button class="close-btn" id="closeBtn">&times;</button>
+      <div id="error-message" style="color: red; margin-top: 10px;"></div>
     </div>
   </div>
 </div>

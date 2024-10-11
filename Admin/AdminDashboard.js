@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-// Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAW65C2w8uxxDw9Va_GFOoCYQUVgm21cM4",
   authDomain: "ephphathadb.firebaseapp.com",
@@ -11,11 +10,10 @@ const firebaseConfig = {
   appId: "1:408778244868:web:43bb14d52f45c4c5424651",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-let userToRemoveId = null; // Variable to store the ID of the user to remove
+let userToRemoveId = null;
 
 // Function to fetch users from Firestore
 async function fetchUsers() {
@@ -30,13 +28,15 @@ async function fetchUsers() {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${user.Name}</td>
-        <td>${user.Status}</td>
-        <td>${user.Email}</td>
+        <td>${user.Role}</td>
+        <td>${user.Username}</td>
+        <td>${user.Status || ''}</td> <!-- New Status column -->
         <td class="action-cell">
           <button class="action-button" onclick="toggleActions(this)">...</button>
           <div class="action-buttons">
             <div class="dropdown-item" onclick="editUser('${user.id}')">Edit</div>
             <div class="dropdown-item" onclick="removeUser('${user.id}')">Remove</div>
+            <div class="dropdown-item" onclick="deactivateUser('${user.id}')">Deactivate</div>
           </div>
         </td>
       `;
@@ -64,6 +64,7 @@ window.toggleActions = function(button) {
   // Toggle the current dropdown
   dropdown.style.display = isVisible ? 'none' : 'block';
 
+  // Add event listener to document
   if (!isVisible) {
     document.addEventListener('click', function handleClickOutside(event) {
       if (!button.contains(event.target) && !dropdown.contains(event.target)) {
@@ -87,13 +88,15 @@ window.editUser = async function(userId) {
       const userData = userDoc.data();
       // Pre-fill the form with the user data
       document.getElementById('editName').value = userData.Name;
-      document.getElementById('editEmail').value = userData.Email;
+      document.getElementById('editUsername').value = userData.Username;
       document.getElementById('editPassword').value = userData.Password;
-      document.getElementById('editStatus').value = userData.Status;
+      document.getElementById('editRole').value = userData.Role;
+      document.getElementById('editStatus').value = userData.Status || ''; // Pre-fill Status
 
       // Store the userId in a hidden input for updating
       document.getElementById('editUserId').value = userId;
 
+      // Open the modal
       document.getElementById('editAccountModal').style.display = 'block';
     } else {
       console.error("No such user!");
@@ -107,20 +110,22 @@ window.editUser = async function(userId) {
 window.updateUser = async function() {
   const userId = document.getElementById('editUserId').value;
   const updatedName = document.getElementById('editName').value;
-  const updatedEmail = document.getElementById('editEmail').value;
+  const updatedUsername = document.getElementById('editUsername').value;
   const updatedPassword = document.getElementById('editPassword').value;
-  const updatedStatus = document.getElementById('editStatus').value;
+  const updatedRole = document.getElementById('editRole').value;
+  const updatedStatus = document.getElementById('editStatus').value; // Get Status
 
   try {
     const userDocRef = doc(db, "UserAccount", userId);
     await updateDoc(userDocRef, {
       Name: updatedName,
-      Email: updatedEmail,
+      Username: updatedUsername,
       Password: updatedPassword,
-      Status: updatedStatus,
+      Role: updatedRole,
+      Status: updatedStatus, // Update Status
     });
 
-    closeEditModal(); 
+    closeEditModal();
     fetchUsers();
   } catch (error) {
     console.error("Error updating user:", error);
@@ -132,7 +137,6 @@ window.removeUser = function(userId) {
   const dropdown = event.target.closest('.action-buttons');
   if (dropdown) dropdown.style.display = 'none';
 
-  // Store the user ID to remove
   userToRemoveId = userId;
 
   document.getElementById('confirmRemoveModal').style.display = 'flex';
@@ -157,7 +161,7 @@ document.getElementById('confirmRemoveButton').onclick = async function() {
 // Function to close the confirmation modal
 window.closeConfirmModal = function() {
   document.getElementById('confirmRemoveModal').style.display = 'none';
-  userToRemoveId = null; // Reset the user ID
+  userToRemoveId = null;
 };
 
 // Function to open the "Add Account" modal
@@ -178,25 +182,77 @@ window.closeEditModal = function() {
 // Function to add a new account
 window.addAccount = async function() {
   const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
+  const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
-  const status = document.getElementById('status').value;
+  const role = document.getElementById('role').value;
+
+  // Define the new fields
+  const gender = "Select Gender"; // Default value
+  const about = "Add Description"; // Default value
+  const status = "Active"; // Default status
+  const dateCreated = new Date(); // Current date
+  const birthday = new Date();
 
   try {
+    // Add the new user account
     await addDoc(collection(db, "UserAccount"), {
       Name: name,
-      Email: email,
+      Username: username,
       Password: password,
-      Status: status
+      Role: role,
+      Gender: gender,
+      About: about,
+      Status: status,
+      DateCreated: dateCreated,
+      Birthday: birthday,
     });
 
-    closeModal();
+    closeModal(); // Close the modal after adding the user
+    fetchUsers(); // Refresh the users list
 
-    fetchUsers();
+    // Reset form fields
+    document.getElementById('name').value = '';
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('role').value = '';
+
   } catch (error) {
     console.error("Error adding account:", error);
-  }
-}
+  } // Missing closing bracket was added here
+};
 
-// Initial fetch of user accounts
+// Function to deactivate a user
+window.deactivateUser = function(userId) {
+  const dropdown = event.target.closest('.action-buttons');
+  if (dropdown) dropdown.style.display = 'none';
+
+  userToRemoveId = userId;
+
+  // Display the confirmation modal for deactivation
+  const deactivateModal = document.getElementById('confirmDeactivateModal');
+  deactivateModal.style.display = 'block';
+
+  // Add event listener for confirmation button
+  const confirmButton = document.getElementById('confirmDeactivateButton');
+  confirmButton.onclick = async function() {
+    try {
+      const userDocRef = doc(db, "UserAccount", userToRemoveId);
+      await updateDoc(userDocRef, {
+        Status: 'Inactive' // Update status to 'Inactive'
+      });
+
+      fetchUsers(); // Refresh the users list
+      deactivateModal.style.display = 'none'; // Close the modal
+    } catch (error) {
+      console.error("Error deactivating user:", error);
+    }
+  };
+};
+
+// Function to close the deactivation confirmation modal
+window.closeDeactivateModal = function() {
+  document.getElementById('confirmDeactivateModal').style.display = 'none';
+};
+
+// Initialize the user fetching on page load
 fetchUsers();
