@@ -220,7 +220,7 @@ p {
 /* Home, About and Contact */
 /* Home page*/
 #home {
-	background-image: url(../222.png);
+	background-image: url(222.png);
 	background-size: cover;
 	background-position: top center;
 	position: relative;
@@ -283,7 +283,7 @@ p {
 /* Homepage */
 /* About page*/
 #about {
-    background-image: url("../Assets/background.png");
+    background-image: url("./Assets/Background.png");
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -295,7 +295,7 @@ p {
     position: relative;
     height: 40vh;
     width: 100%; 
-    background: url('../d.png') no-repeat center center;
+    background: url('./d.png') no-repeat center center;
     background-size: cover;
     color: white;
 
@@ -563,7 +563,7 @@ p {
 .image-half {
     width: 100%;
     height: 100%; 
-    background-image: url('../lpic.png'); 
+    background-image: url('./lpic.png'); 
     background-size: contain;
     background-repeat: no-repeat; 
     background-position: center; 
@@ -571,7 +571,7 @@ p {
 .image-half {
     width: 100%; 
     height: 100%; 
-    background-image: url('../lpic.png');
+    background-image: url('./lpic.png');
     background-size: cover; 
     background-repeat: no-repeat;
     background-position: center;
@@ -764,7 +764,7 @@ body{
 }
 .contact-bg{
     height: 40vh;
-    background-image: url("../Assets/background.png");
+    background-image: url("./Assets/Background.png");
     text-align: center;
     color: #fff;
     display: flex;
@@ -910,7 +910,7 @@ body{
 }
 .contact-footer{
     padding: 2rem 0;
-    background-image: url("../Assets/background.png"); 
+    background-image: url("./Assets/Background.png"); 
 }
 .social-links{
     display: flex;

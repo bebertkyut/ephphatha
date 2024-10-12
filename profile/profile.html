@@ -52,22 +52,26 @@
                 <input type="file" id="file">
                 <label for="file" id="upload_btn"><i class="fas fa-camera"></i></label>
             </div>
+            
             <div>
                 <h1><span id="userName"></span> </h1>
+                <h2><span id="userRole"></span></h2>
             </div>
-            <script src="upload.js"></script>
+            <script type="module" src="profile.js"></script>
             <!--retrieving and displaying the name of the user-->
             <script>
                 // Retrieve the user's name and status from localStorage
                 const userName = localStorage.getItem('userName');
-                const userStatus = localStorage.getItem('userStatus');
+                const userRole = localStorage.getItem('userRole');
             
                 // Display the name and status on the page
                 document.getElementById('userName').innerText = userName;
-                document.getElementById('userStatus').innerText = userStatus;
-            
+                document.getElementById('userRole').innerText = userRole;
             </script>
-            <script src="dashboard.js"></script>
+
+            <!--container for information-->
+            <div class="info-container"></div>
+            <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
         </div>
     </body>
 </html>
