@@ -88,7 +88,7 @@ loginFormElement.addEventListener('submit', (e) => {
           .then((adminSnapshot) => {
             if (!adminSnapshot.empty) {
               // Redirect to Admin Dashboard
-              window.location.href = "Admin/AdminDashboard.html";
+              window.location.href = "../Admin/AdminDashboard.html";
             } else {
               // Display error message
               errorMessage.innerText = "Invalid login credentials.";
