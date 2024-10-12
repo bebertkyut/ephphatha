@@ -65,6 +65,7 @@ loginFormElement.addEventListener('submit', (e) => {
           //Name and Role in Firestore
           const userName = userData.Name; 
           const userRole = userData.Role;
+          const userStatus = userData.Status
 
           // Check if the account is active
           if (userStatus === "Active") {
