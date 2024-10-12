@@ -73,7 +73,7 @@ loginFormElement.addEventListener('submit', (e) => {
             localStorage.setItem('userRole', userRole);
 
             // Redirect to user dashboard
-            window.location.href = "UserDashboard/dashboard.html";
+            window.location.href = "../UserDashboard/dashboard.html";
           } else {
             // If status is Inactive
             errorMessage.innerText = "The Account is Inactive.";
