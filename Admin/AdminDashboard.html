@@ -32,7 +32,7 @@
           <th>Role</th>
           <th>Username</th>
           <th>Status</th> <!-- New Status column -->
-          <th>Actions</th>
+          <th> </th>
         </tr>
       </thead>
       <tbody>
@@ -68,35 +68,34 @@
     </div>
   </div>
 
-  <!-- Edit Account Modal -->
-  <div id="editAccountModal" class="modal" style="display:none;">
+  <!-- Edit Account Modal (Overlay) -->
+  <div id="editAccountModal" class="modal-overlay">
     <div class="modal-content">
-      <span class="close" onclick="closeEditModal()">&times;</span>
-      <h2>Edit Account</h2>
-      <form id="editAccountForm">
-        <input type="hidden" id="editUserId">
-        
-        <label for="editName">Name:</label>
-        <input type="text" id="editName" name="editName" required>
-        
-        <label for="editUsername">Username:</label>
-        <input type="text" id="editUsername" name="editUsername" required>
-        
-        <label for="editPassword">Password:</label>
-        <input type="password" id="editPassword" name="editPassword" required>
-        
-        <label for="editStatus">Status:</label>
-        <select id="editStatus" name="editStatus" required>
-          <option value="Student">Student</option>
-          <option value="Teacher">Teacher</option>
-          <option value="Admin">Admin</option>
-        </select>
-        
+      <span class="close-button" onclick="closeEditModal()">×</span>
+      <form>
+        <label for="editName">Name</label>
+        <input type="text" id="editName" />
+
+        <label for="editUsername">Username</label>
+        <input type="text" id="editUsername" />
+
+        <label for="editPassword">Password</label>
+        <input type="password" id="editPassword" />
+
+        <label for="editRole">Role</label>
+        <input type="text" id="editRole" />
+
+        <label for="editStatus">Status</label>
+        <input type="text" id="editStatus" />
+
+        <!-- Hidden input to store user ID -->
+        <input type="hidden" id="editUserId" />
+
         <button type="button" onclick="updateUser()">Save Changes</button>
       </form>
     </div>
   </div>
-
+  
   <!-- Confirmation Modal for Remove -->
   <div id="confirmRemoveModal" class="modal" style="display:none;">
     <div class="modal-content">

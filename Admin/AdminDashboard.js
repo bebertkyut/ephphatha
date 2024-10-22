@@ -75,7 +75,7 @@ window.toggleActions = function(button) {
   }
 };
 
-// Function to edit user data
+// Function to edit user data and display the overlay modal
 window.editUser = async function(userId) {
   const dropdown = event.target.closest('.action-buttons');
   if (dropdown) dropdown.style.display = 'none';
@@ -86,18 +86,19 @@ window.editUser = async function(userId) {
 
     if (userDoc.exists()) {
       const userData = userDoc.data();
-      // Pre-fill the form with the user data
-      document.getElementById('editName').value = userData.Name;
-      document.getElementById('editUsername').value = userData.Username;
-      document.getElementById('editPassword').value = userData.Password;
-      document.getElementById('editRole').value = userData.Role;
-      document.getElementById('editStatus').value = userData.Status || ''; // Pre-fill Status
+      
+      // Fill the form with the user data
+      document.getElementById('editName').value = userData.Name || '';
+      document.getElementById('editUsername').value = userData.Username || '';
+      document.getElementById('editPassword').value = userData.Password || '';
+      document.getElementById('editRole').value = userData.Role || '';
+      document.getElementById('editStatus').value = userData.Status || ''; 
 
       // Store the userId in a hidden input for updating
       document.getElementById('editUserId').value = userId;
 
-      // Open the modal
-      document.getElementById('editAccountModal').style.display = 'block';
+      // Display the modal overlay
+      document.getElementById('editAccountModal').style.display = 'flex';
     } else {
       console.error("No such user!");
     }

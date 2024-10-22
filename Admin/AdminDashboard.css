@@ -86,6 +86,7 @@ tr:hover {
     background-color: #0056b3;
 }
 
+/* Modal styling for Edit form and confirmation modals */
 .modal {
     display: none; 
     position: fixed; 
@@ -111,6 +112,7 @@ tr:hover {
     text-align: center;
 }
 
+/* Close button for modals */
 .close {
     color: #aaa;
     float: right;
@@ -124,9 +126,12 @@ tr:hover {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* Confirmation modal tweaks */
 #confirmDeactivateModal{
     padding-top: 37.5vh;
 }
+
 #confirmRemoveModal, #confirmDeactivateModal {
     display: none; 
 }
@@ -170,6 +175,7 @@ tr:hover {
     background-color: #bbb;
 }
 
+/* Dropdown styles for action buttons */
 .action-buttons {
     position: absolute;
     background-color: white;
@@ -188,4 +194,44 @@ tr:hover {
 
 .dropdown-item:hover {
     background-color: #f0f0f0;
+}
+
+/* Form modal styling for overlay */
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 999; /* On top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+    justify-content: center;
+    align-items: center;
+    display: flex; /* Flexbox for centering */
+}
+
+/* Modal content for edit form */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button for overlay */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
 }

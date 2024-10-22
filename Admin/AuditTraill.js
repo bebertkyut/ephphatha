@@ -62,7 +62,7 @@ document.getElementById('printBtn').addEventListener('click', function () {
 
   // Add title
   pdf.setFontSize(16);
-  pdf.text("Audit Trail", 14, 20);
+  pdf.text("Account Records", 14, 20);
   pdf.text(dateString, 14, 30);
 
   // Create a table
@@ -86,5 +86,5 @@ document.getElementById('printBtn').addEventListener('click', function () {
   });
 
   // Save the PDF with today's date
-  pdf.save(`Audit Trail ${dateString}.pdf`);
+  pdf.save(`Account Records ${dateString}.pdf`);
 });
