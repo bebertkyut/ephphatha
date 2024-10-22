@@ -87,7 +87,7 @@ function playVideo(word) {
 
 function displayPicture() {
     var videoPlayer = document.getElementById('videoPlayer');
-    var picturePath = 'Asset/still.jpeg';
+    var picturePath = 'Asset/still.png';
 
     var img = document.createElement('img');
     img.setAttribute('src', picturePath);
@@ -135,7 +135,7 @@ function record() {
     };
 
     recognition.onend = function () {
-        var stillPicturePath = 'Asset/still.jpeg';
+        var stillPicturePath = 'Asset/still.png';
         var stillImg = document.createElement('img');
         stillImg.setAttribute('src', stillPicturePath);
         stillImg.setAttribute('width', '640');

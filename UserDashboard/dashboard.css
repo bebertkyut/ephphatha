@@ -412,7 +412,7 @@ label .close-btn {
 .rectangle-box {
     width: 80%; 
     height: 450px; 
-    background-color: #f0f0f0; 
+    background-color: #cecece; 
     margin: 0 auto; 
     position: absolute; 
     top: 150px; 
@@ -507,11 +507,11 @@ h2 {
 
 .info-container {
     position: absolute;
-    background-color: #ccc;
+    background-color: #808080;
     opacity: 0.6;
     width: 1555px;
     height: 500px;
     transform: translateX(225px);
-    margin-top: 265px;
+    margin-top: 50vh;
 }
 

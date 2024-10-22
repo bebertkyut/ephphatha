@@ -90,8 +90,7 @@ window.editUser = async function(userId) {
       document.getElementById('editName').value = userData.Name;
       document.getElementById('editUsername').value = userData.Username;
       document.getElementById('editPassword').value = userData.Password;
-      document.getElementById('editRole').value = userData.Role;
-      document.getElementById('editStatus').value = userData.Status || ''; // Pre-fill Status
+      document.getElementById('editRole').value = userData.Role
 
       // Store the userId in a hidden input for updating
       document.getElementById('editUserId').value = userId;
@@ -113,7 +112,6 @@ window.updateUser = async function() {
   const updatedUsername = document.getElementById('editUsername').value;
   const updatedPassword = document.getElementById('editPassword').value;
   const updatedRole = document.getElementById('editRole').value;
-  const updatedStatus = document.getElementById('editStatus').value; // Get Status
 
   try {
     const userDocRef = doc(db, "UserAccount", userId);
@@ -122,7 +120,6 @@ window.updateUser = async function() {
       Username: updatedUsername,
       Password: updatedPassword,
       Role: updatedRole,
-      Status: updatedStatus, // Update Status
     });
 
     closeEditModal();
