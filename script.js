@@ -62,15 +62,16 @@ loginFormElement.addEventListener('submit', (e) => {
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
           const userData = doc.data(); //Info from firestore
-          //Name and Status in Firestore
+          //Name and Role in Firestore
           const userName = userData.Name; 
-          const userStatus = userData.Status;
+          const userRole = userData.Role;
+          const userStatus = userData.Status
 
           // Check if the account is active
           if (userStatus === "Active") {
             // Store user data in localStorage
             localStorage.setItem('userName', userName);
-            localStorage.setItem('userStatus', userStatus);
+            localStorage.setItem('userRole', userRole);
 
             // Redirect to user dashboard
             window.location.href = "../UserDashboard/dashboard.html";

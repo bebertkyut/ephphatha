@@ -412,7 +412,7 @@ label .close-btn {
 .rectangle-box {
     width: 80%; 
     height: 450px; 
-    background-color: #f0f0f0; 
+    background-color: #cecece; 
     margin: 0 auto; 
     position: absolute; 
     top: 150px; 
@@ -460,6 +460,13 @@ h1 {
     color: white;
 }
 
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: small;
+    color: white;
+}
+
 .user-img{
     width: 130px;
     height: 130px;
@@ -496,3 +503,15 @@ h1 {
     transform: translateX(445px);
     margin-top: 175px;
 }
+
+
+.info-container {
+    position: absolute;
+    background-color: #808080;
+    opacity: 0.6;
+    width: 1555px;
+    height: 500px;
+    transform: translateX(225px);
+    margin-top: 50vh;
+}
+

@@ -45,12 +45,14 @@
         <div class="main-content">
             <div class="search-bar">
                 <input type="text" placeholder="Search..." class="search-input">
-                <button class="search-button">Search</button>
+                <button class="search-button" onclick="playVideos()">Search</button>
             </div>
         
            
-            <div class="rectangle-box">
-                <p>Avatar</p>
+            <div class="rectangle-box">  
+                <div id="videoPlayer">
+                    <img id="initialImage" src="../Assets/still.png" width="800" height="400" alt="Initial Image">
+                </div>
             </div>
           
           <div class="image-container">
@@ -60,5 +62,6 @@
     </div>
 </div>
         
+<script src="main.js"></script>
 </body>
 </html>

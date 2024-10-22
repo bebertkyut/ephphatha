@@ -86,6 +86,7 @@ tr:hover {
     background-color: #0056b3;
 }
 
+/* Modal styling */
 .modal {
     display: none; 
     position: fixed; 
@@ -98,19 +99,22 @@ tr:hover {
     background-color: rgba(0, 0, 0, 0.7); 
     display: flex; 
     justify-content: center; 
-    align-items: center;
+    align-items: center; /* Center vertically */
 }
 
+/* Modal content styling */
 .modal-content {
     background-color: #fefefe;
     padding: 30px;
     border: 2px solid #007BFF;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    width: 400px;
-    text-align: center;
+    width: 400px; /* Fixed width */
+    max-width: 90%; /* Responsive width */
+    text-align: center; /* Center text */
 }
 
+/* Close button for modals */
 .close {
     color: #aaa;
     float: right;
@@ -124,9 +128,12 @@ tr:hover {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* Confirmation modal tweaks */
 #confirmDeactivateModal{
     padding-top: 37.5vh;
 }
+
 #confirmRemoveModal, #confirmDeactivateModal {
     display: none; 
 }
@@ -170,6 +177,7 @@ tr:hover {
     background-color: #bbb;
 }
 
+/* Dropdown styles for action buttons */
 .action-buttons {
     position: absolute;
     background-color: white;
@@ -188,4 +196,44 @@ tr:hover {
 
 .dropdown-item:hover {
     background-color: #f0f0f0;
+}
+
+/* For Edit Account Modal */
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 999; /* On top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+/* Modal content for edit form */
+.modal-content {
+    background-color: white; /* Background color for the edit form */
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px; /* Fixed width */
+    max-width: 90%; /* Responsive width */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Box shadow */
+}
+
+/* Close button for overlay */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:focus {
+    color: black;
+    text-decoration: none;
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+  <div class="dashboard-container">
+    <h1>Welcome, <span id="userName"></span>!</h1>
+    <p>Status: <span id="userStatus"></span></p>
+  </div>
+
+  <script>
+    // Retrieve the user's name and status from localStorage
+    const userName = localStorage.getItem('userName');
+    const userStatus = localStorage.getItem('userStatus');
+
+    // Display the name and status on the page
+    document.getElementById('userName').innerText = userName;
+    document.getElementById('userStatus').innerText = userStatus;
+
+  </script>
+</body>
+</html>
