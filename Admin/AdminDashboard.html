@@ -18,7 +18,7 @@
       <span>Library</span>
     </a>
     <a href="AuditTrail.html">
-      <img src="../AdminDashboardAssets/audit.png" alt="Library Icon">
+      <img src="../AdminDashboardAssets/audit.png" alt="Audit Icon">
       <span>Audit</span>
     </a>
   </div>
@@ -32,7 +32,7 @@
           <th>Role</th>
           <th>Username</th>
           <th>Status</th> <!-- New Status column -->
-          <th> </th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -49,27 +49,27 @@
       <form id="addAccountForm">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
-        
+
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
-        
+
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
-        
+
         <label for="role">Role:</label>
         <select id="role" name="role" required>
           <option value="Student">Student</option>
           <option value="Teacher">Teacher</option>
           <option value="Admin">Admin</option>
         </select>
-        
+
         <button type="button" onclick="addAccount()">Submit</button>
       </form>
     </div>
   </div>
 
   <!-- Edit Account Modal (Overlay) -->
-  <div id="editAccountModal" class="modal-overlay">
+  <div id="editAccountModal" class="modal-overlay" style="display:none;">
     <div class="modal-content">
       <span class="close-button" onclick="closeEditModal()">×</span>
       <form>
@@ -88,14 +88,13 @@
         <label for="editStatus">Status</label>
         <input type="text" id="editStatus" />
 
-        <!-- Hidden input to store user ID -->
         <input type="hidden" id="editUserId" />
 
         <button type="button" onclick="updateUser()">Save Changes</button>
       </form>
     </div>
   </div>
-  
+
   <!-- Confirmation Modal for Remove -->
   <div id="confirmRemoveModal" class="modal" style="display:none;">
     <div class="modal-content">
@@ -118,10 +117,8 @@
     </div>
   </div>
 
-
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
-
   <script type="module" src="AdminDashboard.js"></script>
 </body>
 </html>
