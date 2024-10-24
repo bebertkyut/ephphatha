@@ -9,3 +9,4 @@ node_modules/
 
 # Ignore compiled output
 /dist
+node_modules
