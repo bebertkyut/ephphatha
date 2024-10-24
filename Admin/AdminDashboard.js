@@ -86,11 +86,15 @@ window.editUser = async function(userId) {
 
     if (userDoc.exists()) {
       const userData = userDoc.data();
+
       // Pre-fill the form with the user data
       document.getElementById('editName').value = userData.Name;
       document.getElementById('editUsername').value = userData.Username;
       document.getElementById('editPassword').value = userData.Password;
-      document.getElementById('editRole').value = userData.Role
+      
+      // Pre-select the user's current role in the dropdown
+      const editRoleDropdown = document.getElementById('editRole');
+      editRoleDropdown.value = userData.Role; // Set the dropdown to the user's role
 
       // Store the userId in a hidden input for updating
       document.getElementById('editUserId').value = userId;
