@@ -45,7 +45,7 @@ function translateAndPlay(word) {
 function playVideo(word) {
     const videoPlayer = document.getElementById('videoPlayer');
     const processedVideoName = word.replace(/[^\w\s]/g, '').toLowerCase();
-    const videoPath = 'SignAsset/' + processedVideoName + '.mp4';
+    const videoPath = '../SignAsset/' + processedVideoName + '.mp4';
 
     var xhr = new XMLHttpRequest();
     xhr.open('HEAD', videoPath, true);
@@ -73,7 +73,7 @@ function playVideo(word) {
             video.onended = function () {
                 displayPicture();
                 hidePlaybackButtons();
-                document.getElementById('videoTitle').textContent = 'Subtitle';
+                document.getElementById('videoTitle').textContent = ' ';
             };
         } else {
             console.error('Video not found:', videoPath);
@@ -87,7 +87,7 @@ function playVideo(word) {
 
 function displayPicture() {
     var videoPlayer = document.getElementById('videoPlayer');
-    var picturePath = 'Asset/still.png';
+    var picturePath = '../Assets/still.png';
 
     var img = document.createElement('img');
     img.setAttribute('src', picturePath);
@@ -108,7 +108,7 @@ function record() {
     var videoPlayer = document.getElementById('videoPlayer');
     var videoTitle = document.getElementById('videoTitle');
 
-    var picturePath = 'Asset/hear.jpeg';
+    var picturePath = '../Assets/hear.png';
     var img = document.createElement('img');
     img.setAttribute('src', picturePath);
     img.setAttribute('width', '640');
@@ -129,13 +129,13 @@ function record() {
 
         playNextVideo(words, 0, videoPlayer, function () {
             displayPicture();
-            videoTitle.textContent = 'Subtitle';
+            videoTitle.textContent = ' ';
             document.getElementById('playbackButtons').style.display = 'none';
         });
     };
 
     recognition.onend = function () {
-        var stillPicturePath = 'Asset/still.png';
+        var stillPicturePath = '../Assets/still.png';
         var stillImg = document.createElement('img');
         stillImg.setAttribute('src', stillPicturePath);
         stillImg.setAttribute('width', '640');
@@ -161,7 +161,7 @@ function playVideos() {
     var wordIndex = 0;
     playNextVideo(videoNames, wordIndex, videoPlayer, function () {
         displayPicture();
-        document.getElementById('videoTitle').textContent = 'Subtitle';
+        document.getElementById('videoTitle').textContent = ' ';
         document.getElementById('playbackButtons').style.display = 'none';
     });
 }
@@ -171,7 +171,7 @@ function playNextVideo(videoNames, wordIndex, videoPlayer, callback) {
         if (callback && typeof callback === "function") {
             callback();
         }
-        document.getElementById('videoTitle').textContent = 'Subtitle';
+        document.getElementById('videoTitle').textContent = ' ';
         return;
     }
 
@@ -187,7 +187,7 @@ function playNextVideo(videoNames, wordIndex, videoPlayer, callback) {
 
     if (processedVideoName.length === 1) {
         // Single letter case
-        var videoPath = 'SignAsset/' + processedVideoName + '.mp4';
+        var videoPath = '../SignAsset/' + processedVideoName + '.mp4';
 
         var xhr = new XMLHttpRequest();
         xhr.open('HEAD', videoPath, true);
@@ -225,7 +225,7 @@ function playNextVideo(videoNames, wordIndex, videoPlayer, callback) {
                         currentWord.style.color = 'white';
                         playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
                     }
-                    document.getElementById('videoTitle').textContent = 'Subtitle';
+                    document.getElementById('videoTitle').textContent = ' ';
                 };
 
                 video.play().catch(function (error) {
@@ -262,7 +262,7 @@ function playNextVideo(videoNames, index, videoPlayer, callback) {
     // Process the video name to remove symbols and convert to lowercase
     var processedVideoName = originalVideoName.replace(/[^\w\s]/g, '').toLowerCase();
 
-    var videoPath = 'SignAsset/' + processedVideoName + '.mp4';
+    var videoPath = '../SignAsset/' + processedVideoName + '.mp4';
 
     var xhr = new XMLHttpRequest();
     xhr.open('HEAD', videoPath, true);
@@ -365,7 +365,7 @@ function playNextLetter(letters, index, videoPlayer, videoNames, wordIndex, hasQ
         currentWord.appendChild(span);
         playNextLetter(letters, index + 1, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback);
     } else {
-        var videoPath = 'SignAsset/' + letter + '.mp4';
+        var videoPath = '../SignAsset/' + letter + '.mp4';
 
         var xhr = new XMLHttpRequest();
         xhr.open('HEAD', videoPath, true);
@@ -424,7 +424,7 @@ function isSymbol(char) {
 }
 
 function playQuestionMark(videoPlayer, callback) {
-    var videoPath = 'SignAsset/qmark.mp4';
+    var videoPath = '../SignAsset/qmark.mp4';
 
     var video = document.createElement('video');
     video.setAttribute('width', '640');
