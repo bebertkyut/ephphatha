@@ -1,6 +1,6 @@
 const charactersAndWords = [
     ...Array.from('abcdefghijklmnopqrstuvwxyz0123456789'),
-    "And", "Are", "Art", "Attend", "Be", "Bible", "Brain", "Bread", "But",
+    "And","Angry","Anger", "Are", "Art", "Attend", "Be", "Bible", "Brain", "Bread", "But",
     "Called", "Come", "Community", "Daily", "Day", "Deliver", "Develop",
     "Done", "Duty", "Earth", "Education", "Employee", "Ephphatha", "Evil",
     "Faculty", "From", "God", "Group", "Hallowed", "In", "Institution",
@@ -117,6 +117,10 @@ function record() {
     videoPlayer.innerHTML = '';
     videoPlayer.appendChild(img);
 
+    recognition.onstart = function () {
+        console.log('Speech recognition started');
+    };
+
     recognition.onresult = function (event) {
         console.log(event);
         var transcript = event.results[0][0].transcript;
@@ -134,6 +138,10 @@ function record() {
         });
     };
 
+    recognition.onerror = function (event) {
+        console.error('Speech recognition error:', event.error);
+    };
+
     recognition.onend = function () {
         var stillPicturePath = '../Assets/still.png';
         var stillImg = document.createElement('img');
@@ -143,6 +151,7 @@ function record() {
 
         videoPlayer.innerHTML = '';
         videoPlayer.appendChild(stillImg);
+        console.log('Speech recognition ended');
     };
 
     recognition.start();
