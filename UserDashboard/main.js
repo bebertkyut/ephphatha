@@ -1,14 +1,22 @@
 const charactersAndWords = [
     ...Array.from('abcdefghijklmnopqrstuvwxyz0123456789'),
-    "And", "Are", "Art", "Attend", "Be", "Bible", "Brain", "Bread", "But",
+    "And","Angry", "Anger", "Are", "Art", "Attend", "Be", "Bible", "Brain", "Bread", "But",
     "Called", "Come", "Community", "Daily", "Day", "Deliver", "Develop",
     "Done", "Duty", "Earth", "Education", "Employee", "Ephphatha", "Evil",
-    "Faculty", "From", "God", "Group", "Hallowed", "In", "Institution",
+    "Faculty", "From", "Fury", "God", "Group", "Hallowed", "In", "Institution",
     "Into", "Invite", "Investment", "Is", "Leader", "Learn", "Lead", "Must",
     "Off", "On", "Our", "Partners", "Project", "Service", "Society", "Strive",
     "Studies", "Students", "Temptation", "That", "The", "This", "Through", "To",
-    "Us", "We", "Who", "Will", "Words", "Worship", "Written", "You", "Your"
+    "Us", "We", "Who", "Will", "Words", "Worship", "Wraith", "Written", "You", "Your"
 ];
+
+const synonymsMap = {
+    "cheerful": ["happy", "joyful", "content"],
+    "attend": ["participate", "join"],
+    "deliver": ["give", "hand over"],
+    "leader": ["head", "chief", "boss"],
+    "angry": ["anger", "fury", "wraith"],
+};
 
 function populateSuggestions(filterText = '') {
     const suggestionsList = document.getElementById('suggestions');
@@ -44,7 +52,8 @@ function translateAndPlay(word) {
 
 function playVideo(word) {
     const videoPlayer = document.getElementById('videoPlayer');
-    const processedVideoName = word.replace(/[^\w\s]/g, '').toLowerCase();
+    const baseWord = findBaseWord(word.toLowerCase());
+    const processedVideoName = baseWord.replace(/[^\w\s]/g, '').toLowerCase();
     const videoPath = '../SignAsset/' + processedVideoName + '.mp4';
 
     var xhr = new XMLHttpRequest();
@@ -84,6 +93,19 @@ function playVideo(word) {
     xhr.send();
 }
 
+function findBaseWord(word) {
+    if (synonymsMap[word]) {
+        return word;
+    }
+
+    for (const baseWord in synonymsMap) {
+        if (synonymsMap[baseWord].includes(word)) {
+            return baseWord;
+        }
+    }
+
+    return word;
+}
 
 function displayPicture() {
     var videoPlayer = document.getElementById('videoPlayer');
@@ -124,10 +146,15 @@ function record() {
         var words = transcript.split(' ');
         videoTitle.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
 
+        var mappedWords = words.map(word => {
+            var cleanWord = word.replace(/[^\w\s]/g, '').toLowerCase();
+            return findBaseWord(cleanWord);
+        });
+
         document.getElementById('playbackButtons').style.display = 'block';
         highlightButton('btnNormal');
 
-        playNextVideo(words, 0, videoPlayer, function () {
+        playNextVideo(mappedWords, 0, videoPlayer, function () {
             displayPicture();
             videoTitle.textContent = ' ';
             document.getElementById('playbackButtons').style.display = 'none';
@@ -148,6 +175,7 @@ function record() {
     recognition.start();
 }
 
+
 function playVideos() {
     var videoNames = document.getElementById('videoNames').value.replace(/\s+/g, ' ').trim().split(' ');
     var videoPlayer = document.getElementById('videoPlayer');
@@ -155,97 +183,30 @@ function playVideos() {
 
     videoTitle.innerHTML = videoNames.map(name => `<span>${name}</span>`).join(' ');
 
+    var mappedVideoNames = videoNames.map(name => {
+        var cleanedName = removeSymbols(name);
+        for (let baseWord in synonymsMap) {
+            if (cleanedName === baseWord || synonymsMap[baseWord].includes(cleanedName)) {
+                return baseWord; 
+            }
+        }
+        return name;
+    });
+
     document.getElementById('playbackButtons').style.display = 'block';
     highlightButton('btnNormal');
 
     var wordIndex = 0;
-    playNextVideo(videoNames, wordIndex, videoPlayer, function () {
+    playNextVideo(mappedVideoNames, wordIndex, videoPlayer, function () {
         displayPicture();
         document.getElementById('videoTitle').textContent = ' ';
         document.getElementById('playbackButtons').style.display = 'none';
     });
 }
 
-function playNextVideo(videoNames, wordIndex, videoPlayer, callback) {
-    if (wordIndex >= videoNames.length) {
-        if (callback && typeof callback === "function") {
-            callback();
-        }
-        document.getElementById('videoTitle').textContent = ' ';
-        return;
-    }
 
-    var originalVideoName = videoNames[wordIndex];
-    var hasQuestionMark = originalVideoName.includes('?');
-    var processedVideoName = originalVideoName.replace(/[^\w\s]/g, '').toLowerCase();
-
-    if (processedVideoName.trim().length === 0) {
-        // Skip empty entries
-        playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
-        return;
-    }
-
-    if (processedVideoName.length === 1) {
-        // Single letter case
-        var videoPath = '../SignAsset/' + processedVideoName + '.mp4';
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('HEAD', videoPath, true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                var video = document.createElement('video');
-                video.setAttribute('width', '640');
-                video.setAttribute('height', '360');
-                video.playbackRate = currentPlaybackSpeed;
-
-                var source = document.createElement('source');
-                source.setAttribute('src', videoPath);
-                source.setAttribute('type', 'video/mp4');
-
-                video.appendChild(source);
-
-                videoPlayer.innerHTML = '';
-                videoPlayer.appendChild(video);
-
-                activeVideo = video;
-
-                var videoTitle = document.getElementById('videoTitle');
-                var currentWord = videoTitle.children[wordIndex];
-                currentWord.style.color = 'red';
-
-                video.onended = function () {
-                    activeVideo = null;
-
-                    if (hasQuestionMark) {
-                        playQuestionMark(videoPlayer, function () {
-                            currentWord.style.color = 'white';
-                            playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
-                        });
-                    } else {
-                        currentWord.style.color = 'white';
-                        playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
-                    }
-                    document.getElementById('videoTitle').textContent = ' ';
-                };
-
-                video.play().catch(function (error) {
-                    console.error('Error playing video:', error);
-                    playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
-                });
-            } else {
-                console.error('Video not found:', videoPath);
-                displayPicture(); // Display picture if video is not found
-                hidePlaybackButtons();
-                playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
-            }
-        };
-        xhr.send();
-    } else {
-        // Word case
-        var letters = processedVideoName.split('');
-
-        playNextLetter(letters, 0, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback);
-    }
+function removeSymbols(word) {
+    return word.replace(/[^\w\s]/g, '').toLowerCase();
 }
 
 function playNextVideo(videoNames, index, videoPlayer, callback) {
@@ -293,20 +254,8 @@ function playNextVideo(videoNames, index, videoPlayer, callback) {
 
             video.onended = function () {
                 activeVideo = null; // Reset the active video
-
-                if (hasQuestionMark) {
-                    playQuestionMark(videoPlayer, function () {
-                        // Change the color of the whole word to white
-                        currentWord.style.color = 'white';
-                        // Move to the next word
-                        playNextVideo(videoNames, index + 1, videoPlayer, callback);
-                    });
-                } else {
-                    // Change the color of the whole word to white
-                    currentWord.style.color = 'white';
-                    // Move to the next word
-                    playNextVideo(videoNames, index + 1, videoPlayer, callback);
-                }
+                currentWord.style.color = 'white';
+                playNextVideo(videoNames, index + 1, videoPlayer, callback);
             };
 
             video.play().catch(function (error) {
@@ -346,13 +295,7 @@ function playNextLetter(letters, index, videoPlayer, videoNames, wordIndex, hasQ
         // Change the color of the last letter of the word to white
         var lastLetterIndex = letters.length - 1;
         currentWord.children[lastLetterIndex].style.color = 'white';
-        if (hasQuestionMark) {
-            playQuestionMark(videoPlayer, function () {
-                playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
-            });
-        } else {
-            playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
-        }
+        playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
         return;
     }
 
@@ -421,41 +364,6 @@ function playNextLetter(letters, index, videoPlayer, videoNames, wordIndex, hasQ
 
 function isSymbol(char) {
     return /[^\w\s]/.test(char);
-}
-
-function playQuestionMark(videoPlayer, callback) {
-    var videoPath = '../SignAsset/qmark.mp4';
-
-    var video = document.createElement('video');
-    video.setAttribute('width', '640');
-    video.setAttribute('height', '360');
-    video.playbackRate = currentPlaybackSpeed;
-
-    var source = document.createElement('source');
-    source.setAttribute('src', videoPath);
-    source.setAttribute('type', 'video/mp4');
-
-    video.appendChild(source);
-
-    videoPlayer.innerHTML = '';
-    videoPlayer.appendChild(video);
-
-    activeVideo = video;
-
-    video.onended = function () {
-        activeVideo = null;
-
-        if (callback && typeof (callback) === "function") {
-            callback();
-        }
-    };
-
-    video.play().catch(function (error) {
-        console.error('Error playing question mark video:', error);
-        if (callback && typeof (callback) === "function") {
-            callback();
-        }
-    });
 }
 
 function setPlaybackSpeed(speed) {
