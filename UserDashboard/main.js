@@ -146,10 +146,15 @@ function record() {
         var words = transcript.split(' ');
         videoTitle.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
 
+        var mappedWords = words.map(word => {
+            var cleanWord = word.replace(/[^\w\s]/g, '').toLowerCase();
+            return findBaseWord(cleanWord);
+        });
+
         document.getElementById('playbackButtons').style.display = 'block';
         highlightButton('btnNormal');
 
-        playNextVideo(words, 0, videoPlayer, function () {
+        playNextVideo(mappedWords, 0, videoPlayer, function () {
             displayPicture();
             videoTitle.textContent = ' ';
             document.getElementById('playbackButtons').style.display = 'none';
@@ -179,8 +184,9 @@ function playVideos() {
     videoTitle.innerHTML = videoNames.map(name => `<span>${name}</span>`).join(' ');
 
     var mappedVideoNames = videoNames.map(name => {
+        var cleanedName = removeSymbols(name);
         for (let baseWord in synonymsMap) {
-            if (name === baseWord || synonymsMap[baseWord].includes(name)) {
+            if (cleanedName === baseWord || synonymsMap[baseWord].includes(cleanedName)) {
                 return baseWord; 
             }
         }
@@ -196,6 +202,11 @@ function playVideos() {
         document.getElementById('videoTitle').textContent = ' ';
         document.getElementById('playbackButtons').style.display = 'none';
     });
+}
+
+
+function removeSymbols(word) {
+    return word.replace(/[^\w\s]/g, '').toLowerCase();
 }
 
 function playNextVideo(videoNames, index, videoPlayer, callback) {
@@ -243,20 +254,8 @@ function playNextVideo(videoNames, index, videoPlayer, callback) {
 
             video.onended = function () {
                 activeVideo = null; // Reset the active video
-
-                if (hasQuestionMark) {
-                    playQuestionMark(videoPlayer, function () {
-                        // Change the color of the whole word to white
-                        currentWord.style.color = 'white';
-                        // Move to the next word
-                        playNextVideo(videoNames, index + 1, videoPlayer, callback);
-                    });
-                } else {
-                    // Change the color of the whole word to white
-                    currentWord.style.color = 'white';
-                    // Move to the next word
-                    playNextVideo(videoNames, index + 1, videoPlayer, callback);
-                }
+                currentWord.style.color = 'white';
+                playNextVideo(videoNames, index + 1, videoPlayer, callback);
             };
 
             video.play().catch(function (error) {
@@ -296,13 +295,7 @@ function playNextLetter(letters, index, videoPlayer, videoNames, wordIndex, hasQ
         // Change the color of the last letter of the word to white
         var lastLetterIndex = letters.length - 1;
         currentWord.children[lastLetterIndex].style.color = 'white';
-        if (hasQuestionMark) {
-            playQuestionMark(videoPlayer, function () {
-                playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
-            });
-        } else {
-            playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
-        }
+        playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
         return;
     }
 
@@ -371,41 +364,6 @@ function playNextLetter(letters, index, videoPlayer, videoNames, wordIndex, hasQ
 
 function isSymbol(char) {
     return /[^\w\s]/.test(char);
-}
-
-function playQuestionMark(videoPlayer, callback) {
-    var videoPath = '../SignAsset/qmark.mp4';
-
-    var video = document.createElement('video');
-    video.setAttribute('width', '640');
-    video.setAttribute('height', '360');
-    video.playbackRate = currentPlaybackSpeed;
-
-    var source = document.createElement('source');
-    source.setAttribute('src', videoPath);
-    source.setAttribute('type', 'video/mp4');
-
-    video.appendChild(source);
-
-    videoPlayer.innerHTML = '';
-    videoPlayer.appendChild(video);
-
-    activeVideo = video;
-
-    video.onended = function () {
-        activeVideo = null;
-
-        if (callback && typeof (callback) === "function") {
-            callback();
-        }
-    };
-
-    video.play().catch(function (error) {
-        console.error('Error playing question mark video:', error);
-        if (callback && typeof (callback) === "function") {
-            callback();
-        }
-    });
 }
 
 function setPlaybackSpeed(speed) {
