@@ -74,7 +74,7 @@ loginFormElement.addEventListener('submit', (e) => {
             localStorage.setItem('userRole', userRole);
 
             // Redirect to user dashboard
-            window.location.href = "../UserDashboard/dashboard.html";
+            window.location.href = "UserDashboard/dashboard.html";
           } else {
             // If status is Inactive
             errorMessage.innerText = "The Account is Inactive.";
@@ -89,7 +89,7 @@ loginFormElement.addEventListener('submit', (e) => {
           .then((adminSnapshot) => {
             if (!adminSnapshot.empty) {
               // Redirect to Admin Dashboard
-              window.location.href = "../Admin/AdminDashboard.html";
+              window.location.href = "Admin/AdminDashboard.html";
             } else {
               // Display error message
               errorMessage.innerText = "Invalid login credentials.";
