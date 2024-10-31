@@ -194,6 +194,9 @@ window.addAccount = async function() {
   const dateCreated = new Date(); // Current date
   const birthday = new Date();
 
+  // Default profile picture URL from Firebase Storage
+  const pictureURL = "https://firebasestorage.googleapis.com/v0/b/ephphathadb.appspot.com/o/profile_pictures%2Fdefault-picture.jpg?alt=media";
+
   try {
     // Add the new user account
     await addDoc(collection(db, "UserAccount"), {
@@ -206,6 +209,7 @@ window.addAccount = async function() {
       Status: status,
       DateCreated: dateCreated,
       Birthday: birthday,
+      PictureURL: pictureURL  // Adding the PictureURL field
     });
 
     closeModal(); // Close the modal after adding the user
@@ -219,7 +223,7 @@ window.addAccount = async function() {
 
   } catch (error) {
     console.error("Error adding account:", error);
-  } // Missing closing bracket was added here
+  }
 };
 
 // Function to deactivate a user
