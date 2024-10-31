@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Profile</title>
         <link rel="stylesheet" href="../UserDashboard/dashboard.css"> 
+        <link rel="stylesheet" href="profile.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     </head>
@@ -45,12 +46,23 @@
                 </div>
             </div>
 
-            <div class="info-container"></div>
+            <div class="divider">
+                <button class="edit-btn"> Edit</button>
+                <h1 class="profile-h1"> Information </h1>
+            </div>
+
+            <div class="info-container">
+                <ul>
+                    <li> <h2 class="profile-h2"> About: </h2> </li>
+                    <li> <h2 class="profile-h2"> Gender: </h2> </li>
+                    <li> <h2 class="profile-h2"> Birthday: </h2> </li>
+                </ul>
+            </div>
             
             <!--profile image and name-->
             <div class="user-img">
-                <img src="../img/default-user.png" id="photo">
-                <input type="file" id="file">
+                <img src="../img/default-user.jpg" id="photo">
+                <input type="file" class="input" id="file">
                 <label for="file" id="upload_btn"><i class="fas fa-camera"></i></label>
             </div>
             
@@ -58,21 +70,17 @@
                 <h1><span id="userName"></span> </h1>
                 <h2><span id="userRole"></span></h2>
             </div>
-            <script type="module" src="profile.js"></script>
+            
             <!--retrieving and displaying the name of the user-->
             <script>
                 // Retrieve the user's name and status from localStorage
-                const userName = localStorage.getItem('userName');
-                const userRole = localStorage.getItem('userRole');
-            
-                // Display the name and status on the page
-                document.getElementById('userName').innerText = userName;
-                document.getElementById('userRole').innerText = userRole;
+                
             </script>
 
             <!--container for information-->
-            
+            <script type="module" src="profile.js"></script>
             <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
+            <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"></script>
         </div>
     </body>
 </html>

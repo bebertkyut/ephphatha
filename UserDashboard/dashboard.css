@@ -467,53 +467,6 @@ h2 {
     color: white;
 }
 
-.user-img{
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-}
-
-#photo {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    margin: 165% 185%;
-}
-
-#file {
-    display: none;
-}
-
-#upload_btn {
-    position: absolute;
-    height: 40px;
-    width: 38px;
-    padding: 6px 6px;
-    border-radius: 50%;
-    cursor: pointer;
-    color: #fff;
-    transform: translateX(365px);
-    margin-top: 315px;
-    background-color: rgb(173, 172, 172, 0.801);
-    box-shadow: 2px 4px 4px rgb(0, 0, 0, 0.644);
-}
-
-#userName {
-    position: absolute;
-    transform: translateX(445px);
-    margin-top: 175px;
-}
-
-
-.info-container {
-    position: absolute;
-    background-color: #808080;
-    opacity: 0.6;
-    width: 1555px;
-    height: 500px;
-    transform: translateX(225px);
-    margin-top: 50vh;
-}
 
 .left-panel, .right-panel {
     display: flex;
