@@ -86,35 +86,80 @@ tr:hover {
     background-color: #0056b3;
 }
 
-/* Modal styling */
 .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.7); 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; /* Center vertically */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Modal content styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 75vh;
+}
+
 .modal-content {
-    background-color: #fefefe;
-    padding: 30px;
-    border: 2px solid #007BFF;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    width: 400px; /* Fixed width */
-    max-width: 90%; /* Responsive width */
-    text-align: center; /* Center text */
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Close button for modals */
+.modal-content form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.modal-content form input, 
+.modal-content form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.modal-content form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.modal-content form button:hover {
+    background-color: #0056b3;
+}
+
 .close {
     color: #aaa;
     float: right;
@@ -129,18 +174,16 @@ tr:hover {
     cursor: pointer;
 }
 
-/* Confirmation modal tweaks */
-#confirmDeactivateModal{
+#confirmDeactivateModal {
     padding-top: 37.5vh;
 }
 
 #confirmRemoveModal, #confirmDeactivateModal {
-    display: none; 
+    display: none;
 }
 
 #confirmRemoveModal .modal-content, #confirmDeactivateModal .modal-content {
-    background-color: #fff;
-    margin: auto;
+    background-color: white;
     padding: 30px;
     border: 2px solid #007BFF;
     border-radius: 8px;
@@ -154,8 +197,8 @@ tr:hover {
     padding: 10px 20px;
     font-size: 16px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 #confirmRemoveModal #confirmRemoveButton, #confirmDeactivateModal #confirmDeactivateButton {
@@ -177,7 +220,6 @@ tr:hover {
     background-color: #bbb;
 }
 
-/* Dropdown styles for action buttons */
 .action-buttons {
     position: absolute;
     background-color: white;
@@ -198,33 +240,30 @@ tr:hover {
     background-color: #f0f0f0;
 }
 
-/* For Edit Account Modal */
 .modal-overlay {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 999; /* On top */
+    display: none;
+    position: fixed;
+    z-index: 999;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
-    display: flex; /* Flexbox for centering */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Modal content for edit form */
 .modal-content {
-    background-color: white; /* Background color for the edit form */
+    background-color: white;
     padding: 20px;
     border-radius: 5px;
-    width: 400px; /* Fixed width */
-    max-width: 90%; /* Responsive width */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Box shadow */
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Close button for overlay */
 .close-button {
     color: #aaa;
     float: right;

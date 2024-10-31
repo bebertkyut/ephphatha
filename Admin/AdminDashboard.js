@@ -36,7 +36,7 @@ async function fetchUsers() {
           <div class="action-buttons">
             <div class="dropdown-item" onclick="editUser('${user.id}')">Edit</div>
             <div class="dropdown-item" onclick="removeUser('${user.id}')">Remove</div>
-            <div class="dropdown-item" onclick="deactivateUser('${user.id}')">Deactivate</div>
+            <div class="dropdown-item" onclick="deactivateUser('${user.id}', '${user.Status}')">${user.Status === 'Inactive' ? 'Activate' : 'Deactivate'}</div>
           </div>
         </td>
       `;
@@ -86,11 +86,15 @@ window.editUser = async function(userId) {
 
     if (userDoc.exists()) {
       const userData = userDoc.data();
+
       // Pre-fill the form with the user data
       document.getElementById('editName').value = userData.Name;
       document.getElementById('editUsername').value = userData.Username;
       document.getElementById('editPassword').value = userData.Password;
-      document.getElementById('editRole').value = userData.Role
+      
+      // Pre-select the user's current role in the dropdown
+      const editRoleDropdown = document.getElementById('editRole');
+      editRoleDropdown.value = userData.Role; // Set the dropdown to the user's role
 
       // Store the userId in a hidden input for updating
       document.getElementById('editUserId').value = userId;
@@ -219,15 +223,69 @@ window.addAccount = async function() {
 };
 
 // Function to deactivate a user
-window.deactivateUser = function(userId) {
+window.deactivateUser = function(userId, currentStatus) {
   const dropdown = event.target.closest('.action-buttons');
   if (dropdown) dropdown.style.display = 'none';
 
   userToRemoveId = userId;
 
-  // Display the confirmation modal for deactivation
+  // Display the confirmation modal for deactivation or activation
   const deactivateModal = document.getElementById('confirmDeactivateModal');
   deactivateModal.style.display = 'block';
+
+  const confirmButton = document.getElementById('confirmDeactivateButton');
+
+  if (currentStatus === 'Inactive') {
+    document.querySelector('#confirmDeactivateModal h2').textContent = 'Confirm Activation';
+    document.querySelector('#confirmDeactivateModal p').textContent = 'Are you sure you want to activate this account?';
+    confirmButton.textContent = 'Yes, Activate';
+  } else {
+    document.querySelector('#confirmDeactivateModal h2').textContent = 'Confirm Deactivation';
+    document.querySelector('#confirmDeactivateModal p').textContent = 'Are you sure you want to deactivate this account?';
+    confirmButton.textContent = 'Yes, Deactivate';
+  }
+
+  // Add event listener for confirmation button
+  confirmButton.onclick = async function() {
+    try {
+      const userDocRef = doc(db, "UserAccount", userToRemoveId);
+      if (currentStatus === 'Inactive') {
+        // Change status to 'Active'
+        await updateDoc(userDocRef, {
+          Status: 'Active'
+        });
+      } else {
+        // Change status to 'Inactive'
+        await updateDoc(userDocRef, {
+          Status: 'Inactive'
+        });
+      }
+
+      fetchUsers(); // Refresh the users list
+      deactivateModal.style.display = 'none'; // Close the modal
+    } catch (error) {
+      console.error(`Error ${currentStatus === 'Inactive' ? 'activating' : 'deactivating'} user:`, error);
+    }
+  };
+};
+
+// Function to close the deactivation/activation confirmation modal
+window.closeDeactivateModal = function() {
+  document.getElementById('confirmDeactivateModal').style.display = 'none';
+};
+
+// Function to activate a user
+window.activateUser = function(userId) {
+  const dropdown = event.target.closest('.action-buttons');
+  if (dropdown) dropdown.style.display = 'none';
+
+  userToRemoveId = userId;
+
+  // Display the confirmation modal for activation
+  const activateModal = document.getElementById('confirmDeactivateModal'); // Reuse the deactivate modal
+  activateModal.querySelector('h2').textContent = 'Confirm Activation'; // Update modal title
+  activateModal.querySelector('p').textContent = 'Are you sure you want to activate this account?'; // Update modal text
+  activateModal.style.display = 'block';
 
   // Add event listener for confirmation button
   const confirmButton = document.getElementById('confirmDeactivateButton');
@@ -235,20 +293,15 @@ window.deactivateUser = function(userId) {
     try {
       const userDocRef = doc(db, "UserAccount", userToRemoveId);
       await updateDoc(userDocRef, {
-        Status: 'Inactive' // Update status to 'Inactive'
+        Status: 'Active' // Update status to 'Active'
       });
 
       fetchUsers(); // Refresh the users list
-      deactivateModal.style.display = 'none'; // Close the modal
+      activateModal.style.display = 'none'; // Close the modal
     } catch (error) {
-      console.error("Error deactivating user:", error);
+      console.error("Error activating user:", error);
     }
   };
-};
-
-// Function to close the deactivation confirmation modal
-window.closeDeactivateModal = function() {
-  document.getElementById('confirmDeactivateModal').style.display = 'none';
 };
 
 // Initialize the user fetching on page load
