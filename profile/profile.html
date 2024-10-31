@@ -6,8 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Profile</title>
         <link rel="stylesheet" href="../UserDashboard/dashboard.css"> 
+        <link rel="stylesheet" href="profile.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js"></script>
     </head>
     <body>
         <!--sidebar nav-->
@@ -45,12 +48,23 @@
                 </div>
             </div>
 
-            <div class="info-container"></div>
+            <div class="divider">
+                <button class="edit-btn"> Edit</button>
+                <h1 class="profile-h1"> Information </h1>
+            </div>
+
+            <div class="info-container">
+                <ul>
+                    <li> <h2 class="profile-h2"> About: </h2> </li>
+                    <li> <h2 class="profile-h2"> Gender: </h2> </li>
+                    <li> <h2 class="profile-h2"> Birthday: </h2> </li>
+                </ul>
+            </div>
             
             <!--profile image and name-->
             <div class="user-img">
                 <img src="../img/default-user.png" id="photo">
-                <input type="file" id="file">
+                <input type="file" class="input" id="file">
                 <label for="file" id="upload_btn"><i class="fas fa-camera"></i></label>
             </div>
             
@@ -71,7 +85,6 @@
             </script>
 
             <!--container for information-->
-            
             <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
         </div>
     </body>
