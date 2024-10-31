@@ -1,7 +1,6 @@
-// Import necessary Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, query, where, getDocs, collection, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"; // Import updateDoc from Firestore
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"; // No updateDoc import here
+import { getFirestore, query, where, getDocs, collection, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -19,7 +18,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// Elements
 const img = document.querySelector('#photo');
 const fileInput = document.querySelector('#file');
 
@@ -33,29 +31,28 @@ document.getElementById('userRole').innerText = userRole;
 
 // Function to load the profile picture from Firestore
 async function loadProfilePicture() {
-    const username = localStorage.getItem('userName'); // Get the Username
+    const username = localStorage.getItem('userName');
 
     if (username) {
         const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', username));
         const querySnapshot = await getDocs(userQuery);
 
         if (!querySnapshot.empty) {
-            const userDoc = querySnapshot.docs[0]; // Get the first matched document
+            const userDoc = querySnapshot.docs[0];
             const pictureURL = userDoc.data().PictureURL;
 
             if (pictureURL) {
                 img.setAttribute('src', pictureURL);
             } else {
-                img.setAttribute('src', ''); // Leave blank if PictureURL is missing
+                img.setAttribute('src', '');
             }
         } else {
             console.error('No such document!');
-            img.setAttribute('src', ''); // Leave blank if no document found
+            img.setAttribute('src', '');
         }
     }
 }
 
-// Load the profile picture on page load
 loadProfilePicture();
 
 // Event listener for file input change
@@ -70,13 +67,13 @@ fileInput.addEventListener('change', async function () {
 
             // Get the download URL and update the Firestore document
             const downloadURL = await getDownloadURL(storageRef);
-            img.setAttribute('src', downloadURL);  // Update profile picture on the page
+            img.setAttribute('src', downloadURL);  
 
             // Update Firestore with the new picture URL
-            const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', userName)); // Use Username
+            const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', userName));
             const querySnapshot = await getDocs(userQuery);
             if (!querySnapshot.empty) {
-                const userDocRef = doc(db, 'UserAccount', querySnapshot.docs[0].id); // Get the document reference
+                const userDocRef = doc(db, 'UserAccount', querySnapshot.docs[0].id);
                 await updateDoc(userDocRef, { PictureURL: downloadURL });
                 console.log('Picture URL updated in Firestore');
             }
