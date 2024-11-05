@@ -1,7 +1,7 @@
 // Import necessary Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, query, where, getDocs, collection, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js"; // Import updateDoc from Firestore
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"; // No updateDoc import here
+import { getFirestore, query, where, getDocs, collection, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -31,41 +31,37 @@ const userRole = localStorage.getItem('userRole');
 document.getElementById('userName').innerText = userName;
 document.getElementById('userRole').innerText = userRole;
 
-
-// Function to load the profile picture from Firestore
-async function loadProfilePicture() {
-    const username = localStorage.getItem('userName'); // Get the Username
+// Function to load user information from Firestore
+async function loadUserInfo() {
+    const username = localStorage.getItem('userName');
 
     if (username) {
         const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', username));
         const querySnapshot = await getDocs(userQuery);
 
         if (!querySnapshot.empty) {
-            const userDoc = querySnapshot.docs[0]; // Get the first matched document
-            const pictureURL = userDoc.data().PictureURL;
+            const userDoc = querySnapshot.docs[0];
+            const userData = userDoc.data();
 
-            if (pictureURL) {
-                img.setAttribute('src', pictureURL);
-            } else {
-                img.setAttribute('src', ''); // Leave blank if PictureURL is missing
-            }
+            // Set profile picture
+            const pictureURL = userData.PictureURL;
+            img.setAttribute('src', pictureURL || '');
+
+            // Display About, Gender, Birthday, and Role fields from Firestore
+            document.getElementById('userAbout').innerText = userData.About || "N/A";
+            document.getElementById('userGender').innerText = userData.Gender || "N/A";
+            document.getElementById('userBirthday').innerText = userData.Birthday || "N/A";
+            document.getElementById('userRole').innerText = userData.Role || "N/A";
         } else {
             console.error('No such document!');
-            img.setAttribute('src', ''); // Leave blank if no document found
         }
     }
 }
-// Load the profile picture on page load
-loadProfilePicture();
-const userAbout = localStorage.getItem('userAbout');
-const userGender = localStorage.getItem('userGender');
-const userBirthday = localStorage.getItem('userBirthday');
 
-document.getElementById('userAbout').innerText = userAbout;
-document.getElementById('userGender').innerText = userGender;
-document.getElementById('userBirthday').innerText = userBirthday;
+// Load user information on page load
+loadUserInfo();
 
-// Event listener for file input change
+// Event listener for file input change to update profile picture
 fileInput.addEventListener('change', async function () {
     const file = fileInput.files[0];
     if (file) {
@@ -92,7 +88,3 @@ fileInput.addEventListener('change', async function () {
         }
     }
 });
-
-
-
-
