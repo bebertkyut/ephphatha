@@ -31,6 +31,7 @@ const userRole = localStorage.getItem('userRole');
 document.getElementById('userName').innerText = userName;
 document.getElementById('userRole').innerText = userRole;
 
+
 // Function to load the profile picture from Firestore
 async function loadProfilePicture() {
     const username = localStorage.getItem('userName'); // Get the Username
@@ -54,9 +55,15 @@ async function loadProfilePicture() {
         }
     }
 }
-
 // Load the profile picture on page load
 loadProfilePicture();
+const userAbout = localStorage.getItem('userAbout');
+const userGender = localStorage.getItem('userGender');
+const userBirthday = localStorage.getItem('userBirthday');
+
+document.getElementById('userAbout').innerText = userAbout;
+document.getElementById('userGender').innerText = userGender;
+document.getElementById('userBirthday').innerText = userBirthday;
 
 // Event listener for file input change
 fileInput.addEventListener('change', async function () {
@@ -85,3 +92,7 @@ fileInput.addEventListener('change', async function () {
         }
     }
 });
+
+
+
+

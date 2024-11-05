@@ -155,22 +155,22 @@ label .close-btn {
 }
 
 .main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-top: 20px;
     margin-left: 80px; 
-    padding-top: 20px; 
-    height: calc(100vh - 32px);
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    color: #000;
 }
 
 .slider {
     width: 100vw; 
-    height: 100%;
+    height: 800px;
     position: relative;
     overflow: hidden;
-    margin-left: 80px; 
     z-index: 10; 
+    border: 2px solid #fff; 
+
 }
 
 .slider .list {
@@ -180,7 +180,7 @@ label .close-btn {
     left: 0;
     top: 0;
     display: flex;
-    transition: 1s;
+    transition: 2s;
 }
 
 .slider .list .item {
@@ -256,9 +256,17 @@ label .close-btn {
 }
 
 .album-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-template-rows: repeat(2, auto);   
+    gap: 20px;
+    width: 100%; 
+    height: 763px;
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding: 10px;
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
 }
 
 .album {
@@ -288,7 +296,6 @@ label .close-btn {
 }
 
 
-
 @media (max-width: 768px) {
     .album-container {
         justify-content: center;
@@ -309,7 +316,6 @@ label .close-btn {
     display: inline-block; 
     transition: transform 0.3s ease-in-out; 
 }
-
 
 .album-link::after {
     content: '';
@@ -336,7 +342,6 @@ label .close-btn {
 .album-link:hover {
     transform: scale(1.1); 
 }
-
 .overlay {
     position: fixed;
     top: 0;
@@ -360,6 +365,20 @@ label .close-btn {
     background-color: white;
 }
 
+.close-button {
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 280px;  /* Distance from the right */
+    top: 120px;     /* Distance from the top */
+}
+
+
+
+
+
 
 .overlay-content h2 {
     margin-bottom: 10px;
@@ -377,35 +396,6 @@ label .close-btn {
 
 .overlay-content button:hover {
     background-color: #0056b3;
-}
-.search-bar {
-    position: absolute; 
-    top: 80px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    display: flex;
-    align-items: center; /
-}
-
-.search-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 500px; 
-}
-
-.search-button {
-    padding: 10px 15px;
-    border: none;
-    background-color: #ff0000;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 10px; 
-}
-
-.search-button:hover {
-    background-color: #b30000; 
 }
 
 
@@ -468,43 +458,48 @@ h2 {
 }
 
 
-.left-panel, .right-panel {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center;
-    background-color: #333;
-    padding: 20px;
-    box-sizing: border-box;
-    height: 500px; 
-}
-
 .left-panel {
-    width: 48%; 
-    margin-right: 2%;
-    background-color: transparent; 
-    border: none; 
+    position: absolute;
+    max-width: 100px; 
+    top: 110px; 
+    text-align: center;
+    background-color: transparent;
+    border: none;
     border-radius: 0;
 }
 
+
 .right-panel {
-    width: 48%; 
-    margin-left: 2%;
-    border: 1px solid #888; 
-    border-radius: 8px; 
-    position: relative; 
+    width: 700px; /* Adjust width as needed */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    background-color: #cecece;
+    position: relative; /* Ensure it's positioned centrally */
+}
+
+.left-panel input {
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    width: 700px; 
 }
 
 .inputs {
-    width: 90%; 
+    width: 100%; 
     text-align: center;
-    border: 2px solid #888;
+    border: 2px solid #000000;
     border-radius: 8px;
     padding: 10px;
     box-sizing: border-box;
-    background-color: #2b2b2b;
-    color: #d3d3d3;
+    background-color: #b4b4b4;
+    color: #000000;
     margin-bottom: 20px;
+}
+.images-container {
+    display: flex; 
+    justify-content: center; 
+    margin-top: 20px; 
 }
 
 .scrollable-list {
@@ -530,32 +525,38 @@ h2 {
 }
 
 .bottom-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    position: fixed;
-    top: 800px;
-    left: 50%;
-    transform: translateX(-50%);
+    display: flex; 
+    justify-content: center; 
+    margin-top: 50px;
+    position: relative; 
 }
 
-.left-controls{
+.left-controls {
     display: flex;
     align-items: center;
-    justify-content:center;
+    justify-content: center;
     width: 48%;
     margin-right: 2%;
-    gap: 75px;
+    gap: 95px;
+    position: relative; 
+    padding-top: 50px; 
 }
- 
+
 .right-controls {
-    display: flex;
-    align-items: center;
-    justify-content:center;
-    width: 48%;
-    margin-left: 2%;
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    max-width: 100%; 
+    height: auto; 
+    margin: 0;
+    position: absolute; 
+    top: -40px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    padding-top: 20px; 
 }
+
+
 
 .left-controls {
     margin-right: 10px;
@@ -564,18 +565,6 @@ h2 {
 .right-controls {
     margin-left: 10px;
 }
-
-.controls {
-    background-color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    margin: 0 10px;
-}
-
 .btn {
     background-color: #fff;
     border: none;
