@@ -47,7 +47,7 @@
             </div>
 
             <div class="divider">
-                <button class="edit-btn">Edit</button>
+                <button id="editButton" class="edit-btn">Edit</button>
                 <h1 class="profile-h1"> Information </h1>
             </div>
 
@@ -62,7 +62,35 @@
                 <h3><span id="userBirthday"></span></h3>
             </div>
             
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <h2>Edit Information</h2>
             
+                    <div class="form-group">
+                        <h3>About:</h3>
+                        <input type="text" id="editAbout" placeholder="Enter about" />
+                    </div>
+            
+                    <div class="form-group">
+                        <h3>Gender:</h3>
+                        <select id="editGender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+            
+                    <div class="form-group">
+                        <h3>Birthday:</h3>
+                        <input type="date" id="editBirthday" />
+                    </div>
+            
+                    <button id="saveButton">Save</button>
+                </div>
+            </div>
+            
+                     
+
             <!--profile image and name-->
             <div class="user-img">
                 <img src="../img/default-user.jpg" id="photo">

@@ -61,6 +61,69 @@ async function loadUserInfo() {
 // Load user information on page load
 loadUserInfo();
 
+// Event listener for Edit button
+document.getElementById('editButton').addEventListener('click', () => {
+    // Show modal and populate it with current values
+    document.getElementById('modal').style.display = 'block';
+    document.getElementById('editAbout').value = document.getElementById('userAbout').innerText;
+    document.getElementById('editGender').value = document.getElementById('userGender').innerText;
+    document.getElementById('editBirthday').value = document.getElementById('userBirthday').innerText;
+});
+
+// Get the <span> element that closes the modal
+const closeBtn = document.getElementsByClassName("close-btn")[0];
+
+// When the user clicks on <span> (x), close the modal
+closeBtn.onclick = function() {
+    document.getElementById('modal').style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    const modal = document.getElementById('modal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Event listener for Save button
+document.getElementById('saveButton').addEventListener('click', async () => {
+    const updatedAbout = document.getElementById('editAbout').value;
+    const updatedGender = document.getElementById('editGender').value;
+
+    // Get the date input value
+    const birthdayInput = document.getElementById('editBirthday').value;
+    
+    // Format the date from YYYY-MM-DD to MM/DD/YYYY
+    const formattedBirthday = new Date(birthdayInput).toLocaleDateString('en-US');
+
+    const username = localStorage.getItem('userName');
+    const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', username));
+    const querySnapshot = await getDocs(userQuery);
+
+    if (!querySnapshot.empty) {
+        const userDocRef = doc(db, 'UserAccount', querySnapshot.docs[0].id);
+        
+        // Update Firestore with new data
+        await updateDoc(userDocRef, {
+            About: updatedAbout,
+            Gender: updatedGender,
+            Birthday: formattedBirthday // Use the formatted date here
+        });
+
+        // Update displayed information without reloading the page
+        document.getElementById('userAbout').innerText = updatedAbout;
+        document.getElementById('userGender').innerText = updatedGender;
+        document.getElementById('userBirthday').innerText = formattedBirthday; // Display the formatted date
+
+        // Hide edit form
+        document.getElementById('editForm').style.display = 'none';
+    } else {
+        console.error('No such document!');
+    }
+});
+
+
 // Event listener for file input change to update profile picture
 fileInput.addEventListener('change', async function () {
     const file = fileInput.files[0];
