@@ -47,17 +47,21 @@
             </div>
 
             <div class="divider">
-                <button class="edit-btn"> Edit</button>
+                <button class="edit-btn">Edit</button>
                 <h1 class="profile-h1"> Information </h1>
             </div>
 
             <div class="info-container">
-                <ul>
-                    <li> <h2 class="profile-h2"> About: </h2> </li>
-                    <li> <h2 class="profile-h2"> Gender: </h2> </li>
-                    <li> <h2 class="profile-h2"> Birthday: </h2> </li>
-                </ul>
+                <h2 class="profile-h2"> About: </h2> 
+                <h3><span id="userAbout"></span></h3>
+
+                <h2 class="profile-h2"> Gender: </h2> 
+                <h3><span id="userGender"></span></h3>
+
+                <h2 class="profile-h2"> Birthday: </h2>
+                <h3><span id="userBirthday"></span></h3>
             </div>
+            
             
             <!--profile image and name-->
             <div class="user-img">
@@ -70,13 +74,14 @@
                 <h1><span id="userName"></span> </h1>
                 <h2><span id="userRole"></span></h2>
             </div>
-            
+
+        
             <!--retrieving and displaying the name of the user-->
             <script>
                 // Retrieve the user's name and status from localStorage
                 
             </script>
-
+        
             <!--container for information-->
             <script type="module" src="profile.js"></script>
             <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>

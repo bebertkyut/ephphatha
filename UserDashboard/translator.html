@@ -29,7 +29,7 @@
                     </li>
                     <li id="profile-item">
                         <i class='bx bxs-message-dots'></i>
-                        <a href="..//profile/profile.html" id="profile">Profile</a>
+                        <a href="../profile/profile.html" id="profile">Profile</a>
                     </li>
                     <li id="content-item"> 
                         <i class='bx bxs-folder'></i>
@@ -43,41 +43,38 @@
             </div>
         </div>
         <div class="main-content">
-            <div class="left-panel">
-                <input type="text" id="videoNames" class="inputs" placeholder="Type something...">
-                <div class="scrollable-list">
-                    <ul id="suggestions"></ul>
+            <div class="panel-container">
+                <div class="left-panel">
+                    <input type="text" id="videoNames" class="inputs" placeholder="Type something...">
                 </div>
-            </div>
-            <div class="right-panel">
-                <div id="videoPlayer">
-                    <img id="initialImage" src="../Assets/still.png" width="640" height="360" alt="Initial Image">
+                <div class="right-panel">
+                    <div id="videoPlayer">
+                        <img id="initialImage" src="../Assets/still.png" width="640" height="360" alt="Initial Image">
+                    </div>
+                    <div id="playbackButtons">
+                        <button id="btnSlow" onclick="setPlaybackSpeed(0.5)">x0.5</button>
+                        <button id="btnNormal" onclick="setPlaybackSpeed(1)">x1</button>
+                        <button id="btnFast" onclick="setPlaybackSpeed(2)">x2</button>
+                    </div>
                 </div>
-                <div id="playbackButtons">
-                    <button id="btnSlow" onclick="setPlaybackSpeed(0.5)">x0.5</button>
-                    <button id="btnNormal" onclick="setPlaybackSpeed(1)">x1</button>
-                    <button id="btnFast" onclick="setPlaybackSpeed(2)">x2</button>
+                <div class="bottom-controls">
+                    <div class="left-controls">
+                        <button class="btn mic-btn" onclick="record()">
+                            <img src="../M1.png" alt="Microphone">
+                        </button>        
+                        <button class="btn play-btn" onclick="playVideos()">
+                            <img src="../P1.png" alt="Play">
+                        </button>
+                    </div>
+                    <div class="right-controls">
+                        <div class="right-subtitle">
+                            <div id="videoTitle"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="bottom-controls">
-            <div class="left-controls">
-                <button class="btn mic-btn" onclick="record()">
-                    <img src="../M1.png" alt="Microphone">
-                </button>        
-                <button class="btn play-btn" onclick="playVideos()">
-                    <img src="../P1.png" alt="Play">
-                </button>
-            </div>
-            <div class="right-controls">
-                <div class="right-subtitle">
-                    <div id="videoTitle"></div>
-                </div>
-            </div>
-        </div>
+        <script src="main.js"></script>
     </div>
-</div>
-        
-<script src="main.js"></script>
 </body>
 </html>
