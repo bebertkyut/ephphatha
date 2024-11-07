@@ -33,23 +33,25 @@
 <!--home,about,contact-->
 <section id="home">
   <div class="slider">
+      <!-- Radio inputs for slides -->
       <input type="radio" name="slide" id="img1" checked>
       <input type="radio" name="slide" id="img2">
       <input type="radio" name="slide" id="img3">
 
-      <div class="images">
-          <img src="12.png" alt="img1">
-          <img src="13.png" alt="img2">    
-          <img src="14.png" alt="img3">
-      </div>
+      <!-- Image container to be populated with Firestore images -->
+      <div class="images" id="imageContainer"></div>
+
+      <!-- Dots navigation for slider -->
       <div class="dots">
           <label for="img1"></label>
           <label for="img2"></label>
           <label for="img3"></label>
       </div>
+      
       <p>A VOICE TO AMERICAN SIGN LANGUAGE TRANSLATOR, AIDING THE CHURCH OF GOD DASMARINAS DEAF MINISTRY FELLOWSHIP.</p>
   </div>
 </section>
+
 
 <!--homepage-->
 <!--aboutpage -->
@@ -193,8 +195,8 @@
 </div>
 <!--loginpage-->
 
-<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
 
 <script type="module" src="script.js" defer></script>
 </body>
