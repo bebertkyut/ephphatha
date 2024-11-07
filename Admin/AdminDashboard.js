@@ -192,13 +192,15 @@ window.addAccount = async function() {
   const about = "Add Description"; // Default value
   const status = "Active"; // Default status
   const dateCreated = new Date(); // Current date
+  
+  // Format the birthday to include only month, day, and year
   const birthday = new Date();
+  const formattedBirthday = `${birthday.getMonth() + 1}/${birthday.getDate()}/${birthday.getFullYear()}`;
 
   // Default profile picture URL from Firebase Storage
-  const pictureURL = "https://firebasestorage.googleapis.com/v0/b/ephphathadb.appspot.com/o/profile_pictures%2Fdefault-picture.jpg?alt=media";
+  const pictureURL = "https://firebasestorage.googleapis.com/v0/b/ephphathadb.appspot.com/o/profile_pictures%2Fdefault-user.png?alt=media";
 
   try {
-    // Add the new user account
     await addDoc(collection(db, "UserAccount"), {
       Name: name,
       Username: username,
@@ -208,12 +210,12 @@ window.addAccount = async function() {
       About: about,
       Status: status,
       DateCreated: dateCreated,
-      Birthday: birthday,
-      PictureURL: pictureURL  // Adding the PictureURL field
+      Birthday: formattedBirthday,
+      PictureURL: pictureURL 
     });
 
-    closeModal(); // Close the modal after adding the user
-    fetchUsers(); // Refresh the users list
+    closeModal();
+    fetchUsers(); 
 
     // Reset form fields
     document.getElementById('name').value = '';

@@ -47,18 +47,50 @@
             </div>
 
             <div class="divider">
-                <button class="edit-btn"> Edit</button>
+                <button id="editButton" class="edit-btn">Edit</button>
                 <h1 class="profile-h1"> Information </h1>
             </div>
 
             <div class="info-container">
-                <ul>
-                    <li> <h2 class="profile-h2"> About: </h2> </li>
-                    <li> <h2 class="profile-h2"> Gender: </h2> </li>
-                    <li> <h2 class="profile-h2"> Birthday: </h2> </li>
-                </ul>
+                <h2 class="profile-h2"> About: </h2> 
+                <h3><span id="userAbout"></span></h3>
+
+                <h2 class="profile-h2"> Gender: </h2> 
+                <h3><span id="userGender"></span></h3>
+
+                <h2 class="profile-h2"> Birthday: </h2>
+                <h3><span id="userBirthday"></span></h3>
             </div>
             
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <h2>Edit Information</h2>
+            
+                    <div class="form-group">
+                        <h3>About:</h3>
+                        <input type="text" id="editAbout" placeholder="Enter about" />
+                    </div>
+            
+                    <div class="form-group">
+                        <h3>Gender:</h3>
+                        <select id="editGender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+            
+                    <div class="form-group">
+                        <h3>Birthday:</h3>
+                        <input type="date" id="editBirthday" />
+                    </div>
+            
+                    <button id="saveButton">Save</button>
+                </div>
+            </div>
+            
+                     
+
             <!--profile image and name-->
             <div class="user-img">
                 <img src="../img/default-user.jpg" id="photo">
@@ -70,13 +102,14 @@
                 <h1><span id="userName"></span> </h1>
                 <h2><span id="userRole"></span></h2>
             </div>
-            
+
+        
             <!--retrieving and displaying the name of the user-->
             <script>
                 // Retrieve the user's name and status from localStorage
                 
             </script>
-
+        
             <!--container for information-->
             <script type="module" src="profile.js"></script>
             <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
