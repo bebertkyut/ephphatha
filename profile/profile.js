@@ -65,7 +65,7 @@ function closeModal() {
     modal.style.display = 'none';
 }
 
-// Add event listener for close button
+// Add event listener for close button (X button)
 document.getElementById('closeModalBtn').addEventListener('click', closeModal);
 
 // Event listener for clicking outside of the modal to close it
@@ -78,23 +78,33 @@ window.onclick = function(event) {
 
 // Event listener for Edit button
 document.getElementById('editButton').addEventListener('click', () => {
-    // Show modal and populate it with current values
     document.getElementById('modal').style.display = 'block';
     document.getElementById('editAbout').value = document.getElementById('userAbout').innerText;
     document.getElementById('editGender').value = document.getElementById('userGender').innerText;
-    document.getElementById('editBirthday').value = document.getElementById('userBirthday').innerText;
+
+    // Get the birthday string (mm/dd/yyyy)
+    const birthdayString = document.getElementById('userBirthday').innerText;
+    
+    // Convert the birthday to yyyy-mm-dd format
+    const [month, day, year] = birthdayString.split('/');
+    const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+    document.getElementById('editBirthday').value = formattedDate;
 });
 
 // Event listener for Save button
 document.getElementById('saveButton').addEventListener('click', async () => {
     const updatedAbout = document.getElementById('editAbout').value;
     const updatedGender = document.getElementById('editGender').value;
-    
-    // Get the date input value
     const birthdayInput = document.getElementById('editBirthday').value;
+
+    if (!birthdayInput) {
+        alert("Please select a valid birthday.");
+        return; 
+    }
+
     const formattedBirthday = new Date(birthdayInput).toLocaleDateString('en-US');
 
-    // Password handling
     const password = document.getElementById('editPassword').value;
     const confirmPassword = document.getElementById('editConfirmPassword').value;
 
@@ -115,21 +125,18 @@ document.getElementById('saveButton').addEventListener('click', async () => {
             About: updatedAbout,
             Gender: updatedGender,
             Birthday: formattedBirthday,
-            Password: password // Save the new password (ensure you hash it in a real app)
+            Password: password
         });
 
-        // Update displayed information without reloading the page
         document.getElementById('userAbout').innerText = updatedAbout;
         document.getElementById('userGender').innerText = updatedGender;
         document.getElementById('userBirthday').innerText = formattedBirthday;
 
-        // Hide edit form
-        document.getElementById('editForm').style.display = 'none';
+        closeModal();
     } else {
         console.error('No such document!');
     }
 });
-
 
 // Event listener for file input change to update profile picture
 fileInput.addEventListener('change', async function () {
