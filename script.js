@@ -1,6 +1,20 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAW65C2w8uxxDw9Va_GFOoCYQUVgm21cM4",
+  authDomain: "ephphathadb.firebaseapp.com",
+  projectId: "ephphathadb",
+  storageBucket: "ephphathadb.appspot.com",
+  messagingSenderId: "408778244868",
+  appId: "1:408778244868:web:43bb14d52f45c4c5424651",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app); // Make db available globally
 
 document.addEventListener("DOMContentLoaded", function () {
   const hamburger = document.querySelector(".hamburger");
@@ -9,20 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("loginForm");
   const closeBtn = document.getElementById("closeBtn");
   const errorMessage = document.getElementById("error-message");
-
-  // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAW65C2w8uxxDw9Va_GFOoCYQUVgm21cM4",
-    authDomain: "ephphathadb.firebaseapp.com",
-    projectId: "ephphathadb",
-    storageBucket: "ephphathadb.appspot.com",
-    messagingSenderId: "408778244868",
-    appId: "1:408778244868:web:43bb14d52f45c4c5424651",
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
 
   // Toggle Navigation Menu
   hamburger.addEventListener("click", function () {
@@ -102,31 +102,69 @@ document.addEventListener("DOMContentLoaded", function () {
         errorMessage.innerText = "An error occurred. Please try again later.";
       });
   });
-
-  // Function to fetch and display images for DynamicPages
-  function fetchDynamicPageImages(pageName) {
-    getDocs(collection(db, "DynamicPages"))
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const pageData = doc.data();
-          if (doc.id === pageName) { 
-            const imageContainer = document.getElementById("imageContainer");
-            imageContainer.innerHTML = "";
-  
-            pageData.HeaderImages.forEach((url) => {
-              const img = document.createElement("img");
-              img.src = url;
-              img.alt = "Dynamic Image";
-              img.classList.add("dynamic-image");
-              imageContainer.appendChild(img);
-            });
-          }
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching images for DynamicPages:", error);
-      });
-  }
-  
-  fetchDynamicPageImages("LoginPage");
 });
+
+// Function to fetch and display images for DynamicPages
+async function fetchDynamicPageImages(pageName) {
+  try {
+    const querySnapshot = await getDocs(collection(db, "DynamicPages"));
+
+    querySnapshot.forEach((doc) => {
+      const pageData = doc.data();
+      if (doc.id === pageName) { 
+        const imageContainer = document.getElementById("imageContainer");
+        imageContainer.innerHTML = ""; // Clear existing images
+    
+        pageData.HeaderImages.forEach((url) => {
+          const img = document.createElement("img");
+          img.src = url;
+          img.alt = "Dynamic Image";
+          img.classList.add("dynamic-image");
+          imageContainer.appendChild(img);
+        });
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching images for DynamicPages:", error);
+  }
+}
+
+// Function to fetch and update the About image from Firestore
+async function updateAboutImage() {
+  const docRef = doc(db, "DynamicPages", "LoginPage"); 
+  const docSnap = await getDoc(docRef);
+  const aboutImageUrl = docSnap.data().AboutImage;
+  const aboutHeroContainer = document.querySelector(".about-hero");
+
+  const imgElement = document.createElement("img");
+  imgElement.src = aboutImageUrl;
+  imgElement.alt = "About Header Image";
+
+  aboutHeroContainer.innerHTML = ""; 
+  aboutHeroContainer.appendChild(imgElement);
+}
+
+// Function to fetch contact details from Firestore
+async function fetchContactDetails() {
+  try {
+    const docRef = doc(db, "DynamicPages", "LoginPage"); 
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      document.getElementById('contactPhone').textContent = data.ContactPhone || 'Phone number not available';
+      document.getElementById('contactEmail').textContent = data.ContactEmail || 'Email not available';
+      document.getElementById('contactAddress').textContent = data.ContactAddress || 'Address not available';
+    } else {
+      console.log("No such document!");
+    }
+  } catch (error) {
+    console.error("Error fetching contact details: ", error);
+  }
+}
+
+window.onload = function() {
+  updateAboutImage();
+  fetchDynamicPageImages("LoginPage");
+  fetchContactDetails();
+};

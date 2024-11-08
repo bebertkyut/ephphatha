@@ -61,9 +61,17 @@
                 <h2 class="profile-h2"> Birthday: </h2>
                 <h3><span id="userBirthday"></span></h3>
             </div>
+
+            <!--profile image and name-->
+            <div class="user-img">
+                <img src="../img/default-user.jpg" id="photo">
+                <input type="file" class="input" id="file">
+                <label for="file" id="upload_btn"><i class="fas fa-camera"></i></label>
+            </div>
             
             <div id="modal" class="modal">
                 <div class="modal-content">
+                    <span id="closeModalBtn" class="close-btn">&times;</span>
                     <h2>Edit Information</h2>
             
                     <div class="form-group">
@@ -85,30 +93,24 @@
                         <input type="date" id="editBirthday" />
                     </div>
             
+                    <div class="form-group">
+                        <h3>Password:</h3>
+                        <input type="password" id="editPassword" placeholder="Enter new password" />
+                    </div>
+            
+                    <div class="form-group">
+                        <h3>Confirm Password:</h3>
+                        <input type="password" id="editConfirmPassword" placeholder="Confirm new password" />
+                    </div>
+            
                     <button id="saveButton">Save</button>
                 </div>
-            </div>
-            
-                     
-
-            <!--profile image and name-->
-            <div class="user-img">
-                <img src="../img/default-user.jpg" id="photo">
-                <input type="file" class="input" id="file">
-                <label for="file" id="upload_btn"><i class="fas fa-camera"></i></label>
             </div>
             
             <div>
                 <h1><span id="userName"></span> </h1>
                 <h2><span id="userRole"></span></h2>
             </div>
-
-        
-            <!--retrieving and displaying the name of the user-->
-            <script>
-                // Retrieve the user's name and status from localStorage
-                
-            </script>
         
             <!--container for information-->
             <script type="module" src="profile.js"></script>
