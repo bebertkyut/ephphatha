@@ -30,7 +30,7 @@ async function fetchUsers() {
         <td>${user.Name}</td>
         <td>${user.Role}</td>
         <td>${user.Username}</td>
-        <td>${user.Status || ''}</td> <!-- New Status column -->
+        <td>${user.Status || ''}</td>
         <td class="action-cell">
           <button class="action-button" onclick="toggleActions(this)">...</button>
           <div class="action-buttons">
@@ -94,7 +94,7 @@ window.editUser = async function(userId) {
       
       // Pre-select the user's current role in the dropdown
       const editRoleDropdown = document.getElementById('editRole');
-      editRoleDropdown.value = userData.Role; // Set the dropdown to the user's role
+      editRoleDropdown.value = userData.Role; 
 
       // Store the userId in a hidden input for updating
       document.getElementById('editUserId').value = userId;
@@ -173,6 +173,12 @@ window.openModal = function() {
 // Function to close the "Add Account" modal
 window.closeModal = function() {
   document.getElementById('accountModal').style.display = 'none';
+  document.getElementById('name').value = '';
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
+  document.getElementById('confirmPassword').value = '';
+  document.getElementById('role').value = '';
+
 };
 
 // Function to close the "Edit Account" modal
@@ -185,19 +191,22 @@ window.addAccount = async function() {
   const name = document.getElementById('name').value;
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
   const role = document.getElementById('role').value;
 
-  // Define the new fields
-  const gender = "Select Gender"; // Default value
-  const about = "Add Description"; // Default value
-  const status = "Active"; // Default status
-  const dateCreated = new Date(); // Current date
-  
-  // Format the birthday to include only month, day, and year
-  const birthday = new Date();
-  const formattedBirthday = `${birthday.getMonth() + 1}/${birthday.getDate()}/${birthday.getFullYear()}`;
+  if (password !== confirmPassword) {
+    alert("Password and Confirm Password do not match.");
+    return;
+  }
 
-  // Default profile picture URL from Firebase Storage
+  // Define the new fields
+  const gender = "Select Gender"; 
+  const about = "Add Description"; 
+  const status = "Active";
+  const dateCreated = new Date(); 
+  const birthday = "Select Birthday";
+
+  // Default profile picture URL from Firebase Storage. Do not touch.
   const pictureURL = "https://firebasestorage.googleapis.com/v0/b/ephphathadb.appspot.com/o/profile_pictures%2Fdefault-user.png?alt=media";
 
   try {
@@ -210,19 +219,13 @@ window.addAccount = async function() {
       About: about,
       Status: status,
       DateCreated: dateCreated,
-      Birthday: formattedBirthday,
+      Birthday: birthday,
       PictureURL: pictureURL 
     });
 
     closeModal();
     fetchUsers(); 
-
-    // Reset form fields
-    document.getElementById('name').value = '';
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
-    document.getElementById('role').value = '';
-
+    
   } catch (error) {
     console.error("Error adding account:", error);
   }
@@ -267,8 +270,8 @@ window.deactivateUser = function(userId, currentStatus) {
         });
       }
 
-      fetchUsers(); // Refresh the users list
-      deactivateModal.style.display = 'none'; // Close the modal
+      fetchUsers(); 
+      deactivateModal.style.display = 'none'; 
     } catch (error) {
       console.error(`Error ${currentStatus === 'Inactive' ? 'activating' : 'deactivating'} user:`, error);
     }
@@ -288,9 +291,9 @@ window.activateUser = function(userId) {
   userToRemoveId = userId;
 
   // Display the confirmation modal for activation
-  const activateModal = document.getElementById('confirmDeactivateModal'); // Reuse the deactivate modal
-  activateModal.querySelector('h2').textContent = 'Confirm Activation'; // Update modal title
-  activateModal.querySelector('p').textContent = 'Are you sure you want to activate this account?'; // Update modal text
+  const activateModal = document.getElementById('confirmDeactivateModal'); 
+  activateModal.querySelector('h2').textContent = 'Confirm Activation'; 
+  activateModal.querySelector('p').textContent = 'Are you sure you want to activate this account?'; 
   activateModal.style.display = 'block';
 
   // Add event listener for confirmation button
@@ -299,11 +302,11 @@ window.activateUser = function(userId) {
     try {
       const userDocRef = doc(db, "UserAccount", userToRemoveId);
       await updateDoc(userDocRef, {
-        Status: 'Active' // Update status to 'Active'
+        Status: 'Active' 
       });
 
-      fetchUsers(); // Refresh the users list
-      activateModal.style.display = 'none'; // Close the modal
+      fetchUsers(); 
+      activateModal.style.display = 'none'; 
     } catch (error) {
       console.error("Error activating user:", error);
     }

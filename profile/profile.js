@@ -59,41 +59,59 @@ async function loadUserInfo() {
 // Load user information on page load
 loadUserInfo();
 
+// Close modal function
+function closeModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
+}
+
+// Add event listener for close button (X button)
+document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+
+// Event listener for clicking outside of the modal to close it
+window.onclick = function(event) {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+
 // Event listener for Edit button
 document.getElementById('editButton').addEventListener('click', () => {
-    // Show modal and populate it with current values
     document.getElementById('modal').style.display = 'block';
     document.getElementById('editAbout').value = document.getElementById('userAbout').innerText;
     document.getElementById('editGender').value = document.getElementById('userGender').innerText;
-    document.getElementById('editBirthday').value = document.getElementById('userBirthday').innerText;
+
+    // Get the birthday string (mm/dd/yyyy)
+    const birthdayString = document.getElementById('userBirthday').innerText;
+    
+    // Convert the birthday to yyyy-mm-dd format
+    const [month, day, year] = birthdayString.split('/');
+    const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+    document.getElementById('editBirthday').value = formattedDate;
 });
-
-// Get the <span> element that closes the modal
-const closeBtn = document.getElementsByClassName("close-btn")[0];
-
-// When the user clicks on <span> (x), close the modal
-closeBtn.onclick = function() {
-    document.getElementById('modal').style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    const modal = document.getElementById('modal');
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
 
 // Event listener for Save button
 document.getElementById('saveButton').addEventListener('click', async () => {
     const updatedAbout = document.getElementById('editAbout').value;
     const updatedGender = document.getElementById('editGender').value;
-
-    // Get the date input value
     const birthdayInput = document.getElementById('editBirthday').value;
-    
-    // Format the date from YYYY-MM-DD to MM/DD/YYYY
+
+    if (!birthdayInput) {
+        alert("Please select a valid birthday.");
+        return; 
+    }
+
     const formattedBirthday = new Date(birthdayInput).toLocaleDateString('en-US');
+
+    const password = document.getElementById('editPassword').value;
+    const confirmPassword = document.getElementById('editConfirmPassword').value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
 
     const username = localStorage.getItem('userName');
     const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', username));
@@ -101,26 +119,24 @@ document.getElementById('saveButton').addEventListener('click', async () => {
 
     if (!querySnapshot.empty) {
         const userDocRef = doc(db, 'UserAccount', querySnapshot.docs[0].id);
-        
+
         // Update Firestore with new data
         await updateDoc(userDocRef, {
             About: updatedAbout,
             Gender: updatedGender,
-            Birthday: formattedBirthday // Use the formatted date here
+            Birthday: formattedBirthday,
+            Password: password
         });
 
-        // Update displayed information without reloading the page
         document.getElementById('userAbout').innerText = updatedAbout;
         document.getElementById('userGender').innerText = updatedGender;
-        document.getElementById('userBirthday').innerText = formattedBirthday; // Display the formatted date
+        document.getElementById('userBirthday').innerText = formattedBirthday;
 
-        // Hide edit form
-        document.getElementById('editForm').style.display = 'none';
+        closeModal();
     } else {
         console.error('No such document!');
     }
 });
-
 
 // Event listener for file input change to update profile picture
 fileInput.addEventListener('change', async function () {
