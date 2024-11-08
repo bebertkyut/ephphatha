@@ -225,14 +225,7 @@ window.addAccount = async function() {
 
     closeModal();
     fetchUsers(); 
-
-    // Reset form fields
-    document.getElementById('name').value = '';
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
-    document.getElementById('confirmPassword').value = '';
-    document.getElementById('role').value = '';
-
+    
   } catch (error) {
     console.error("Error adding account:", error);
   }
@@ -277,8 +270,8 @@ window.deactivateUser = function(userId, currentStatus) {
         });
       }
 
-      fetchUsers(); // Refresh the users list
-      deactivateModal.style.display = 'none'; // Close the modal
+      fetchUsers(); 
+      deactivateModal.style.display = 'none'; 
     } catch (error) {
       console.error(`Error ${currentStatus === 'Inactive' ? 'activating' : 'deactivating'} user:`, error);
     }
@@ -298,9 +291,9 @@ window.activateUser = function(userId) {
   userToRemoveId = userId;
 
   // Display the confirmation modal for activation
-  const activateModal = document.getElementById('confirmDeactivateModal'); // Reuse the deactivate modal
-  activateModal.querySelector('h2').textContent = 'Confirm Activation'; // Update modal title
-  activateModal.querySelector('p').textContent = 'Are you sure you want to activate this account?'; // Update modal text
+  const activateModal = document.getElementById('confirmDeactivateModal'); 
+  activateModal.querySelector('h2').textContent = 'Confirm Activation'; 
+  activateModal.querySelector('p').textContent = 'Are you sure you want to activate this account?'; 
   activateModal.style.display = 'block';
 
   // Add event listener for confirmation button
@@ -309,11 +302,11 @@ window.activateUser = function(userId) {
     try {
       const userDocRef = doc(db, "UserAccount", userToRemoveId);
       await updateDoc(userDocRef, {
-        Status: 'Active' // Update status to 'Active'
+        Status: 'Active' 
       });
 
-      fetchUsers(); // Refresh the users list
-      activateModal.style.display = 'none'; // Close the modal
+      fetchUsers(); 
+      activateModal.style.display = 'none'; 
     } catch (error) {
       console.error("Error activating user:", error);
     }

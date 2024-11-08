@@ -59,6 +59,23 @@ async function loadUserInfo() {
 // Load user information on page load
 loadUserInfo();
 
+// Close modal function
+function closeModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
+}
+
+// Add event listener for close button
+document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+
+// Event listener for clicking outside of the modal to close it
+window.onclick = function(event) {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+
 // Event listener for Edit button
 document.getElementById('editButton').addEventListener('click', () => {
     // Show modal and populate it with current values
@@ -68,32 +85,23 @@ document.getElementById('editButton').addEventListener('click', () => {
     document.getElementById('editBirthday').value = document.getElementById('userBirthday').innerText;
 });
 
-// Get the <span> element that closes the modal
-const closeBtn = document.getElementsByClassName("close-btn")[0];
-
-// When the user clicks on <span> (x), close the modal
-closeBtn.onclick = function() {
-    document.getElementById('modal').style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    const modal = document.getElementById('modal');
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
 // Event listener for Save button
 document.getElementById('saveButton').addEventListener('click', async () => {
     const updatedAbout = document.getElementById('editAbout').value;
     const updatedGender = document.getElementById('editGender').value;
-
+    
     // Get the date input value
     const birthdayInput = document.getElementById('editBirthday').value;
-    
-    // Format the date from YYYY-MM-DD to MM/DD/YYYY
     const formattedBirthday = new Date(birthdayInput).toLocaleDateString('en-US');
+
+    // Password handling
+    const password = document.getElementById('editPassword').value;
+    const confirmPassword = document.getElementById('editConfirmPassword').value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
 
     const username = localStorage.getItem('userName');
     const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', username));
@@ -101,18 +109,19 @@ document.getElementById('saveButton').addEventListener('click', async () => {
 
     if (!querySnapshot.empty) {
         const userDocRef = doc(db, 'UserAccount', querySnapshot.docs[0].id);
-        
+
         // Update Firestore with new data
         await updateDoc(userDocRef, {
             About: updatedAbout,
             Gender: updatedGender,
-            Birthday: formattedBirthday // Use the formatted date here
+            Birthday: formattedBirthday,
+            Password: password // Save the new password (ensure you hash it in a real app)
         });
 
         // Update displayed information without reloading the page
         document.getElementById('userAbout').innerText = updatedAbout;
         document.getElementById('userGender').innerText = updatedGender;
-        document.getElementById('userBirthday').innerText = formattedBirthday; // Display the formatted date
+        document.getElementById('userBirthday').innerText = formattedBirthday;
 
         // Hide edit form
         document.getElementById('editForm').style.display = 'none';
