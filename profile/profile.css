@@ -87,12 +87,24 @@
 
 .info-container {
     position: absolute;
-    background-color: black;
-    opacity: 75%;
-    width: 1860px;
-    height: 525px;
+    /*  background-color: black;
+    opacity: 75%;*/
+    width: 150vh;
+    height: 400px;
     transform: translateX(50px);
     margin-top: 45vh;
+}
+
+#userAbout {
+    margin: 30vh;
+}
+
+#userGender {
+    margin: 32vh;
+}
+
+#userBirthday {
+    margin: 35vh;
 }
 
 .profile-h1 {
@@ -177,6 +189,8 @@
 .modal-content {
     background-color: #fff;
     margin: 15% auto;
+    margin-top: 15vh;
+    margin-bottom: 10vh;
     padding: 20px;
     border: 1px solid #888;
     width: 50%; 
@@ -229,3 +243,35 @@
 #saveButton:hover {
     background-color: #0056b3;
 }
+
+.form-group1 {
+    margin-top: 20px; /* Adds space between form fields */
+    color: black;
+}
+
+#passwordStrengthLabel {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff0000; /* Default weak color */
+    margin-top: 49vh;
+    margin-left: 1.5vh;
+}
+
+#passwordStrengthLabel.strong {
+    color: #28a745; /* Green color for strong password */
+}
+
+#passwordStrengthLabel.weak {
+    color: #ff0000; /* Red color for weak password */
+}
+
+#editPassword, #editConfirmPassword, #editAbout, #editBirthday, #editGender{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px; /* Space between password input and label */
+}
+
+
+
