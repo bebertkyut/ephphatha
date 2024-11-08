@@ -41,31 +41,35 @@
     </table>
   </div>
 
-  <!-- Add Account Modal -->
-  <div id="accountModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h2>Add Account</h2>
-      <form id="addAccountForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+<!-- Add Account Modal -->
+<div id="accountModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Add Account</h2>
+    <form id="addAccountForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
 
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
 
-        <label for="role">Role:</label>
-        <select id="role" name="role" required>
-          <option value="Student">Student</option>
-          <option value="Teacher">Teacher</option>
-        </select>
+      <label for="confirmPassword">Confirm Password:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required>
 
-        <button type="button" onclick="addAccount()">Submit</button>
-      </form>
-    </div>
+      <label for="role">Role:</label>
+      <select id="role" name="role" required>
+        <option value="Student">Student</option>
+        <option value="Teacher">Teacher</option>
+      </select>
+
+      <button type="button" onclick="addAccount()">Submit</button>
+    </form>
   </div>
+</div>
+
 
   <!-- Edit Account Modal (Overlay) -->
   <div id="editAccountModal" class="modal" style="display:none;">
