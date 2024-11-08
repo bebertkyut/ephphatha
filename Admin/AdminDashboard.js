@@ -94,7 +94,7 @@ window.editUser = async function(userId) {
       
       // Pre-select the user's current role in the dropdown
       const editRoleDropdown = document.getElementById('editRole');
-      editRoleDropdown.value = userData.Role; // Set the dropdown to the user's role
+      editRoleDropdown.value = userData.Role; 
 
       // Store the userId in a hidden input for updating
       document.getElementById('editUserId').value = userId;
@@ -188,16 +188,13 @@ window.addAccount = async function() {
   const role = document.getElementById('role').value;
 
   // Define the new fields
-  const gender = "Select Gender"; // Default value
-  const about = "Add Description"; // Default value
-  const status = "Active"; // Default status
-  const dateCreated = new Date(); // Current date
-  
-  // Format the birthday to include only month, day, and year
-  const birthday = new Date();
-  const formattedBirthday = `${birthday.getMonth() + 1}/${birthday.getDate()}/${birthday.getFullYear()}`;
+  const gender = "Select Gender"; 
+  const about = "Add Description"; 
+  const status = "Active";
+  const dateCreated = new Date(); 
+  const birthday = "Select Birthday";
 
-  // Default profile picture URL from Firebase Storage
+  // Default profile picture URL from Firebase Storage. Do not touch.
   const pictureURL = "https://firebasestorage.googleapis.com/v0/b/ephphathadb.appspot.com/o/profile_pictures%2Fdefault-user.png?alt=media";
 
   try {
@@ -210,7 +207,7 @@ window.addAccount = async function() {
       About: about,
       Status: status,
       DateCreated: dateCreated,
-      Birthday: formattedBirthday,
+      Birthday: birthday,
       PictureURL: pictureURL 
     });
 
