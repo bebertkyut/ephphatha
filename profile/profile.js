@@ -63,7 +63,12 @@ loadUserInfo();
 function closeModal() {
     const modal = document.getElementById('modal');
     modal.style.display = 'none';
+    
+    // Clear the password and confirm password fields
+    document.getElementById('editPassword').value = '';
+    document.getElementById('editConfirmPassword').value = '';
 }
+
 
 // Add event listener for close button (X button)
 document.getElementById('closeModalBtn').addEventListener('click', closeModal);
@@ -82,20 +87,46 @@ document.getElementById('editButton').addEventListener('click', () => {
     document.getElementById('editAbout').value = document.getElementById('userAbout').innerText;
     document.getElementById('editGender').value = document.getElementById('userGender').innerText;
 
-    // Get the birthday string (mm/dd/yyyy)
     const birthdayString = document.getElementById('userBirthday').innerText;
-    
-    // Convert the birthday to yyyy-mm-dd format
+
     const [month, day, year] = birthdayString.split('/');
     const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 
     document.getElementById('editBirthday').value = formattedDate;
 });
 
+// Password strength check
+document.getElementById('editPassword').addEventListener('input', () => {
+    const password = document.getElementById('editPassword').value;
+    const passwordStrengthLabel = document.getElementById('passwordStrengthLabel');
+
+    if (password) {
+        passwordStrengthLabel.style.display = 'block';
+    } else {
+        passwordStrengthLabel.style.display = 'none';
+    }
+
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+
+    if (hasUppercase && hasLowercase && hasNumber && password.length >= 8) {
+        passwordStrengthLabel.textContent = 'Password Security: Strong';
+        passwordStrengthLabel.classList.remove('weak');
+        passwordStrengthLabel.classList.add('strong');
+    } else {
+        passwordStrengthLabel.textContent = 'Password Security: Weak';
+        passwordStrengthLabel.classList.remove('strong');
+        passwordStrengthLabel.classList.add('weak');
+    }
+});
+
+
 // Event listener for Save button
 document.getElementById('saveButton').addEventListener('click', async () => {
     const updatedAbout = document.getElementById('editAbout').value;
     const updatedGender = document.getElementById('editGender').value;
+
     const birthdayInput = document.getElementById('editBirthday').value;
 
     if (!birthdayInput) {
@@ -105,6 +136,7 @@ document.getElementById('saveButton').addEventListener('click', async () => {
 
     const formattedBirthday = new Date(birthdayInput).toLocaleDateString('en-US');
 
+    // Password handling
     const password = document.getElementById('editPassword').value;
     const confirmPassword = document.getElementById('editConfirmPassword').value;
 
@@ -120,13 +152,17 @@ document.getElementById('saveButton').addEventListener('click', async () => {
     if (!querySnapshot.empty) {
         const userDocRef = doc(db, 'UserAccount', querySnapshot.docs[0].id);
 
-        // Update Firestore with new data
-        await updateDoc(userDocRef, {
+        const updateData = {
             About: updatedAbout,
             Gender: updatedGender,
             Birthday: formattedBirthday,
-            Password: password
-        });
+        };
+
+        if (password) {
+            updateData.Password = password;
+        }
+
+        await updateDoc(userDocRef, updateData);
 
         document.getElementById('userAbout').innerText = updatedAbout;
         document.getElementById('userGender').innerText = updatedGender;
