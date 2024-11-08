@@ -30,7 +30,7 @@ async function fetchUsers() {
         <td>${user.Name}</td>
         <td>${user.Role}</td>
         <td>${user.Username}</td>
-        <td>${user.Status || ''}</td> <!-- New Status column -->
+        <td>${user.Status || ''}</td>
         <td class="action-cell">
           <button class="action-button" onclick="toggleActions(this)">...</button>
           <div class="action-buttons">
@@ -173,6 +173,12 @@ window.openModal = function() {
 // Function to close the "Add Account" modal
 window.closeModal = function() {
   document.getElementById('accountModal').style.display = 'none';
+  document.getElementById('name').value = '';
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
+  document.getElementById('confirmPassword').value = '';
+  document.getElementById('role').value = '';
+
 };
 
 // Function to close the "Edit Account" modal
@@ -185,7 +191,13 @@ window.addAccount = async function() {
   const name = document.getElementById('name').value;
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
   const role = document.getElementById('role').value;
+
+  if (password !== confirmPassword) {
+    alert("Password and Confirm Password do not match.");
+    return;
+  }
 
   // Define the new fields
   const gender = "Select Gender"; 
@@ -218,6 +230,7 @@ window.addAccount = async function() {
     document.getElementById('name').value = '';
     document.getElementById('username').value = '';
     document.getElementById('password').value = '';
+    document.getElementById('confirmPassword').value = '';
     document.getElementById('role').value = '';
 
   } catch (error) {
