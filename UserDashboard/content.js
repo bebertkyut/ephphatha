@@ -16,15 +16,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Function that navigates to different content categories
 function redirectTo(category) {
+
     if (category === 'Single Character') {
         fetchSingleCharacter();
     } else {
+        // Otherwise, display the category name in the overlay
         document.getElementById('selected-category').innerText = category;
         document.getElementById('overlay').style.display = 'block';
     }
 }
 
+// Fetch the 'SingleCharacter' document from Firestore
 async function fetchSingleCharacter() {
     const singleCharacterRef = doc(db, 'SignAsset', 'SingleCharacter');
 
@@ -41,32 +45,33 @@ async function fetchSingleCharacter() {
     }
 }
 
+// Displays the list of field names from the fetched data in an overlay
 function displaySingleCharacterList(data) {
     const overlayContent = document.getElementById('selected-category');
-    overlayContent.innerHTML = '';
+    overlayContent.innerHTML = '';  
 
     const listElement = document.createElement('ul');
 
+    // Iterate over each field name in the Firestore data and display it in a list
     Object.keys(data).forEach(key => {
         const listItem = document.createElement('li');
-        listItem.textContent = key;
-        listItem.style.marginBottom = "10px";  // Add spacing between items
+        listItem.textContent = key; 
+        listItem.style.marginBottom = "10px"; 
 
-        // Store the video URL in a data attribute
         listItem.dataset.videoUrl = data[key];
 
-        // Add click event to display the video
         listItem.onclick = () => displayVideo(data[key]);
 
         listElement.appendChild(listItem);
     });
 
     overlayContent.appendChild(listElement);
-    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block'; 
 }
 
+// Displays the video in a full-screen overlay
 function displayVideo(videoUrl) {
-    // Create a video container or use an existing one
+    // Create the video container if it doesn't already exist
     let videoContainer = document.getElementById('video-container');
     if (!videoContainer) {
         videoContainer = document.createElement('div');
@@ -76,30 +81,29 @@ function displayVideo(videoUrl) {
         videoContainer.style.left = '0';
         videoContainer.style.width = '100%';
         videoContainer.style.height = '100%';
-        videoContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'; // Semi-transparent black background
-        videoContainer.style.zIndex = '9999'; // Ensure it's on top of everything
+        videoContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'; 
+        videoContainer.style.zIndex = '9999'; 
         videoContainer.style.display = 'flex';
         videoContainer.style.justifyContent = 'center';
         videoContainer.style.alignItems = 'center';
         videoContainer.style.flexDirection = 'column';
         videoContainer.style.padding = '20px';
         videoContainer.style.boxSizing = 'border-box';
-        document.body.appendChild(videoContainer);
+        document.body.appendChild(videoContainer); 
     }
 
-    // Clear any existing video
-    videoContainer.innerHTML = '';
+    videoContainer.innerHTML = ''; 
 
-    // Create video element
+    // Create video element and set its properties
     const videoElement = document.createElement('video');
-    videoElement.src = videoUrl;
-    videoElement.controls = true;
-    videoElement.style.maxWidth = '80%';
-    videoElement.style.maxHeight = '80%';
+    videoElement.src = videoUrl;  
+    videoElement.controls = true;  
+    videoElement.style.maxWidth = '80%';  
+    videoElement.style.maxHeight = '80%';  
 
-    // Append video element and close button to container
     videoContainer.appendChild(videoElement);
 
+    // Create a close button for the video overlay
     const closeButton = document.createElement('button');
     closeButton.textContent = 'Close';
     closeButton.style.marginTop = '10px';
@@ -114,9 +118,10 @@ function displayVideo(videoUrl) {
     closeButton.onclick = () => videoContainer.style.display = 'none';
 
     videoContainer.appendChild(closeButton);
-    videoContainer.style.display = 'flex';
+    videoContainer.style.display = 'flex'; 
 }
 
+// Close the overlay
 function closeOverlay() {
     document.getElementById('overlay').style.display = 'none';
 }
