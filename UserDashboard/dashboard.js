@@ -43,14 +43,3 @@ playPauseBtn.addEventListener('click', () => {
 
 
 startAutoplay();
-
-function redirectTo(category) {
-
-    document.getElementById("overlay").style.display = "flex";
-    document.getElementById("selected-category").innerText = category; 
-}
-
-
-function closeOverlay() {
-    document.getElementById("overlay").style.display = "none"; 
-}
