@@ -18,9 +18,10 @@ const db = getFirestore(app);
 
 // Function that navigates to different content categories
 function redirectTo(category) {
-
     if (category === 'Single Character') {
         fetchSingleCharacter();
+    } else if (category === 'Emotion') {
+        fetchEmotion();
     } else {
         // Otherwise, display the category name in the overlay
         document.getElementById('selected-category').innerText = category;
@@ -47,6 +48,47 @@ async function fetchSingleCharacter() {
 
 // Displays the list of field names from the fetched data in an overlay
 function displaySingleCharacterList(data) {
+    const overlayContent = document.getElementById('selected-category');
+    overlayContent.innerHTML = '';  
+
+    const listElement = document.createElement('ul');
+
+    // Iterate over each field name in the Firestore data and display it in a list
+    Object.keys(data).forEach(key => {
+        const listItem = document.createElement('li');
+        listItem.textContent = key; 
+        listItem.style.marginBottom = "10px"; 
+
+        listItem.dataset.videoUrl = data[key];
+
+        listItem.onclick = () => displayVideo(data[key]);
+
+        listElement.appendChild(listItem);
+    });
+
+    overlayContent.appendChild(listElement);
+    document.getElementById('overlay').style.display = 'block'; 
+}
+
+// Fetch the 'Emotion' document from Firestore
+async function fetchEmotion() {
+    const emotionRef = doc(db, 'SignAsset', 'Emotion');
+
+    try {
+        const docSnap = await getDoc(emotionRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            displayEmotionList(data);
+        } else {
+            console.log("No such document!");
+        }
+    } catch (error) {
+        console.error("Error fetching document: ", error);
+    }
+}
+
+// Displays the list of emotions from the fetched data in an overlay
+function displayEmotionList(data) {
     const overlayContent = document.getElementById('selected-category');
     overlayContent.innerHTML = '';  
 
