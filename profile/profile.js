@@ -1,4 +1,3 @@
-// Import necessary Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getFirestore, query, where, getDocs, collection, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
@@ -19,7 +18,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// Elements
 const img = document.querySelector('#photo');
 const fileInput = document.querySelector('#file');
 
@@ -61,41 +59,91 @@ async function loadUserInfo() {
 // Load user information on page load
 loadUserInfo();
 
+// Close modal function
+function closeModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
+    
+    // Clear the password and confirm password fields
+    document.getElementById('editPassword').value = '';
+    document.getElementById('editConfirmPassword').value = '';
+}
+
+
+// Add event listener for close button (X button)
+document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+
+// Event listener for clicking outside of the modal to close it
+window.onclick = function(event) {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+
 // Event listener for Edit button
 document.getElementById('editButton').addEventListener('click', () => {
-    // Show modal and populate it with current values
     document.getElementById('modal').style.display = 'block';
     document.getElementById('editAbout').value = document.getElementById('userAbout').innerText;
     document.getElementById('editGender').value = document.getElementById('userGender').innerText;
-    document.getElementById('editBirthday').value = document.getElementById('userBirthday').innerText;
+
+    const birthdayString = document.getElementById('userBirthday').innerText;
+
+    const [month, day, year] = birthdayString.split('/');
+    const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+    document.getElementById('editBirthday').value = formattedDate;
 });
 
-// Get the <span> element that closes the modal
-const closeBtn = document.getElementsByClassName("close-btn")[0];
+// Password strength check
+document.getElementById('editPassword').addEventListener('input', () => {
+    const password = document.getElementById('editPassword').value;
+    const passwordStrengthLabel = document.getElementById('passwordStrengthLabel');
 
-// When the user clicks on <span> (x), close the modal
-closeBtn.onclick = function() {
-    document.getElementById('modal').style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    const modal = document.getElementById('modal');
-    if (event.target == modal) {
-        modal.style.display = "none";
+    if (password) {
+        passwordStrengthLabel.style.display = 'block';
+    } else {
+        passwordStrengthLabel.style.display = 'none';
     }
-}
+
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+
+    if (hasUppercase && hasLowercase && hasNumber && password.length >= 8) {
+        passwordStrengthLabel.textContent = 'Password Security: Strong';
+        passwordStrengthLabel.classList.remove('weak');
+        passwordStrengthLabel.classList.add('strong');
+    } else {
+        passwordStrengthLabel.textContent = 'Password Security: Weak';
+        passwordStrengthLabel.classList.remove('strong');
+        passwordStrengthLabel.classList.add('weak');
+    }
+});
+
 
 // Event listener for Save button
 document.getElementById('saveButton').addEventListener('click', async () => {
     const updatedAbout = document.getElementById('editAbout').value;
     const updatedGender = document.getElementById('editGender').value;
 
-    // Get the date input value
     const birthdayInput = document.getElementById('editBirthday').value;
-    
-    // Format the date from YYYY-MM-DD to MM/DD/YYYY
+
+    if (!birthdayInput) {
+        alert("Please select a valid birthday.");
+        return; 
+    }
+
     const formattedBirthday = new Date(birthdayInput).toLocaleDateString('en-US');
+
+    // Password handling
+    const password = document.getElementById('editPassword').value;
+    const confirmPassword = document.getElementById('editConfirmPassword').value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
 
     const username = localStorage.getItem('userName');
     const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', username));
@@ -103,26 +151,28 @@ document.getElementById('saveButton').addEventListener('click', async () => {
 
     if (!querySnapshot.empty) {
         const userDocRef = doc(db, 'UserAccount', querySnapshot.docs[0].id);
-        
-        // Update Firestore with new data
-        await updateDoc(userDocRef, {
+
+        const updateData = {
             About: updatedAbout,
             Gender: updatedGender,
-            Birthday: formattedBirthday // Use the formatted date here
-        });
+            Birthday: formattedBirthday,
+        };
 
-        // Update displayed information without reloading the page
+        if (password) {
+            updateData.Password = password;
+        }
+
+        await updateDoc(userDocRef, updateData);
+
         document.getElementById('userAbout').innerText = updatedAbout;
         document.getElementById('userGender').innerText = updatedGender;
-        document.getElementById('userBirthday').innerText = formattedBirthday; // Display the formatted date
+        document.getElementById('userBirthday').innerText = formattedBirthday;
 
-        // Hide edit form
-        document.getElementById('editForm').style.display = 'none';
+        closeModal();
     } else {
         console.error('No such document!');
     }
 });
-
 
 // Event listener for file input change to update profile picture
 fileInput.addEventListener('change', async function () {
@@ -136,13 +186,13 @@ fileInput.addEventListener('change', async function () {
 
             // Get the download URL and update the Firestore document
             const downloadURL = await getDownloadURL(storageRef);
-            img.setAttribute('src', downloadURL);  // Update profile picture on the page
+            img.setAttribute('src', downloadURL);  
 
             // Update Firestore with the new picture URL
-            const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', userName)); // Use Username
+            const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', userName));
             const querySnapshot = await getDocs(userQuery);
             if (!querySnapshot.empty) {
-                const userDocRef = doc(db, 'UserAccount', querySnapshot.docs[0].id); // Get the document reference
+                const userDocRef = doc(db, 'UserAccount', querySnapshot.docs[0].id);
                 await updateDoc(userDocRef, { PictureURL: downloadURL });
                 console.log('Picture URL updated in Firestore');
             }

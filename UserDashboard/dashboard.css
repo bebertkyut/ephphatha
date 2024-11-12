@@ -18,14 +18,6 @@ body {
     color: #fff;
     position: relative;
 }
-.container{
-    width: 100%;
-    height: 100vh;
-    background-image: url("../Assets/Background.png"); 
-    color: #fff;
-    position: relative;
-}
-
 
 .gray-container {
     background-color: #F6F6F6; 
@@ -363,6 +355,8 @@ label .close-btn {
     border: 2px solid #8f8f8f;
     border-radius: 10px;
     background-color: white;
+    margin-top: 10vh;
+    margin-left: 28vh;
 }
 
 .close-button {
@@ -375,10 +369,26 @@ label .close-btn {
     top: 120px;     /* Distance from the top */
 }
 
+#overlay .overlay-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    margin-top: 10vh;
+}
 
+#overlay .overlay-content ul li {
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
 
-
-
+#overlay .overlay-content ul li:hover {
+    background-color: #e0e0e0;
+}
 
 .overlay-content h2 {
     margin-bottom: 10px;

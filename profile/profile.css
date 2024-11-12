@@ -89,10 +89,10 @@
 
 .info-container {
     position: absolute;
-    background-color: black;
-    opacity: 75%;
-    width: 1847px;
-    height: 495px;
+    /*  background-color: black;
+    opacity: 75%;*/
+    width: 150vh;
+    height: 400px;
     transform: translateX(50px);
     margin-top: 48vh;
     align-content: start;
@@ -100,6 +100,18 @@
 .info-container .h3 {
     margin-top: 2.5vh;
     margin-left: 38vh;
+}
+
+#userAbout {
+    margin: 30vh;
+}
+
+#userGender {
+    margin: 32vh;
+}
+
+#userBirthday {
+    margin: 35vh;
 }
 
 .profile-h1 {
@@ -170,24 +182,43 @@
 }
 
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
+    display: none; 
+    position: fixed; 
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    width: 100%; 
+    height: 100%; 
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #fff;
     margin: 15% auto;
+    margin-top: 15vh;
+    margin-bottom: 10vh;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%; 
     border-radius: 8px;
+    position: relative; 
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #f44336;
 }
 
 .modal-content h2 {
@@ -219,3 +250,35 @@
 #saveButton:hover {
     background-color: #0056b3;
 }
+
+.form-group1 {
+    margin-top: 20px; /* Adds space between form fields */
+    color: black;
+}
+
+#passwordStrengthLabel {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff0000; /* Default weak color */
+    margin-top: 49vh;
+    margin-left: 1.5vh;
+}
+
+#passwordStrengthLabel.strong {
+    color: #28a745; /* Green color for strong password */
+}
+
+#passwordStrengthLabel.weak {
+    color: #ff0000; /* Red color for weak password */
+}
+
+#editPassword, #editConfirmPassword, #editAbout, #editBirthday, #editGender{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px; /* Space between password input and label */
+}
+
+
+
