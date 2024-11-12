@@ -44,23 +44,54 @@
         </div>
         <div class="main-content">
             <div class="album-section">
-                <h2>LEARN CATEGORIES</h2>
                 <div class="album-container">
-                    <div class="album" onclick="redirectTo('Numbers')">
-                        <img src="number.png" alt="Numbers">
-                        <p>Numbers</p>
+                    <div class="album" onclick="redirectTo('Single Character')">
+                        <img src="../UserDashboard/img/Single Character.png" alt="Single Character">
+                        <p>Single Character</p>
                     </div>
-                    <div class="album" onclick="redirectTo('Alphabets')">
-                        <img src="alphabet.png" alt="Alphabets">
-                        <p>Alphabets</p>
+                    <div class="album" onclick="redirectTo('Emotion')">
+                        <img src="../UserDashboard/img/Emotion.png" alt="Emotiona">
+                        <p>Emotion</p>
                     </div>
-                    <div class="album" onclick="redirectTo('Animals')">
-                        <img src="animal.png" alt="Animals">
-                        <p>Animals</p>
+                    <div class="album" onclick="redirectTo('Date')">
+                        <img src="../UserDashboard/img/Date.png" alt="Date">
+                        <p>Date</p>
                     </div>
-                    <div class="album" onclick="redirectTo('Words')">
-                        <img src="word.png" alt="Words">
-                        <p>Words</p>
+                    <div class="album" onclick="redirectTo('Home')">
+                        <img src="../UserDashboard/img/Home.png" alt="Home">
+                        <p>Home</p>
+                    </div>
+                    <div class="album" onclick="redirectTo('Animal')">
+                        <img src="../UserDashboard/img/Animal.png" alt="Animal">
+                        <p>Animal</p>
+                    </div>
+                    <div class="album" onclick="redirectTo('Family')">
+                        <img src="../UserDashboard/img/Family .png" alt="Family">
+                        <p>Family</p>
+                    </div>
+                    <div class="album" onclick="redirectTo('Body Part')">
+                        <img src="../UserDashboard/img/Body Part.png" alt="Body Part">
+                        <p>Body Part</p>
+                    </div>
+                    <div class="album" onclick="redirectTo('Food and Drink')">
+                        <img src="../UserDashboard/img/Food and Drink.png" alt="Food and Drink">
+                        <p>Food and Drink</p>
+                    </div>
+                    <div class="album" onclick="redirectTo('Color')">
+                        <img src="../UserDashboard/img/Color.png" alt="Color">
+                        <p>Color</p>
+                    </div>
+                    <div class="album" onclick="redirectTo('Fruit and Vegetable')">
+                        <img src="../UserDashboard/img/Fruit and Vegetable.png" alt="Fruit and Vegetable">
+                        <p>Fruit and Vegetable</p>
+                    </div>
+                    <div class="album" onclick="redirectTo('Medical')">
+                        <img src="../UserDashboard/img/Medical.png" alt="Medical">
+                        <p>Medical</p>
+                    </div>
+                    <div class="album" onclick="redirectTo('Religion')">
+                        <img src="../UserDashboard/img/Religion.png" alt="Religion">
+                        <p>Religion</p>
                     </div>
                 </div>
             </div>
@@ -69,11 +100,11 @@
 
     <div id="overlay" class="overlay" style="display: none;">
         <div class="overlay-content">
-            <h2>Category Selected</h2>
-            <p>You clicked on: <span id="selected-category"></span></p>
-            <button onclick="closeOverlay()">Close</button>
+            <p><span id="selected-category"></span></p>
+            <button class="close-button" onclick="closeOverlay()">&times;</button>
         </div>
     </div>
-    <script src="dashboard.js"></script>
+
+    <script type="module" src="content.js"></script>
 </body>
 </html>

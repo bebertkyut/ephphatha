@@ -1,15 +1,3 @@
-const charactersAndWords = [
-    ...Array.from('abcdefghijklmnopqrstuvwxyz0123456789'),
-    "And","Angry", "Anger", "Are", "Art", "Attend", "Be", "Bible", "Brain", "Bread", "But",
-    "Called", "Come", "Community", "Daily", "Day", "Deliver", "Develop",
-    "Done", "Duty", "Earth", "Education", "Employee", "Ephphatha", "Evil",
-    "Faculty", "From", "Fury", "God", "Group", "Hallowed", "In", "Institution",
-    "Into", "Invite", "Investment", "Is", "Leader", "Learn", "Lead", "Must",
-    "Off", "On", "Our", "Partners", "Project", "Service", "Society", "Strive",
-    "Studies", "Students", "Temptation", "That", "The", "This", "Through", "To",
-    "Us", "We", "Who", "Will", "Words", "Worship", "Wraith", "Written", "You", "Your"
-];
-
 const synonymsMap = {
     "cheerful": ["happy", "joyful", "content"],
     "attend": ["participate", "join"],
@@ -17,38 +5,6 @@ const synonymsMap = {
     "leader": ["head", "chief", "boss"],
     "angry": ["anger", "fury", "wraith"],
 };
-
-function populateSuggestions(filterText = '') {
-    const suggestionsList = document.getElementById('suggestions');
-    suggestionsList.innerHTML = '';
-
-    charactersAndWords.forEach(word => {
-        if (word.toLowerCase().includes(filterText.toLowerCase())) {
-            const listItem = document.createElement('li');
-            listItem.textContent = word;
-            listItem.addEventListener('click', () => {
-                translateAndPlay(word);
-            });
-            suggestionsList.appendChild(listItem);
-        }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    populateSuggestions();
-    const inputTextbox = document.getElementById('videoNames');
-    inputTextbox.addEventListener('input', () => {
-        populateSuggestions(inputTextbox.value);
-    });
-});
-
-function translateAndPlay(word) {
-    console.log(`Selected word: ${word}`);
-    document.getElementById('videoTitle').textContent = word;
-    document.getElementById('playbackButtons').style.display = 'block';
-    highlightButton('btnNormal');
-    playVideo(word);
-}
 
 function playVideo(word) {
     const videoPlayer = document.getElementById('videoPlayer');
@@ -139,6 +95,10 @@ function record() {
     videoPlayer.innerHTML = '';
     videoPlayer.appendChild(img);
 
+    recognition.onstart = function () {
+        console.log('Speech recognition started');
+    };
+
     recognition.onresult = function (event) {
         console.log(event);
         var transcript = event.results[0][0].transcript;
@@ -161,6 +121,10 @@ function record() {
         });
     };
 
+    recognition.onerror = function (event) {
+        console.error('Speech recognition error:', event.error);
+    };
+
     recognition.onend = function () {
         var stillPicturePath = '../Assets/still.png';
         var stillImg = document.createElement('img');
@@ -170,6 +134,7 @@ function record() {
 
         videoPlayer.innerHTML = '';
         videoPlayer.appendChild(stillImg);
+        console.log('Speech recognition ended');
     };
 
     recognition.start();
