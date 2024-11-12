@@ -2,6 +2,7 @@
     width: 130px;
     height: 130px;
     border-radius: 50%;
+    transform: translateY(25px);
 }
 
 #photo {
@@ -23,8 +24,8 @@
     border-radius: 50%;
     cursor: pointer;
     color: #fff;
-    transform: translateX(355px);
-    margin-top: 275px;
+    transform: translateX(375px);
+    margin-top: 280px;
     background-color: rgb(173, 172, 172, 0.801);
     box-shadow: 2px 4px 4px rgb(0, 0, 0, 0.644);
 }
@@ -50,9 +51,10 @@
     align-items: start;
     background-color: #d29648;
     background-blend-mode: soft-light;
-    width: 1860px;
+    width: 135.4vh;
     height: 79px;
     transform: translateX(50px) translateY(350px);
+    margin-top: 3vh;
 }
 
 .divider .edit-btn {
@@ -92,7 +94,12 @@
     width: 150vh;
     height: 400px;
     transform: translateX(50px);
-    margin-top: 45vh;
+    margin-top: 48vh;
+    align-content: start;
+}
+.info-container .h3 {
+    margin-top: 2.5vh;
+    margin-left: 38vh;
 }
 
 #userAbout {
