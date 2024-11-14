@@ -132,7 +132,7 @@
         </section>
       <!-- SECTION FOR EDITING USER DASHBOARD PAGE -->
 <section class="main-admin-module" id="CMUserDashboard" style="display: none;">
-  <h1>User Dashboard Editor</h1>
+  <h1></h1>
   <div class="module-box-container">
     
     <!-- Page 1 Content - Upload Bulletin Image -->
@@ -225,6 +225,7 @@
 
       <!-- This is the container where images will be dynamically displayed -->
       <div id="headerImagesContainer" style="position: relative;">
+        <div id="aboutImageRef" style="position: relative;"></div>
         <!-- Dynamic images will be populated here -->
       </div>
 
@@ -233,6 +234,7 @@
       <button id="nextButton" class="slider-button">Next</button>
     </div>
   </div>
+  
 </section> 
          <!-- Latest User Dashboard Content -->    
         <section class="main-admin-module" id="LTUserdashboard" style="display: none;">
@@ -271,77 +273,78 @@
           </div>
         </div>
         </section>
-      <!-- Latest Accounts Content -->
-      <section class="main-admin-module" id="LTAccounts" style="display: none;">
-        <h1></h1>
-        <div class="module-box-container">
-          <div class="module-box" id="page7Content">
-            <div class="form-container">
-              <h2 class="form-title">Active Accounts</h2>
-            </div>
-            <div class="table-container">
-              <table id="activeAccountsTable">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Gender</th>
-                    <th>Birthday</th>
-                    <th>Date Created</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="7">
-                      <div class="table-body-wrapper">
-                        <table id="activeAccountsTableBody">
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>          
-          </div>
-      
-          <button class="next-button" onclick="loadNextModule3()">Next</button>
-      
-          <div class="module-box" id="page8Content" style="display: none;">
-            <div class="form-container">
-              <h2 class="form-title">Inactive Accounts</h2>
-            </div>
-            <div class="table-container">
-              <table id="inactiveAccountsTable">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Gender</th>
-                    <th>Birthday</th>
-                    <th>Date Created</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="7">
-                      <div class="table-body-wrapper">
-                        <table id="inactiveAccountsTableBody">
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>   
-          </div>
+     <!-- Latest Accounts Content -->
+<section class="main-admin-module" id="LTAccounts" style="display: none;">
+  <h1></h1>
+  <div class="module-box-container">
+    <!-- Active Accounts Section -->
+    <div class="module-box" id="page7Content">
+      <div class="form-container">
+        <h2 class="form-title">Active Accounts</h2>
+      </div>
+      <div class="table-container">
+        <!-- Table Header -->
+        <table id="categoryTable" class="table-header">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Gender</th>
+              <th>Birthday</th>
+              <th>Date Created</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+        </table>
+        <!-- Scrollable Table Body -->
+        <div class="scrollable-body">
+          <table id="categoryTable">
+            <tbody id="activeAccountsTableBody">
+              <!-- Rows will be dynamically added here -->
+            </tbody>
+          </table>
         </div>
-      </section>
+      </div>
+    </div>
+
+    <!-- "Next" Button to Switch to Inactive Accounts -->
+    <button class="next-button" onclick="loadNextModule3()">Next</button>
+
+    <!-- Inactive Accounts Section -->
+    <div class="module-box" id="page8Content" style="display: none;">
+      <div class="form-container">
+        <h2 class="form-title">Inactive Accounts</h2>
+      </div>
+      <div class="table-container">
+        <!-- Table Header -->
+        <table id="categoryTable" class="table-header">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Gender</th>
+              <th>Birthday</th>
+              <th>Date Created</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+        </table>
+        <!-- Scrollable Table Body -->
+        <div class="scrollable-body">
+          <table id="categoryTable">
+            <tbody id="inactiveAccountsTableBody">
+              <!-- Rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
   <!-- Confirmation Overlay (hidden by default) -->
 <div id="deleteConfirmationOverlay" class="overlay">
   <div class="overlay-content">
