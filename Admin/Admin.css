@@ -788,27 +788,6 @@ label {
   background-color: #2980b9;
 }
 
-#headerImagesContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.image-wrapper {
-  width: 40vh;
-  height: 20vh;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: auto;
-}
-
-.header-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block; 
-}
 
 .confirmation-overlay {
   position: fixed;
@@ -850,12 +829,28 @@ label {
   cursor: pointer;
 }
 
-.remove-button {
+/* Add your styles here */
+.image-wrapper {
   display: inline-block;
-  padding: 5px 10px;
+  margin: 10px;
+}
+.header-image {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
+}
+.remove-button {
+  display: block;
+  margin-top: 5px;
   background-color: red;
   color: white;
   border: none;
+  padding: 5px;
   cursor: pointer;
-  z-index: auto;
+}
+
+#headerImagesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
