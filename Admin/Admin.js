@@ -234,7 +234,7 @@ async function saveContactInfo() {
 }
 
 window.showDashboard = showDashboard;
-window.showEditInterface = showControlManagement;
+window.showControlManagement = showControlManagement;
 window.showLatestInterface = showLatestInterface;
 window.toggleMainModule =toggleMainModule
 window.addAnimation = addAnimation
