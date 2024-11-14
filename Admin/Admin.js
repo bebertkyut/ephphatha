@@ -22,37 +22,41 @@ const firebaseConfig = {
   
 // Toggle visibility of widgets on click
 document.querySelectorAll('.widget').forEach(widget => {
-    widget.addEventListener('click', () => {
-        widget.style.display = widget.style.display === 'none' ? 'block' : 'none';
-        console.log("Widget toggled:", widget);
-    });
+  widget.addEventListener('click', () => {
+      widget.style.display = widget.style.display === 'none' ? 'block' : 'none';
+      console.log("Widget toggled:", widget);
+  });
 });
 
 // Show the Dashboard section and hide others
 function showDashboard() {  
-    document.querySelector('.dashboard-content').style.display = 'block';
-    document.querySelector('.userdashboard-content').style.display = 'none';
-    document.querySelector('.latest-content').style.display = 'none';
-    document.getElementById('dashboardHeader').innerText = 'Dashboard';
+  document.querySelector('.dashboard-content').style.display = 'block';
+  document.querySelector('.userdashboard-content').style.display = 'none';
+  document.querySelector('.latest-content').style.display = 'none';
+  document.getElementById('dashboardHeader').innerText = 'Dashboard';
+  document.getElementById("keyfeatures-content").style.display = "none";
 }
 
 // Show the Control Management Interface section and hide others
 function showControlManagement() {
-    console.log("Show Control Management");
-    document.querySelector('.dashboard-content').style.display = 'none';
-    document.querySelector('.userdashboard-content').style.display = 'block';
-    document.querySelector('.latest-content').style.display = 'none';
-    document.getElementById('dashboardHeader').innerText = 'Control Management';
+  console.log("Show Control Management");
+  document.querySelector('.dashboard-content').style.display = 'none';
+  document.querySelector('.userdashboard-content').style.display = 'block';
+  document.querySelector('.latest-content').style.display = 'none';
+  document.getElementById('dashboardHeader').innerText = 'Control Management';
+  document.getElementById("keyfeatures-content").style.display = "none";
 }
 
 // Show the Latest Interface section and hide others
 function showLatestInterface() {
-    console.log("Show Latest Interface");
-    document.getElementById('dashboard-content').style.display = 'none';
-    document.getElementById('userdashboard-content').style.display = 'none';
-    document.getElementById('latest-content').style.display = 'block';
-    document.getElementById('dashboardHeader').innerText = 'Latest Interface';
+  console.log("Show Latest Interface");
+  document.querySelector('.dashboard-content').style.display = 'none';
+  document.querySelector('.userdashboard-content').style.display = 'none';
+  document.querySelector('.latest-content').style.display = 'block';
+  document.getElementById('dashboardHeader').innerText = 'Latest Interface';
+  document.getElementById("keyfeatures-content").style.display = "none";
 }
+
 
 function toggleMainModule(moduleId) {
     console.log("Toggling module:", moduleId);

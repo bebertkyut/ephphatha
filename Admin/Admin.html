@@ -11,8 +11,11 @@
 <body>
   <div class="dashboard">
     <header class="header">
+      <div class="logo">
+        <img src="../img/cog-logo.png" alt="Logo">
+      </div>
       <h1 id="dashboardHeader">Dashboard</h1>
-    </header>
+    </header>    
     <div class="button-section">
       <button class="interface-button" onclick="showDashboard()">Dashboard</button>
       <button class="interface-button" onclick="showControlManagement()">Control Management</button>
@@ -21,8 +24,10 @@
     <div id="dashboard-content" class="dashboard-content">
       <div class="welcome-section">
         <div class="welcome-text">
-          <h2>Welcome, (Admin name)!</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <h2>Welcome, Admin!</h2>
+          <p>This platform allows you to manage and update the key sections of your website efficiently. 
+            From here, you can control announcements, update contact details, manage content for different pages, and upload media. 
+            All changes made through this dashboard are automatically reflected on the live site, ensuring that the content is always up-to-date.</p>
         </div>
         <div class="welcome-image">
           <img src="../img/dashboard-illustration.png" alt="Dashboard illustration">
@@ -30,7 +35,7 @@
       </div>
       <div class="stats-section">
         <div class="stat-card">
-          <p>Total Category</p>
+          <p>Total Active Accounts</p>
           <h3>0</h3>
         </div>
         <div class="stat-card">
@@ -43,12 +48,33 @@
         </div>
       </div>
     </div>
+    <div id="keyfeatures-content" class="key-features">
+      <h2>Features</h2>
+      <div id="keyfeatures-content" class="feature-cards">
+          <div class="feature-card">
+              <div class="feature-icon first"></div>
+              <div class="feature-title">Dynamic Card Interface</div>
+              <div class="feature-description">Interactive cards that provide a responsive and engaging way to manage content, highlighting the active section with a visual indicator.</div>
+          </div>
+          <div id="keyfeatures-content" class="feature-card">
+              <div class="feature-icon second"></div>
+              <div class="feature-title">Effortless Content Updates</div>
+              <div class="feature-description">Quickly edit key information such as contact details and page content to keep your site current.</div>
+          </div>
+          <div id="keyfeatures-content" class="feature-card">
+              <div class="feature-icon third"></div>
+              <div class="feature-title">Streamlined Media Management</div>
+              <div class="feature-description">Easily upload and organize images for announcements and other sections, ensuring your site remains visually engaging.</div>
+          </div>
+      </div>
+  </div>
+
     <div id="userdashboard-content" class="userdashboard-content" style="display: none;">
       <div class="container">
         <section class="main">
           <div class="main-containers">
             <div class="card" onclick="toggleMainModule('CMLogin')"><h3>Login</h3></div>
-            <div class="card" onclick="toggleMainModule('CMUserDashboard')"><h3>Control Management</h3></div>
+            <div class="card" onclick="toggleMainModule('CMUserDashboard')"><h3>User Dashboard</h3></div>
             <div class="card" onclick="toggleMainModule('CMAccounts')"><h3>Accounts</h3></div>
           </div>
          <!--THIS SECTION IS FOR EDITING LOG IN PAGE -->
@@ -103,85 +129,79 @@
             </div>
           </div>
         </section>
-         <!-- SECTION FOR EDITING USER DASHBOARD PAGE -->
-         <section class="main-admin-module" id="CMUserDashboard" style="display: none;">
-          <h1></h1>
-          <div class="module-box-container">
-            
-            <!-- Page 1 Content -->
-            <div class="module-box" id="page1Content">
-              <div class="form-container">
-                <h2 class="form-title">Upload Bulletin Image</h2>
-                <div class="upload-container">
-                  
-                  <div class="bulletin-board-container" id="bulletinBoardUploadBox" onclick="triggerUpload('bulletinBoardFileInput')">
-                    <div>
-                      <img src="../img/upload-icon.png" alt="Upload Icon">
-                      <p>Upload Bulletin Board Header Image</p>
-                    </div>
-                  </div>
-                  
-                  <input type="file" id="bulletinBoardFileInput" accept=".png, .jpg, .jpeg, .gif" style="display: none;" onchange="replaceWithImage('bulletinBoardFileInput', 'bulletinBoardUploadBox')">
-                </div>
-              </div>
+      <!-- SECTION FOR EDITING USER DASHBOARD PAGE -->
+<section class="main-admin-module" id="CMUserDashboard" style="display: none;">
+  <h1>User Dashboard Editor</h1>
+  <div class="module-box-container">
+    
+    <!-- Page 1 Content - Upload Bulletin Image -->
+    <div class="module-box" id="page1Content">
+      <div class="form-container">
+        <h2 class="form-title">Upload Bulletin Image</h2>
+        <div class="upload-container">
+          <div class="bulletin-board-container" id="bulletinBoardUploadBox" onclick="triggerUpload('bulletinBoardFileInput')">
+            <div>
+              <img src="../img/upload-icon.png" alt="Upload Icon">
+              <p>Upload Bulletin Board Header Image</p>
             </div>
-            
-            <!-- Page 2 Content -->
-            <div class="module-box" id="page2Content" style="display: none;">
-              <div class="form-container">
-                <h2 class="form-title">Add Animation</h2>
-                
-                <!-- Form Fields -->
-                <div class="animation-addition">
-                  <!-- Category and Animation Name side by side -->
-                  <div class="field-pair">
-                    <!-- Category Selection -->
-                    <div class="select-container">
-                      <label for="categoryCountInput">Select Category:</label>
-                      <select id="categoryCountInput">
-                        <option value="" disabled selected>Select Category</option>
-                        <option value="Category 1">Category 1</option>
-                        <option value="Category 2">Category 2</option>
-                        <option value="Category 3">Category 3</option>
-                        <option value="Category 4">Category 4</option>
-                        <option value="Category 5">Category 5</option>
-                        <option value="Category 6">Category 6</option>
-                        <option value="Category 7">Category 7</option>
-                        <option value="Category 8">Category 8</option>
-                        <option value="Category 9">Category 9</option>
-                        <option value="Category 10">Category 10</option>
-                        <option value="Category 11">Category 11</option>
-                        <option value="Category 12">Category 12</option>
-                      </select>
-                    </div>
-        
-                    <!-- Animation Name Input -->
-                    <div class="input-container">
-                      <label for="animationNameInput">Enter Animation Name:</label>
-                      <input type="text" id="animationNameInput" placeholder="Animation Name" />
-                    </div>
-                  </div>
-        
-                  <!-- Upload and Save Buttons -->
-                  <div class="button-pair">
-                    <!-- Upload Animation -->
-                    <label for="animationVideoInput">Click the button to upload video animation:</label>
-                    <div class="upload-section">
-                      <label for="animationVideoInput" class="upload-button" id="fileLabel">No file chosen</label>
-                      <input type="file" id="animationVideoInput" accept="video/*" style="display: none;" />
-                    </div>
-                    
-                    <!-- Save Button -->
-                    <div class="save-section">
-                      <button class="add-animation" onclick="addAnimation()">Save</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button class="next-button" onclick="loadNextModule()">Next</button>
           </div>
-        </section>
+          <input type="file" id="bulletinBoardFileInput" accept=".png, .jpg, .jpeg, .gif" style="display: none;" onchange="replaceWithImage('bulletinBoardFileInput', 'bulletinBoardUploadBox')">
+        </div>
+      </div>
+    </div>
+    
+    <!-- Page 2 Content - Add Animation -->
+    <div class="module-box" id="page2Content" style="display: none;">
+      <div class="form-container">
+        <h2 class="form-title">Add Animation</h2>
+        
+        <!-- Category and Animation Name Fields -->
+        <div class="animation-addition">
+          <div class="field-pair">
+            <!-- Category Selection -->
+            <div class="select-container">
+              <label for="categoryCountInput">Select Category:</label>
+              <select id="categoryCountInput">
+                <option value="" disabled selected>Select Category</option>
+                <option value="Category 1">Category 1</option>
+                <option value="Category 2">Category 2</option>
+                <option value="Category 3">Category 3</option>
+                <!-- Add more categories as needed -->
+              </select>
+            </div>
+    
+            <!-- Animation Name Input -->
+            <div class="input-container">
+              <label for="animationNameInput">Enter Animation Name:</label>
+              <input type="text" id="animationNameInput" placeholder="Animation Name" />
+            </div>
+          </div>
+    
+          <!-- Upload Animation Video -->
+          <div class="upload-container">
+            <div class="animation-video-container" id="animationVideoUploadBox" onclick="triggerUpload('animationVideoInput')">
+              <div>
+                <img src="../img/upload-icon.png" alt="Upload Icon">
+                <p>Upload Animation Video</p>
+                
+              </div>
+            </div>
+            <input type="file" id="animationVideoInput" accept="video/*" style="display: none;" onchange="replaceWithImage('animationVideoInput', 'animationVideoUploadBox')">          
+          </div>
+    
+          <!-- Save Button -->
+          <div class="save-button-container">
+            <button class="add-animation" onclick="addAnimation()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Next Button -->
+    <button class="next-button" onclick="loadNextModule()">Next</button>
+  </div>
+</section>
+
         <!--THIS SECTION IS FOR EDITING ACCOUNT PAGE PAGE -->
         <section class="main-admin-module" id="CMAccounts" style="display: none;">
           <h1></h1>

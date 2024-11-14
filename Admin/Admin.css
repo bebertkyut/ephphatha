@@ -9,7 +9,7 @@ body {
   background-color: #f4f6f8;
   display: flex;
   justify-content: center;
-  padding: 50px;
+  padding: 40px;
 }
 
 .dashboard {
@@ -19,7 +19,15 @@ body {
 
 .header {
   text-align: left;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+}
+.logo {
+  margin-right: 20px; /* Adjust space between logo and h1 */
+}
+
+.logo img {
+  height: 50px; /* Adjust the size of the logo */
+  width: auto; /* Maintain aspect ratio */
 }
 
 .header h1 {
@@ -29,23 +37,23 @@ body {
 }
 
 .header p {
-  font-size: 18px;
+  font-size: 30px;
+  text-align: left;
   color: #888;
 }
 
 .welcome-section {
   display: flex;
   background: white;
-  padding: 40px;
+  padding: 15px;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
   align-items: center;
-  gap: 30px;
 }
 
 .welcome-text h2 {
-  font-size: 28px;
+  font-size: 30px;
   color: #0073e6;
   margin-bottom: 10px;
 }
@@ -211,7 +219,7 @@ body {
 
 .next-button {
   position: fixed; 
-  bottom: 130px;
+  bottom: 100px;
   right: 10px;
   padding: 10px 20px;
   background-color: #007bff;
@@ -260,7 +268,19 @@ body {
   transition: border-color 0.3s;
   margin-right: 50px;
 }
-
+.animation-video-container{
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #000000;
+  border-radius: 8px;
+  height: 220px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  margin-right: 3px;
+}
 .bulletin-board-container {
   width: 1300px;
   display: flex;
@@ -278,14 +298,16 @@ body {
 .upload-header-container:hover,
 .upload-about-container:hover,
 .upload-learn-more-container:hover,
-.bulletin-board-container:hover {
+.bulletin-board-container:hover,
+.animation-video-container :hover {
   border-color: #ff0000;
 }
 
 .upload-header-container img,
 .upload-about-container img,
 .upload-learn-more-container img,
-.bulletin-board-container img {
+.bulletin-board-container img,
+.animation-video-container img {
   display: block;
   margin: 0 auto;
   width: 80px;
@@ -294,7 +316,8 @@ body {
 .upload-header-container p,
 .upload-about-container p,
 .upload-learn-more-container p,
-.bulletin-board-container p {
+.bulletin-board-container p,
+.animation-video-container p {
   margin: 0;
   text-align: center;
   color: #666666;
@@ -547,30 +570,6 @@ select, input {
   width: 100%;
 }
 
-/* Upload Section */
-.upload-section {
-  display: flex;
-  align-items: center;
-  width: 100%;
-
-}
-
-/* Upload Button Styles */
-.upload-button {
-  padding: 10px;
-  margin-top: -5px;
-  background-color: #007bff;
-  color: white;
-  text-align: center; /* Centers the text inside the label */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  
-}
-
-.upload-button:hover {
-  background-color: #0056b3;
-}
 
 /* Save Button Styles */
 
@@ -590,7 +589,8 @@ select, input {
 
 label {
   margin: 10px 0;
-  font-size: 14px;
+  margin-bottom: 130px;
+  font-size: 15px;
   width: 100%;
 }
 
@@ -890,12 +890,64 @@ label {
   position: absolute;
   top: 5px;         /* Positions the button near the top */
   right: 5px;       /* Positions the button near the right */
-  color: white;
   padding: 2px;
-  border: 2px solid red; /* Add border width and color */
   margin-right: 5vh;
   cursor: pointer;
-  background-color: red;
   font-size: 18px;  /* Adjusts size for visibility */
   border-radius: 5px;
 }
+.key-features {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+.key-features h2 {
+  font-size: 24px;
+  text-align: center;
+  padding-top: 30px;
+  margin-top: 50;
+  margin-bottom: 40px;
+}
+
+.feature-cards {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.feature-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: -20px;
+}
+
+.feature-icon.first { background-color: #007bff; }
+.feature-icon.second { background-color: #007bff; }
+.feature-icon.third { background-color: #007bff; }
+
+.feature-title {
+  text-align: center;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.feature-description {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
