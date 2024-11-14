@@ -1,7 +1,7 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, arrayUnion, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
-import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
+import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getStorage, ref, uploadBytes, getDownloadURL, listAll, uploadBytesResumable } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
 // Firebase configuration
@@ -34,7 +34,7 @@ function showDashboard() {
   document.querySelector('.userdashboard-content').style.display = 'none';
   document.querySelector('.latest-content').style.display = 'none';
   document.getElementById('dashboardHeader').innerText = 'Dashboard';
-  document.getElementById("keyfeatures-content").style.display = "none";
+  document.getElementById("keyfeatures-content").style.display = "block";
 }
 
 // Show the Control Management Interface section and hide others
@@ -84,71 +84,51 @@ function toggleMainModule(moduleId) {
 }
 
 
-  // Add new category to the table
-  function addAnimation() {
-    const animationName = document.getElementById("animationNameInput").value;
-    const categoryCount = document.getElementById("categoryCountInput").value;
-    const animationVideoInput = document.getElementById("animationVideoInput");
+// Function to upload video and save data to Firestore
+async function addAnimation() {
+  const categorySelect = document.getElementById("categoryCountInput");
+  const animationNameInput = document.getElementById("animationNameInput");
+  const videoInput = document.getElementById("animationVideoInput");
 
-    if (
-      animationName &&
-      categoryCount !== "" &&
-      animationVideoInput.files.length > 0
-    ) {
-      const tableBody = document.querySelector(".table-container tbody");
+  const selectedCategory = categorySelect.value;
+  const animationName = animationNameInput.value;
+  const videoFile = videoInput.files[0];
 
-      const newRow = document.createElement("tr");
-
-      // Category name cell
-      const nameCell = document.createElement("td");
-      nameCell.textContent = categoryCount;
-
-      // Animation name cell
-      const countCell = document.createElement("td");
-      countCell.textContent = animationName;
-
-      // Video file name cell
-      const videoCell = document.createElement("td");
-      const fileName = animationVideoInput.files[0].name;
-      const fileNameText = document.createTextNode(fileName);
-      videoCell.appendChild(fileNameText);
-
-      // Actions cell
-      const actionsCell = document.createElement("td");
-      actionsCell.classList.add("actions");
-
-      // Edit button
-      const editButton = document.createElement("button");
-      editButton.title = "Edit";
-      editButton.innerHTML = "&#9998; Edit";
-      actionsCell.appendChild(editButton);
-
-      // Delete button
-      const deleteButton = document.createElement("button");
-      deleteButton.title = "Delete";
-      deleteButton.innerHTML = "&#128465; Delete";
-      actionsCell.appendChild(deleteButton);
-
-      // Add cells to new row
-      newRow.appendChild(nameCell);
-      newRow.appendChild(countCell);
-      newRow.appendChild(videoCell);
-      newRow.appendChild(actionsCell);
-
-      // Append new row to the table body
-      tableBody.appendChild(newRow);
-
-      // Clear the input fields after adding the row
-      document.getElementById("animationNameInput").value = "";
-      document.getElementById("categoryCountInput").value = "";
-
-      // Reset the file label and clear file input
-      document.getElementById("fileLabel").textContent = "No file chosen";
-      animationVideoInput.value = "";
-    } else {
-      alert("Please fill in all fields before adding the animation.");
-    }
+  if (!selectedCategory || !animationName || !videoFile) {
+    alert("Please select a category, enter an animation name, and upload a video.");
+    return;
   }
+
+  // Create a storage reference for the video in Firebase Storage
+  const videoRef = ref(storage, `Animations/${videoFile.name}`);
+
+  // Upload the video to Firebase Storage
+  const uploadTask = uploadBytesResumable(videoRef, videoFile);
+
+  uploadTask.on('state_changed', 
+    (snapshot) => {
+      // Handle progress if needed
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log(`Upload is ${progress}% done`);
+    }, 
+    (error) => {
+      // Handle upload errors
+      console.error("Error uploading video:", error);
+    }, 
+    async () => {
+      // Get the video download URL after successful upload
+      const videoURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+      // Save the URL to Firestore under the corresponding category document
+      const categoryDocRef = doc(db, "SignAsset", selectedCategory);
+      await setDoc(categoryDocRef, {
+        [animationName]: videoURL
+      }, { merge: true });
+
+      alert("Animation video uploaded and saved successfully!");
+    }
+  );
+}
 
 function loadNextModule() {
     const page1 = document.getElementById("page1Content");
@@ -654,7 +634,7 @@ function showConfirmationOverlay(onConfirm) {
 }
 
 // Function to remove the image from Firestore
-async function removeImage(index, imageUrl) {
+async function removeImage(index) {
   try {
     const loginPageDocRef = doc(db, 'DynamicPages', 'LoginPage');
     const loginPageDoc = await getDoc(loginPageDocRef);
@@ -866,6 +846,87 @@ async function populateInactiveAccountsTable() {
 
 populateInactiveAccountsTable();
 
+// Function to handle the video file upload and display
+function displayUploadedVideo(event) {
+  const file = event.target.files[0];
+
+  if (file && file.type.startsWith("video/")) {
+    const videoUrl = URL.createObjectURL(file); 
+
+    const videoContainer = document.getElementById("animationVideoUploadBox");
+
+    const videoElement = document.createElement("video");
+    videoElement.setAttribute("controls", "true"); 
+    videoElement.setAttribute("width", "100%"); 
+    videoElement.setAttribute("height", "100%"); 
+    videoElement.src = videoUrl;
+
+    videoContainer.innerHTML = '';
+    videoContainer.appendChild(videoElement);
+  } else {
+    alert("Please upload a valid video file.");
+  }
+}
+
+// Function to fetch category names from Firestore and populate the dropdown
+function loadCategoryOptions() {
+  const categorySelect = document.getElementById("categoryCountInput");
+
+  categorySelect.innerHTML = `<option value="" selected>Select Category</option>`;
+
+  const signAssetCollection = collection(db, "SignAsset");
+  getDocs(signAssetCollection)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const categoryName = doc.id; 
+        const option = document.createElement("option");
+        option.value = categoryName; 
+        option.textContent = categoryName;  
+        categorySelect.appendChild(option);
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching categories: ", error);
+    });
+}
+
+// Reference to the div where images will be populated
+const pageContentDiv = document.getElementById('page4Content');
+
+// Function to load images from Firestore
+async function loadImagesFromFirestore() {
+  const docRef = doc(db, "DynamicPages", "DashboardPage");
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    const bulletinImages = docSnap.data().Bulletin;
+
+    if (bulletinImages && Array.isArray(bulletinImages) && bulletinImages.length > 0) {
+      bulletinImages.forEach((imageUrl) => {
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.alt = "Bulletin Image";
+        img.style.width = "100%";
+        img.style.marginBottom = "10px"; 
+
+        pageContentDiv.appendChild(img);
+      });
+    } else {
+      console.log('No images found in Bulletin array');
+    }
+  } else {
+    console.log('Document not found!');
+  }
+}
+
+
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  loadCategoryOptions();
+  loadImagesFromFirestore();
+});
+
+window.displayUploadedVideo = displayUploadedVideo;
 window.showControlManagemen = showDashboard;
 window.loadNextModule = loadNextModule;
 window.showDashboard = showDashboard;
