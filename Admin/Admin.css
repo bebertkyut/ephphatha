@@ -219,7 +219,7 @@ body {
 
 .next-button {
   position: fixed; 
-  bottom: 100px;
+  bottom: 80px;
   right: 10px;
   padding: 10px 20px;
   background-color: #007bff;
@@ -411,18 +411,17 @@ input[type="file"] {
 
 /* Container for the entire table */
 .table-container {
-  height: 45vh; /* Adjust height as needed */
+  height: 380px; /* Adjust height as needed */
   width: 100%; /* Ensure it takes the full width of the container */
   border: 1px solid #ddd; /* Optional border for visual separation */
   padding: 0; /* Removed unnecessary padding */
   box-sizing: border-box;
   display: block;
   overflow: hidden; /* Ensure no unwanted overflow around the container */
-  width: 100%; /* Ensure table-container takes full width */
 }
 
 /* Table Header Styling */
-#categoryTable thead th, #activeAccountsTable thead th {
+#categoryTable thead th {
   padding: 10px;
   background-color: #0073e6; /* Ensures header background is visible */
   color: white;
@@ -435,19 +434,19 @@ input[type="file"] {
 
 /* Scrollable Body Container */
 .scrollable-body {
-  max-height: 100%; /* Adjust height as needed */
+  max-height: 350px; /* Adjust height as needed */
   overflow-y: auto; /* Enables vertical scrolling */
 }
 
 /* Table Styling */
-#categoryTable, #activeAccountsTable {
+#categoryTable {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed; /* Ensures column widths are uniform */
 }
 
 /* Table Cells Styling */
-#categoryTable th, #categoryTable td, #activeAccountsTable th, #activeAccountsTable td {
+#categoryTable th, #categoryTable td {
   padding: 8px 12px;
   border: 1px solid #ddd;
   text-align: left;
@@ -455,24 +454,9 @@ input[type="file"] {
 }
 
 /* Optional Styling for Cells for better consistency */
-#categoryTable td, #activeAccountsTable td {
+#categoryTable td {
   white-space: nowrap; /* Prevents text from wrapping, keeping alignment consistent */
-} 
-/* Align table headers and body columns */
-#activeAccountsTable th:nth-child(1), 
-#activeAccountsTable td:nth-child(1) { width: 15%; } /* Name column */
-#activeAccountsTable th:nth-child(2), 
-#activeAccountsTable td:nth-child(2) { width: 15%; } /* Username column */
-#activeAccountsTable th:nth-child(3), 
-#activeAccountsTable td:nth-child(3) { width: 10%; } /* Role column */
-#activeAccountsTable th:nth-child(4), 
-#activeAccountsTable td:nth-child(4) { width: 10%; } /* Gender column */
-#activeAccountsTable th:nth-child(5), 
-#activeAccountsTable td:nth-child(5) { width: 15%; } /* Birthday column */
-#activeAccountsTable th:nth-child(6), 
-#activeAccountsTable td:nth-child(6) { width: 15%; } /* Date Created column */
-#activeAccountsTable th:nth-child(7), 
-#activeAccountsTable td:nth-child(7) { width: 20%; } /* Action column */
+}
 
 /* Action Buttons Styles */
 
@@ -900,7 +884,11 @@ label {
   right: 0; /* Move to right edge */
   margin-right: 65vh; /* Space from the right edge */
 }
-
+.delete-icon {
+  width: 40px; /* Adjust as needed */
+  height: 40px; /* Adjust as needed */
+  object-fit: contain; /* Ensures the image scales correctly */
+}
 
 .remove-button {
   position: absolute;
@@ -911,7 +899,10 @@ label {
   cursor: pointer;
   font-size: 18px;  /* Adjusts size for visibility */
   border-radius: 5px;
+  background: transparent;  /* Removes the button background */
+  border: none;             /* Removes default button border */
 }
+
 .key-features {
   text-align: center;
   margin: 0 auto;
@@ -965,5 +956,31 @@ label {
   font-size: 14px;
   color: #666;
   text-align: center;
+}
+
+/* Container for horizontal layout without scrolling */
+#pageContentDiv {
+  display: flex;
+  flex-direction: row; /* Align items in a row */
+  justify-content: space-around; /* Space images evenly */
+  gap: 15px; /* Space between images */
+  padding: 20px;
+  flex-wrap: nowrap; /* Prevent images from wrapping to the next line */
+  width: 100%; /* Full width container */
+  overflow: hidden; /* Hide overflow if needed */
+}
+
+/* Styling for each image */
+#pageContentDiv img {
+  height: 200px; /* Set a fixed height or adjust as needed */
+  width: auto; /* Adjust width automatically */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: transform 0.3s ease; /* Add hover effect */
+}
+
+/* Hover effect for images */
+#pageContentDiv img:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
