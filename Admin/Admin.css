@@ -958,3 +958,29 @@ label {
   text-align: center;
 }
 
+/* Container for horizontal layout without scrolling */
+#pageContentDiv {
+  display: flex;
+  flex-direction: row; /* Align items in a row */
+  justify-content: space-around; /* Space images evenly */
+  gap: 15px; /* Space between images */
+  padding: 20px;
+  flex-wrap: nowrap; /* Prevent images from wrapping to the next line */
+  width: 100%; /* Full width container */
+  overflow: hidden; /* Hide overflow if needed */
+}
+
+/* Styling for each image */
+#pageContentDiv img {
+  height: 200px; /* Set a fixed height or adjust as needed */
+  width: auto; /* Adjust width automatically */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: transform 0.3s ease; /* Add hover effect */
+}
+
+/* Hover effect for images */
+#pageContentDiv img:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
