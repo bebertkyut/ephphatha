@@ -97,13 +97,14 @@
               <div class="module-box" id="page1Content">
                 <div class="upload-container">
                   <div class="bulletin-board-container" id="bulletinBoardUploadBox" onclick="triggerUpload('bulletinBoardFileInput')">
-                    <div>
-                      <img src="../img/upload-icon.png" alt="Upload Icon">
-                      <p>Upload Bulletin Board Header Image</p>
-                    </div>
+                      <div>
+                          <img src="../img/upload-icon.png" alt="Upload Icon">
+                          <p>Upload Bulletin Board Header Image</p>
+                      </div>
                   </div>
-                  <input type="file" id="bulletinBoardFileInput" accept=".png, .jpg, .jpeg, .gif">
-                </div>
+                  <input type="file" id="bulletinBoardFileInput" accept=".png, .jpg, .jpeg, .gif" style="display:none;" onchange="replaceWithImage('bulletinBoardFileInput', 'bulletinBoardUploadBox')">
+              </div>
+              
   <!-- Form Container -->
 <div class="form-container">
   <h2 class="form-title">Add Animation</h2>
