@@ -154,7 +154,7 @@ body {
   height: 60px;
   background: #fff;
   text-align: center;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 10px;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
@@ -254,23 +254,22 @@ body {
   border: 2px dashed #000000;
   margin-left: 50px;
   border-radius: 8px;
-  width: 100%;
-  max-width: 600px;
-  height: 180px;
+  width: 550px;
+  height: 200px;
   cursor: pointer;
   transition: border-color 0.3s;
   margin-right: 50px;
 }
 
 .bulletin-board-container {
-  width: 100%;
+  width: 1300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border: 2px dashed #000000;
   border-radius: 8px;
-  height: 180px;
+  height: 420px;
   cursor: pointer;
   transition: border-color 0.3s;
   margin-right: 3px;
@@ -321,8 +320,7 @@ input[type="file"] {
   justify-content: center;
   align-items: flex-start;
   margin-top: 10px;
-  width: 100%;
-  max-width: 900px;
+  width: 1200px;
 }
 
 .contact-item {
@@ -344,6 +342,7 @@ input[type="file"] {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1em;
+  text-align: center;
 }
 
 .save-button-container {
@@ -503,6 +502,7 @@ input[type="file"] {
 /* Style the title */
 /* Form Title Container */
 .form-title {
+  margin-bottom: 50px;
   width: 100%;
   background-color: #f0f0f0; /* Light gray background */
   padding: 10px 35px; /* Adds padding around the title */
@@ -637,6 +637,42 @@ label {
   z-index: 1000;
 }
 
+/* Basic styling for card */
+.card {
+  position: relative;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect */
+.card:hover {
+  color: #007bff; /* Optional: Change color on hover */
+}
+
+/* Underline effect */
+.card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  bottom: 0;
+  height: 2px;
+  background-color: #007bff; /* Color of the underline */
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.card:hover::after,
+.card.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
 /* Overlay behind the video */
 .modal-overlay {
   position: absolute;
