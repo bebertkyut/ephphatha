@@ -411,17 +411,18 @@ input[type="file"] {
 
 /* Container for the entire table */
 .table-container {
-  height: 380px; /* Adjust height as needed */
+  height: 45vh; /* Adjust height as needed */
   width: 100%; /* Ensure it takes the full width of the container */
   border: 1px solid #ddd; /* Optional border for visual separation */
   padding: 0; /* Removed unnecessary padding */
   box-sizing: border-box;
   display: block;
   overflow: hidden; /* Ensure no unwanted overflow around the container */
+  width: 100%; /* Ensure table-container takes full width */
 }
 
 /* Table Header Styling */
-#categoryTable thead th {
+#categoryTable thead th, #activeAccountsTable thead th {
   padding: 10px;
   background-color: #0073e6; /* Ensures header background is visible */
   color: white;
@@ -434,19 +435,19 @@ input[type="file"] {
 
 /* Scrollable Body Container */
 .scrollable-body {
-  max-height: 350px; /* Adjust height as needed */
+  max-height: 100%; /* Adjust height as needed */
   overflow-y: auto; /* Enables vertical scrolling */
 }
 
 /* Table Styling */
-#categoryTable {
+#categoryTable, #activeAccountsTable {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed; /* Ensures column widths are uniform */
 }
 
 /* Table Cells Styling */
-#categoryTable th, #categoryTable td {
+#categoryTable th, #categoryTable td, #activeAccountsTable th, #activeAccountsTable td {
   padding: 8px 12px;
   border: 1px solid #ddd;
   text-align: left;
@@ -454,9 +455,24 @@ input[type="file"] {
 }
 
 /* Optional Styling for Cells for better consistency */
-#categoryTable td {
+#categoryTable td, #activeAccountsTable td {
   white-space: nowrap; /* Prevents text from wrapping, keeping alignment consistent */
-}
+} 
+/* Align table headers and body columns */
+#activeAccountsTable th:nth-child(1), 
+#activeAccountsTable td:nth-child(1) { width: 15%; } /* Name column */
+#activeAccountsTable th:nth-child(2), 
+#activeAccountsTable td:nth-child(2) { width: 15%; } /* Username column */
+#activeAccountsTable th:nth-child(3), 
+#activeAccountsTable td:nth-child(3) { width: 10%; } /* Role column */
+#activeAccountsTable th:nth-child(4), 
+#activeAccountsTable td:nth-child(4) { width: 10%; } /* Gender column */
+#activeAccountsTable th:nth-child(5), 
+#activeAccountsTable td:nth-child(5) { width: 15%; } /* Birthday column */
+#activeAccountsTable th:nth-child(6), 
+#activeAccountsTable td:nth-child(6) { width: 15%; } /* Date Created column */
+#activeAccountsTable th:nth-child(7), 
+#activeAccountsTable td:nth-child(7) { width: 20%; } /* Action column */
 
 /* Action Buttons Styles */
 

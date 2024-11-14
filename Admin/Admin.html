@@ -82,24 +82,25 @@
           <div class="module-box">
             <div class="form-container">
               <h2 class="form-title">Upload Header/About Images</h2>
-            <div class="upload-container">
-              <!-- Header Image Upload -->
-              <div class="upload-header-container" id="uploadBox" onclick="triggerUpload('fileInput')">
-                <div>
-                  <img src="../img/upload-icon.png" alt="Upload Icon">
-                  <p>Upload Header Images</p>
+              <div class="upload-container">
+                <!-- Header Image Upload -->
+                <div class="upload-header-container" id="uploadBox" onclick="triggerUpload('fileInput', 'uploadBox')">
+                    <div>
+                        <img src="../img/upload-icon.png" alt="Upload Icon">
+                        <p>Upload Header Images</p>
+                    </div>
                 </div>
-              </div>
-              <input type="file" id="fileInput" accept=".png, .jpg, .jpeg, .gif" style="display: none;">
-              <!-- About Image Upload -->
-              <div class="upload-about-container" id="aboutBox" onclick="triggerUpload('aboutFileInput')">
-                <div>
-                  <img src="../img/upload-icon.png" alt="Upload Icon">
-                  <p>Upload About Images</p>
+                <input type="file" id="fileInput" accept=".png, .jpg, .jpeg, .gif" style="display:none;" onchange="replaceWithImage('fileInput', 'uploadBox')">
+            
+                <!-- About Image Upload -->
+                <div class="upload-about-container" id="aboutBox" onclick="triggerUpload('aboutFileInput', 'aboutBox')">
+                    <div>
+                        <img src="../img/upload-icon.png" alt="Upload Icon">
+                        <p>Upload About Images</p>
+                    </div>
                 </div>
-              </div>
-              <input type="file" id="aboutFileInput" accept=".pdf, .docx" style="display: none;">
-            </div>
+                <input type="file" id="aboutFileInput" accept=".png, .jpg, .jpeg, .gif" style="display:none;" onchange="replaceWithImage('aboutFileInput', 'aboutBox')">
+            </div>            
             <!-- Contact Information Form -->
             <div class="center-wrapper">
               <div class="form-container">
@@ -276,30 +277,76 @@
         </div>
         </section>
       <!-- Latest Accounts Content -->
-<section class="main-admin-module" id="LTAccounts"  style="display: none;">
-  <h1></h1>
-  <div class="module-box-container" >
-    <div class="module-box" id="page7Content">
-      <div class="form-container">
-        <h2 class="form-title">Active Accounts</h2>
-        <!-- Content goes here -->
-        
-      </div> 
-    </div> 
-  </div> 
-  <button class="next-button" onclick="loadNextModule3()">Next</button>
-
-  <div class="module-box" id="page8Content" style="display: none;">
-    <div class="form-container">
-      <h2 class="form-title">Inactive Accounts </h2>
-      <!-- Content for Page 8 goes here -->
-       
-    </div> 
-  </div> 
-</section> 
-
-    </div>
-  </div>
+      <section class="main-admin-module" id="LTAccounts" style="display: none;">
+        <h1></h1>
+        <div class="module-box-container">
+          <div class="module-box" id="page7Content">
+            <div class="form-container">
+              <h2 class="form-title">Active Accounts</h2>
+            </div>
+            <div class="table-container">
+              <table id="activeAccountsTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Gender</th>
+                    <th>Birthday</th>
+                    <th>Date Created</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="7">
+                      <div class="table-body-wrapper">
+                        <table id="activeAccountsTableBody">
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>          
+          </div>
+      
+          <button class="next-button" onclick="loadNextModule3()">Next</button>
+      
+          <div class="module-box" id="page8Content" style="display: none;">
+            <div class="form-container">
+              <h2 class="form-title">Inactive Accounts</h2>
+            </div>
+            <div class="table-container">
+              <table id="inactiveAccountsTable">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Gender</th>
+                    <th>Birthday</th>
+                    <th>Date Created</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="7">
+                      <div class="table-body-wrapper">
+                        <table id="inactiveAccountsTableBody">
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>   
+          </div>
+        </div>
+      </section>
   <!-- Confirmation Overlay (hidden by default) -->
 <div id="deleteConfirmationOverlay" class="overlay">
   <div class="overlay-content">
