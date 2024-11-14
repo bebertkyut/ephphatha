@@ -1,6 +1,6 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
@@ -255,7 +255,29 @@ async function countAnimations() {
 // Call the countAnimations function when the page loads
 countAnimations();
 
-window.showDashboard = showDashboard;
+// Function to count users in Firestore
+async function countUsers() {
+    try {
+        // Reference to the UserAccount collection
+        const userAccountCollection = collection(db, 'UserAccount');
+        
+        // Get all documents in the UserAccount collection
+        const userSnapshot = await getDocs(userAccountCollection);
+        
+        // Count the number of documents
+        const totalUsers = userSnapshot.size;
+
+        // Display the total count in the "Total Users" stat card
+        document.querySelector('.stat-card:nth-child(3) h3').textContent = totalUsers;
+    } catch (error) {
+        console.error("Error counting users:", error);
+    }
+}
+
+// Call the countUsers function when the page loads
+countUsers()
+
+window.showControlManagemen = showDashboard;
 window.showControlManagement = showControlManagement;
 window.showLatestInterface = showLatestInterface;
 window.toggleMainModule =toggleMainModule
