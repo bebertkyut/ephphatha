@@ -37,8 +37,8 @@ function showDashboard() {
     document.getElementById('dashboardHeader').innerText = 'Dashboard';
 }
 
-// Show the Edit Interface section and hide others
-function showEditInterface() {
+// Show the Control Management Interface section and hide others
+function showControlManagement() {
     console.log("Show Edit Interface");
     document.querySelector('.dashboard-content').style.display = 'none';
     document.querySelector('.userdashboard-content').style.display = 'block';
@@ -234,7 +234,7 @@ async function saveContactInfo() {
 }
 
 window.showDashboard = showDashboard;
-window.showEditInterface = showEditInterface;
+window.showEditInterface = showControlManagement;
 window.showLatestInterface = showLatestInterface;
 window.toggleMainModule =toggleMainModule
 window.addAnimation = addAnimation
