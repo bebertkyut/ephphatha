@@ -1,6 +1,6 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll, uploadBytesResumable } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
@@ -919,6 +919,27 @@ async function loadImagesFromFirestore() {
   }
 }
 
+// Reference to the stat card element where the active accounts count will be displayed
+const activeAccountsElement = document.querySelector('.stat-card h3');
+
+// Function to fetch the count of active accounts
+async function fetchActiveAccountsCount() {
+  const userRef = collection(db, "UserAccount");
+
+  try {
+    // Query to filter documents where the 'Status' field is 'Active'
+    const querySnapshot = await getDocs(query(userRef, where("Status", "==", "Active")));
+    
+    // Set the count of active accounts to the stat card
+    activeAccountsElement.textContent = querySnapshot.size;
+  } catch (error) {
+    console.error("Error fetching active accounts:", error);
+    activeAccountsElement.textContent = "Error"; // Display an error message if the fetch fails
+  }
+}
+
+// Call the function to update the count when the page loads
+fetchActiveAccountsCount();
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
