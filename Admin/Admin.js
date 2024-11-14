@@ -32,7 +32,7 @@ document.querySelectorAll('.widget').forEach(widget => {
 function showDashboard() {
     console.log("Show Dashboard");
     document.querySelector('.dashboard-content').style.display = 'block';
-    document.querySelector('.edit-content').style.display = 'none';
+    document.querySelector('.userdashboard-content').style.display = 'none';
     document.querySelector('.latest-content').style.display = 'none';
     document.getElementById('dashboardHeader').innerText = 'Dashboard';
 }
@@ -41,7 +41,7 @@ function showDashboard() {
 function showEditInterface() {
     console.log("Show Edit Interface");
     document.querySelector('.dashboard-content').style.display = 'none';
-    document.querySelector('.edit-content').style.display = 'block';
+    document.querySelector('.userdashboard-content').style.display = 'block';
     document.querySelector('.latest-content').style.display = 'none';
     document.getElementById('dashboardHeader').innerText = 'Edit Interface';
 }
@@ -49,7 +49,7 @@ function showEditInterface() {
 // Show the Latest Interface section and hide others
 function showLatestInterface() {
     document.getElementById('dashboard-content').style.display = 'none';
-    document.getElementById('edit-content').style.display = 'none';
+    document.getElementById('userdashboard-content').style.display = 'none';
     document.getElementById('latest-content').style.display = 'block';
 }
 

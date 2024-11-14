@@ -13,7 +13,7 @@
     </header>
     <div class="button-section">
       <button class="interface-button" onclick="showDashboard()">Dashboard</button>
-      <button class="interface-button" onclick="showEditInterface()">Edit Interface</button>
+      <button class="interface-button" onclick="showControlManagement()">Control Management</button>
       <button class="interface-button" onclick="showLatestInterface()">Latest Interface</button>
     </div>
     <div id="dashboard-content" class="dashboard-content">
@@ -41,15 +41,15 @@
         </div>
       </div>
     </div>
-    <div id="edit-content" class="edit-content" style="display: none;">
+    <div id="userdashboard-content" class="userdashboard-content" style="display: none;">
       <div class="container">
         <section class="main">
           <div class="main-containers">
-            <div class="card" onclick="toggleMainModule('mainModule1')"><h3>Login</h3></div>
-            <div class="card" onclick="toggleMainModule('mainModule2')"><h3>User Dashboard</h3></div>
-            <div class="card" onclick="toggleMainModule('mainModule3')"><h3>Accounts</h3></div>
+            <div class="card" onclick="toggleMainModule('CMLogin')"><h3>Login</h3></div>
+            <div class="card" onclick="toggleMainModule('CMUserDashboard')"><h3>User Dashboard</h3></div>
+            <div class="card" onclick="toggleMainModule('CMAccounts')"><h3>Accounts</h3></div>
           </div>
-          <section class="main-admin-module" id="mainModule1" style="display: none;">
+          <section class="main-admin-module" id="CMLogin" style="display: none;">
             <h1>Main Website Announcement</h1>
             <div class="module-box">
               <div class="upload-container">
@@ -91,7 +91,7 @@
               </div>
             </div>
           </section>
-          <section class="main-admin-module" id="mainModule2" style="display: none;">
+          <section class="main-admin-module" id="CMUserDashboard" style="display: none;">
             <h1>User Dashboard Announcement</h1>
             <div class="module-box-container">
               <div class="module-box" id="page1Content">
@@ -161,7 +161,7 @@
               -->
               
         </section>
-        <section class="main-admin-module" id="mainModule3" style="display: none;">
+        <section class="main-admin-module" id="CMAccounts" style="display: none;">
           <h1>Accounts Announcement</h1>
           <div class="module-box-container">
             <div class="module-box">
@@ -175,19 +175,19 @@
     <div id="latest-content" class="latest-content" style="display: none;">
       <section class="main">
         <div class="main-containers">
-          <div class="card" onclick="toggleMainModule('mainModule4')"><h3>Latest Login</h3></div>
-          <div class="card" onclick="toggleMainModule('mainModule5')"><h3>Latest User Dashboard</h3></div>
-          <div class="card" onclick="toggleMainModule('mainModule6')"><h3>Latest Accounts</h3></div>
+          <div class="card" onclick="toggleMainModule('LTLogin')"><h3>Latest Login</h3></div>
+          <div class="card" onclick="toggleMainModule('LTUserdashboard')"><h3>Latest User Dashboard</h3></div>
+          <div class="card" onclick="toggleMainModule('LTAccounts')"><h3>Latest Accounts</h3></div>
         </div>
         <!-- Latest Interface main modules -->
-        <section class="main-admin-module" id="mainModule4" style="display: none;">
+        <section class="main-admin-module" id="LTLogin" style="display: none;">
           <h1>Latest Login Content</h1>
           <div class="module-box-container">
             <div class="module-box">
             <!-- Content goes here -->
           </div>
         </section>        
-        <section class="main-admin-module" id="mainModule5" style="display: none;">
+        <section class="main-admin-module" id="LTUserdashboard" style="display: none;">
           <h1>Latest User Dashboard Content</h1>
           <div class="module-box-container">
             <div class="module-box">
@@ -232,7 +232,7 @@
           </div>
         </section>
         
-        <section class="main-admin-module" id="mainModule6" style="display: none;">
+        <section class="main-admin-module" id="LTAccounts" style="display: none;">
           <h1>Latest Accounts Content</h1>
           <div class="module-box-container">
             <div class="module-box">
