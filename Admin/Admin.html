@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="Admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="Admin.js" defer></script> 
 </head>
 <body>
@@ -200,14 +201,24 @@
           <div class="card" onclick="toggleMainModule('LTUserdashboard')"><h3>Latest User Dashboard</h3></div>
           <div class="card" onclick="toggleMainModule('LTAccounts')"><h3>Latest Accounts</h3></div>
         </div>
-        <!-- Latest Login Contents -->
-        <section class="main-admin-module" id="LTLogin" style="display: none;">
-          <div class="module-box-container">
-            <div class="module-box" id="headerImagesContainer">
-              <!-- Images will be populated here -->
-            </div>
-          </div>
-        </section>            
+      <!-- Latest Login Contents -->
+<section class="main-admin-module" id="LTLogin" style="position: relative;">
+  <div class="module-box-container">
+    <div class="module-box">
+      <!-- Header Images Section -->
+      <h1></h1>
+
+      <!-- This is the container where images will be dynamically displayed -->
+      <div id="headerImagesContainer" style="position: relative;">
+        <!-- Dynamic images will be populated here -->
+      </div>
+
+      <!-- Slider controls -->
+      <button id="prevButton" class="slider-button">Prev</button>
+      <button id="nextButton" class="slider-button">Next</button>
+    </div>
+  </div>
+</section> 
          <!-- Latest User Dashboard Content -->    
         <section class="main-admin-module" id="LTUserdashboard" style="display: none;">
           <h1></h1>
@@ -245,13 +256,29 @@
           </div>
         </div>
         </section>
-        <!-- Latest Accounts Content -->
-        <section class="main-admin-module" id="LTAccounts" style="display: none;">
-          <h1></h1>
-          <div class="module-box-container">
-            <div class="module-box">
-            <!-- Content goes here -->
-        </section>  
+      <!-- Latest Accounts Content -->
+<section class="main-admin-module" id="LTAccounts"  style="display: none;">
+  <h1></h1>
+  <div class="module-box-container" >
+    <div class="module-box" id="page7Content">
+      <div class="form-container">
+        <h2 class="form-title">Active Accounts</h2>
+        <!-- Content goes here -->
+        
+      </div> 
+    </div> 
+  </div> 
+  <button class="next-button" onclick="loadNextModule3()">Next</button>
+
+  <div class="module-box" id="page8Content" style="display: none;">
+    <div class="form-container">
+      <h2 class="form-title">Inactive Accounts </h2>
+      <!-- Content for Page 8 goes here -->
+       
+    </div> 
+  </div> 
+</section> 
+
     </div>
   </div>
   <!-- Confirmation Overlay (hidden by default) -->
