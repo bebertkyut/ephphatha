@@ -183,12 +183,12 @@
         </div>
         <!-- Latest Login Contents -->
         <section class="main-admin-module" id="LTLogin" style="display: none;">
-          <h1></h1>
           <div class="module-box-container">
-            <div class="module-box">
-            <!-- Content goes here -->
+            <div class="module-box" id="headerImagesContainer">
+              <!-- Images will be populated here -->
+            </div>
           </div>
-        </section>    
+        </section>            
          <!-- Latest User Dashboard Content -->    
         <section class="main-admin-module" id="LTUserdashboard" style="display: none;">
           <h1></h1>
@@ -198,23 +198,11 @@
             <button class="next-button" onclick="loadNextModule()">Next</button>
             <div id="pageIndicator" class="page-indicator"></div> 
         <div class="module-box" id="page2Content" style="display: none;">
-         <div class="filterCategory">
-                <select id="categoryFilter" onchange="filterCategory()">
-                  <option value="">Show All</option>
-                  <option value="Category 1">Category 1</option>
-                  <option value="Category 2">Category 2</option>
-                  <option value="Category 3">Category 3</option>
-                  <option value="Category 4">Category 4</option>
-                  <option value="Category 5">Category 5</option>
-                  <option value="Category 6">Category 6</option>
-                  <option value="Category 7">Category 7</option>
-                  <option value="Category 8">Category 8</option>
-                  <option value="Category 9">Category 9</option>
-                  <option value="Category 10">Category 10</option>
-                  <option value="Category 11">Category 11</option>
-                  <option value="Category 12">Category 12</option>
-                </select>
-              </div>
+          <div class="filterCategory">
+            <select id="categoryFilter">
+              <option value="">Show All</option>
+            </select>
+          </div>          
               <!-- Scrollable Table Container -->
               <div class="table-container">
                 <table id="categoryTable">
@@ -229,12 +217,12 @@
                 </table>
                 <div class="scrollable-body">
                   <table id="categoryTable">
-                    <tbody>
+                    <tbody id="categoryTableBody">
                       <!-- Table rows go here -->
                     </tbody>
                   </table>
                 </div>
-              </div>              
+              </div>                   
           </div>
         </div>
         </section>
@@ -247,9 +235,19 @@
         </section>  
     </div>
   </div>
+
+  <!-- Confirmation Overlay (hidden by default) -->
+<div id="deleteConfirmationOverlay" class="overlay">
+  <div class="overlay-content">
+    <p>Are you sure you want to delete this sign asset?</p>
+    <button id="confirmDeleteBtn">Confirm</button>
+    <button id="cancelDeleteBtn">Cancel</button>
+  </div>
+</div>
+
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js"></script>
-  <script type="module" src="Admin.js" defer></script> 
+  <script type="module" src="Admin.js"></script> 
 </body>
 </html>
