@@ -55,24 +55,25 @@
           <div class="module-box">
             <div class="form-container">
               <h2 class="form-title">Upload Header/About Images</h2>
-            <div class="upload-container">
-              <!-- Header Image Upload -->
-              <div class="upload-header-container" id="uploadBox" onclick="triggerUpload('fileInput')">
-                <div>
-                  <img src="../img/upload-icon.png" alt="Upload Icon">
-                  <p>Upload Header Images</p>
+              <div class="upload-container">
+                <!-- Header Image Upload -->
+                <div class="upload-header-container" id="uploadBox" onclick="triggerUpload('fileInput', 'uploadBox')">
+                    <div>
+                        <img src="../img/upload-icon.png" alt="Upload Icon">
+                        <p>Upload Header Images</p>
+                    </div>
                 </div>
-              </div>
-              <input type="file" id="fileInput" accept=".png, .jpg, .jpeg, .gif" style="display: none;">
-              <!-- About Image Upload -->
-              <div class="upload-about-container" id="aboutBox" onclick="triggerUpload('aboutFileInput')">
-                <div>
-                  <img src="../img/upload-icon.png" alt="Upload Icon">
-                  <p>Upload About Images</p>
+                <input type="file" id="fileInput" accept=".png, .jpg, .jpeg, .gif" style="display:none;" onchange="replaceWithImage('fileInput', 'uploadBox')">
+            
+                <!-- About Image Upload -->
+                <div class="upload-about-container" id="aboutBox" onclick="triggerUpload('aboutFileInput', 'aboutBox')">
+                    <div>
+                        <img src="../img/upload-icon.png" alt="Upload Icon">
+                        <p>Upload About Images</p>
+                    </div>
                 </div>
-              </div>
-              <input type="file" id="aboutFileInput" accept=".pdf, .docx" style="display: none;">
-            </div>
+                <input type="file" id="aboutFileInput" accept=".png, .jpg, .jpeg, .gif" style="display:none;" onchange="replaceWithImage('aboutFileInput', 'aboutBox')">
+            </div>            
             <!-- Contact Information Form -->
             <div class="center-wrapper">
               <div class="form-container">

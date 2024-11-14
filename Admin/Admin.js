@@ -180,8 +180,6 @@ function loadNextModule2() {
 }
 
 
-
-
 // Function to trigger the file input
 function triggerUpload(inputId) {
     document.getElementById(inputId).click();
@@ -212,43 +210,50 @@ function replaceWithImage(inputId, containerId) {
 
 // Function to save contact info and upload image to Firebase
 async function saveContactInfo() {
-    const fileInput = document.getElementById('aboutFileInput');
-    const file = fileInput.files[0];
+  const fileInput = document.getElementById('aboutFileInput');
+  const file = fileInput.files[0];
 
-    if (file) {
-        try {
-            const aboutImageRef = ref(storage, `DynamicPagesPictures/${file.name}`);
-            
-            await uploadBytes(aboutImageRef, file);
+  if (file) {
+      try {
+          const aboutImageRef = ref(storage, `DynamicPagesPictures/${file.name}`);
+          
+          await uploadBytes(aboutImageRef, file);
 
-            const downloadURL = await getDownloadURL(aboutImageRef);
-            const firestoreRef = doc(db, 'DynamicPages', 'LoginPage');
-            
-            await setDoc(firestoreRef, {
-                AboutImage: downloadURL
-            }, { merge: true });
+          const downloadURL = await getDownloadURL(aboutImageRef);
+          const firestoreRef = doc(db, 'DynamicPages', 'LoginPage');
+          
+          await setDoc(firestoreRef, {
+              AboutImage: downloadURL
+          }, { merge: true });
 
-            console.log("Image URL saved to Firestore successfully:", downloadURL);
-        } catch (error) {
-            console.error("Error uploading image or saving URL to Firestore:", error);
-        }
-    } else {
-        console.warn("No file selected to upload.");
-    }
+          console.log("Image URL saved to Firestore successfully:", downloadURL);
+      } catch (error) {
+          console.error("Error uploading image or saving URL to Firestore:", error);
+      }
+  } else {
+      console.warn("No file selected to upload.");
+  }
 
-    const phone = document.getElementById('contactPhone').value;
-    const email = document.getElementById('contactEmail').value;
-    const address = document.getElementById('contactAddress').value;
+  // Collect contact information
+  const phone = document.getElementById('contactPhone').value;
+  const email = document.getElementById('contactEmail').value;
+  const address = document.getElementById('contactAddress').value;
 
-    // Update Firestore with contact information
-    const contactRef = doc(db, 'DynamicPages', 'LoginPage');
-    await setDoc(contactRef, {
-        ContactPhone: phone,
-        ContactEmail: email,
-        ContactAddress: address
-    }, { merge: true });
+  // Prepare an object with only non-empty values
+  const contactData = {};
+  if (phone) contactData.ContactPhone = phone;
+  if (email) contactData.ContactEmail = email;
+  if (address) contactData.ContactAddress = address;
 
-    console.log("Contact information saved to Firestore successfully.");
+  // Update Firestore only if there are fields to update
+  if (Object.keys(contactData).length > 0) {
+      const contactRef = doc(db, 'DynamicPages', 'LoginPage');
+      await setDoc(contactRef, contactData, { merge: true });
+
+      console.log("Contact information saved to Firestore successfully.");
+  } else {
+      console.log("No contact information to update.");
+  }
 }
 
 // Function to count animations in Firebase Storage
