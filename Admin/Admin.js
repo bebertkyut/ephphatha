@@ -196,8 +196,6 @@ function loadNextModule3() {
 }
 
 
-
-
 // Function to trigger the file input
 function triggerUpload(inputId) {
     document.getElementById(inputId).click();
@@ -228,43 +226,50 @@ function replaceWithImage(inputId, containerId) {
 
 // Function to save contact info and upload image to Firebase
 async function saveContactInfo() {
-    const fileInput = document.getElementById('aboutFileInput');
-    const file = fileInput.files[0];
+  const fileInput = document.getElementById('aboutFileInput');
+  const file = fileInput.files[0];
 
-    if (file) {
-        try {
-            const aboutImageRef = ref(storage, `DynamicPagesPictures/${file.name}`);
-            
-            await uploadBytes(aboutImageRef, file);
+  if (file) {
+      try {
+          const aboutImageRef = ref(storage, `DynamicPagesPictures/${file.name}`);
+          
+          await uploadBytes(aboutImageRef, file);
 
-            const downloadURL = await getDownloadURL(aboutImageRef);
-            const firestoreRef = doc(db, 'DynamicPages', 'LoginPage');
-            
-            await setDoc(firestoreRef, {
-                AboutImage: downloadURL
-            }, { merge: true });
+          const downloadURL = await getDownloadURL(aboutImageRef);
+          const firestoreRef = doc(db, 'DynamicPages', 'LoginPage');
+          
+          await setDoc(firestoreRef, {
+              AboutImage: downloadURL
+          }, { merge: true });
 
-            console.log("Image URL saved to Firestore successfully:", downloadURL);
-        } catch (error) {
-            console.error("Error uploading image or saving URL to Firestore:", error);
-        }
-    } else {
-        console.warn("No file selected to upload.");
-    }
+          console.log("Image URL saved to Firestore successfully:", downloadURL);
+      } catch (error) {
+          console.error("Error uploading image or saving URL to Firestore:", error);
+      }
+  } else {
+      console.warn("No file selected to upload.");
+  }
 
-    const phone = document.getElementById('contactPhone').value;
-    const email = document.getElementById('contactEmail').value;
-    const address = document.getElementById('contactAddress').value;
+  // Collect contact information
+  const phone = document.getElementById('contactPhone').value;
+  const email = document.getElementById('contactEmail').value;
+  const address = document.getElementById('contactAddress').value;
 
-    // Update Firestore with contact information
-    const contactRef = doc(db, 'DynamicPages', 'LoginPage');
-    await setDoc(contactRef, {
-        ContactPhone: phone,
-        ContactEmail: email,
-        ContactAddress: address
-    }, { merge: true });
+  // Prepare an object with only non-empty values
+  const contactData = {};
+  if (phone) contactData.ContactPhone = phone;
+  if (email) contactData.ContactEmail = email;
+  if (address) contactData.ContactAddress = address;
 
-    console.log("Contact information saved to Firestore successfully.");
+  // Update Firestore only if there are fields to update
+  if (Object.keys(contactData).length > 0) {
+      const contactRef = doc(db, 'DynamicPages', 'LoginPage');
+      await setDoc(contactRef, contactData, { merge: true });
+
+      console.log("Contact information saved to Firestore successfully.");
+  } else {
+      console.log("No contact information to update.");
+  }
 }
 
 // Function to count animations in Firebase Storage
@@ -669,6 +674,193 @@ async function removeImage(index, imageUrl) {
 // Call the function to populate images when the page loads
 document.addEventListener('DOMContentLoaded', populateHeaderImages);
 
+// Firebase Firestore reference (assumes `db` is your Firestore instance)
+const activeAccountsTableBody = document.getElementById('activeAccountsTable').querySelector('tbody');
+
+async function populateActiveAccountsTable() {
+  const activeAccountsTableBody = document.getElementById('activeAccountsTableBody').querySelector('tbody');  // Correct table body reference
+
+  try {
+    // Reference to the Firestore collection
+    const querySnapshot = await getDocs(collection(db, "UserAccount"));
+
+    // Clear the table body before populating
+    activeAccountsTableBody.innerHTML = '';
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      console.log("Account Status:", data.Status); // Debugging: Check Status field
+
+      // Check if the Status is "Active"
+      if (data.Status === "Active") {
+        // Format DateCreated to mm/dd/yyyy
+        const dateCreated = data.DateCreated ? data.DateCreated.toDate().toLocaleDateString('en-US', {
+          month: '2-digit',
+          day: '2-digit',
+          year: 'numeric'
+        }) : '';
+
+        // Check if Birthday is a Firestore Timestamp and format it to mm/dd/yyyy
+        let birthday = '';
+        if (data.Birthday) {
+          if (data.Birthday.toDate) {
+            // If it's a Timestamp, convert it to a Date
+            birthday = data.Birthday.toDate().toLocaleDateString('en-US', {
+              month: '2-digit',
+              day: '2-digit',
+              year: 'numeric'
+            });
+          } else {
+            // If it's not a Timestamp, assume it's already a string in mm/dd/yyyy format
+            birthday = data.Birthday;
+          }
+        }
+
+        // Create a new table row
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${data.Name || ''}</td>
+          <td>${data.Username || ''}</td>
+          <td>${data.Role || ''}</td>
+          <td>${data.Gender || ''}</td>
+          <td>${birthday}</td>  <!-- Updated Birthday formatting -->
+          <td>${dateCreated}</td>
+          <td>
+            <div style="position: relative;">
+              <button onclick="toggleDropdown(this)">...</button>
+              <div class="dropdown-menu">
+                <button onclick="editAccount('${doc.id}')">Edit</button>
+                <button onclick="removeAccount('${doc.id}')">Remove</button>
+                <button onclick="deactivateAccount('${doc.id}')">Deactivate</button>
+              </div>
+            </div>
+          </td>
+        `;
+
+        // Append the row to the table body
+        activeAccountsTableBody.appendChild(row);
+      }
+    });
+
+    console.log("Table populated successfully with active accounts.");
+  } catch (error) {
+    console.error("Error fetching active accounts from Firestore:", error);
+  }
+}
+
+// Function to toggle the dropdown menu visibility
+function toggleDropdown(button) {
+  const dropdownMenu = button.nextElementSibling;
+
+  // Hide other open dropdowns
+  document.querySelectorAll('.dropdown-menu').forEach(menu => {
+      if (menu !== dropdownMenu) {
+          menu.style.display = 'none';
+      }
+  });
+
+  // Toggle the clicked dropdown
+  dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+}
+
+// Functions to handle each dropdown action (to be implemented)
+function editAccount(id) {
+  console.log(`Edit account with ID: ${id}`);
+  // Implement edit functionality here
+}
+
+function removeAccount(id) {
+  console.log(`Remove account with ID: ${id}`);
+  // Implement remove functionality here
+}
+
+function deactivateAccount(id) {
+  console.log(`Deactivate account with ID: ${id}`);
+  // Implement deactivate functionality here
+}
+
+// Event listener to close the dropdown if clicked outside
+document.addEventListener('click', function(event) {
+  if (!event.target.closest('.dropdown-menu') && !event.target.closest('button')) {
+      document.querySelectorAll('.dropdown-menu').forEach(menu => menu.style.display = 'none');
+  }
+});
+
+// Call the function to populate the table on page load or as needed
+populateActiveAccountsTable();
+
+async function populateInactiveAccountsTable() {
+  const inactiveAccountsTableBody = document.getElementById('inactiveAccountsTableBody').querySelector('tbody'); // Correct table body reference
+
+  try {
+    // Reference to the Firestore collection
+    const querySnapshot = await getDocs(collection(db, "UserAccount"));
+
+    // Clear the table body before populating
+    inactiveAccountsTableBody.innerHTML = '';
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      console.log("Account Status:", data.Status); // Debugging: Check Status field
+
+      // Check if the Status is "Inactive"
+      if (data.Status === "Inactive") {
+        // Format DateCreated to mm/dd/yyyy
+        const dateCreated = data.DateCreated ? data.DateCreated.toDate().toLocaleDateString('en-US', {
+          month: '2-digit',
+          day: '2-digit',
+          year: 'numeric'
+        }) : '';
+
+        // Check if Birthday is a Firestore Timestamp and format it to mm/dd/yyyy
+        let birthday = '';
+        if (data.Birthday) {
+          if (data.Birthday.toDate) {
+            // If it's a Timestamp, convert it to a Date
+            birthday = data.Birthday.toDate().toLocaleDateString('en-US', {
+              month: '2-digit',
+              day: '2-digit',
+              year: 'numeric'
+            });
+          } else {
+            // If it's not a Timestamp, assume it's already a string in mm/dd/yyyy format
+            birthday = data.Birthday;
+          }
+        }
+
+        // Create a new table row
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${data.Name || ''}</td>
+          <td>${data.Username || ''}</td>
+          <td>${data.Role || ''}</td>
+          <td>${data.Gender || ''}</td>
+          <td>${birthday}</td>  <!-- Updated Birthday formatting -->
+          <td>${dateCreated}</td>
+          <td>
+            <div style="position: relative;">
+              <button onclick="toggleDropdown(this)">...</button>
+              <div class="dropdown-menu">
+                <button onclick="editAccount('${doc.id}')">Edit</button>
+                <button onclick="removeAccount('${doc.id}')">Remove</button>
+                <button onclick="activateAccount('${doc.id}')">Activate</button> <!-- Changed from Deactivate to Activate -->
+              </div>
+            </div>
+          </td>
+        `;
+
+        // Append the row to the table body
+        inactiveAccountsTableBody.appendChild(row);
+      }
+    });
+
+    console.log("Table populated successfully with inactive accounts.");
+  } catch (error) {
+    console.error("Error fetching inactive accounts from Firestore:", error);
+  }
+}
+
+populateInactiveAccountsTable();
 
 window.showControlManagemen = showDashboard;
 window.loadNextModule = loadNextModule;
@@ -682,3 +874,7 @@ window.replaceWithImage = replaceWithImage;
 window.saveContactInfo = saveContactInfo;
 window.loadNextModule2 = loadNextModule2;
 window.loadNextModule3 = loadNextModule3;
+window.toggleDropdown = toggleDropdown;
+window.editAccount = editAccount;
+window.removeAccount = removeAccount;
+window.deactivateAccount = deactivateAccount;
