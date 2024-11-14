@@ -163,14 +163,11 @@
             <div class="select-container">
               <label for="categoryCountInput">Select Category:</label>
               <select id="categoryCountInput">
-                <option value="" disabled selected>Select Category</option>
-                <option value="Category 1">Category 1</option>
-                <option value="Category 2">Category 2</option>
-                <option value="Category 3">Category 3</option>
-                <!-- Add more categories as needed -->
+                <option value="" selected>Select Category</option>
+                <!-- Options will be populated here dynamically -->
               </select>
             </div>
-    
+            
             <!-- Animation Name Input -->
             <div class="input-container">
               <label for="animationNameInput">Enter Animation Name:</label>
@@ -184,12 +181,10 @@
               <div>
                 <img src="../img/upload-icon.png" alt="Upload Icon">
                 <p>Upload Animation Video</p>
-                
               </div>
             </div>
-            <input type="file" id="animationVideoInput" accept="video/*" style="display: none;" onchange="replaceWithImage('animationVideoInput', 'animationVideoUploadBox')">          
+            <input type="file" id="animationVideoInput" accept="video/*" style="display: none;" onchange="displayUploadedVideo(event)">          
           </div>
-    
           <!-- Save Button -->
           <div class="save-button-container">
             <button class="add-animation" onclick="addAnimation()">Save</button>
@@ -355,7 +350,7 @@
     <button id="cancelDeleteBtn">Cancel</button>
   </div>
 </div>
-  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js"></script>
   <script type="module" src="Admin.js"></script> 
