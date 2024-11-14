@@ -1,6 +1,6 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, arrayUnion } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
@@ -29,8 +29,7 @@ document.querySelectorAll('.widget').forEach(widget => {
 });
 
 // Show the Dashboard section and hide others
-function showDashboard() {
-    console.log("Show Dashboard");
+function showDashboard() {  
     document.querySelector('.dashboard-content').style.display = 'block';
     document.querySelector('.userdashboard-content').style.display = 'none';
     document.querySelector('.latest-content').style.display = 'none';
@@ -186,9 +185,24 @@ function replaceWithImage(inputId, containerId) {
 
     if (inputFile.files && inputFile.files[0]) {
         const reader = new FileReader();
+
         reader.onload = function(e) {
-            container.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image" style="width: 100%; height: 100%; object-fit: cover;">`;
+            // Create an image element and set its source to the uploaded file's data URL
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = "Uploaded Image";
+
+            // Set the image style to fit the container
+            img.style.width = "100%";
+            img.style.height = "100%";
+            img.style.objectFit = "cover"; // Ensure the image covers the container without distortion
+
+            // Clear the existing content in the container and add the new image
+            container.innerHTML = '';
+            container.appendChild(img);
         };
+        
+        // Read the file as a Data URL
         reader.readAsDataURL(inputFile.files[0]);
     }
 }
