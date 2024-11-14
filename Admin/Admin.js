@@ -56,6 +56,7 @@ function showLatestInterface() {
 
 function toggleMainModule(moduleId) {
     console.log("Toggling module:", moduleId);
+
     // Hide all sections
     const modules = document.querySelectorAll('.main-admin-module');
     modules.forEach(module => {
@@ -68,7 +69,16 @@ function toggleMainModule(moduleId) {
         console.log("Showing module:", moduleId);
         selectedModule.style.display = 'block';
     }
+
+    // Remove 'active' class from all cards
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => card.classList.remove("active"));
+
+    // Add 'active' class to the clicked card to show underline
+    const clickedCard = document.querySelector(`[onclick="toggleMainModule('${moduleId}')"]`);
+    clickedCard.classList.add("active");
 }
+
 
   // Add new category to the table
   function addAnimation() {
@@ -160,17 +170,36 @@ function loadNextModule() {
     const page1 = document.getElementById("page1Content");
     const page2 = document.getElementById("page2Content");
   
-    // If page1 is visible, switch to page2
+    // If page4 is visible, switch to page5
     if (page1.style.display !== "none") {
       page1.style.display = "none";
       page2.style.display = "block";
     } 
-    // If page2 is visible, switch to page1
+    // If page5 is visible, switch back to page4
     else if (page2.style.display !== "none") {
-      page1.style.display = "block";
       page2.style.display = "none";
+      page1.style.display = "block";
     }
-  }
+}
+  
+
+function loadNextModule2() {
+    const page4 = document.getElementById("page4Content");
+    const page5 = document.getElementById("page5Content");
+  
+    // If page4 is visible, switch to page5
+    if (page4.style.display !== "none") {
+      page4.style.display = "none";
+      page5.style.display = "block";
+    } 
+    // If page5 is visible, switch back to page4
+    else if (page5.style.display !== "none") {
+      page5.style.display = "none";
+      page4.style.display = "block";
+    }
+}
+
+
 
 
 // Function to trigger the file input
@@ -297,6 +326,8 @@ async function countUsers() {
     }
 }
 
+
+
 // Call the countUsers function when the page loads
 countUsers()
 
@@ -311,3 +342,4 @@ window.filterCategory = filterCategory;
 window.triggerUpload = triggerUpload;
 window.replaceWithImage = replaceWithImage;
 window.saveContactInfo = saveContactInfo;
+window.loadNextModule2 = loadNextModule2;

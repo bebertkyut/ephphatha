@@ -52,9 +52,9 @@
           </div>
          <!--THIS SECTION IS FOR EDITING LOG IN PAGE -->
          <section class="main-admin-module" id="CMLogin" style="display: none;">
-          <h1></h1>
           <div class="module-box">
-            <!-- Upload Section -->
+            <div class="form-container">
+              <h2 class="form-title">Upload Header/About Images</h2>
             <div class="upload-container">
               <!-- Header Image Upload -->
               <div class="upload-header-container" id="uploadBox" onclick="triggerUpload('fileInput')">
@@ -102,67 +102,87 @@
             </div>
           </div>
         </section>
-          <!--THIS SECTION IS FOR EDITING USER DASHBOARD PAGE -->
-          <section class="main-admin-module" id="CMUserDashboard" style="display: none;">
-            <h1></h1>
-            <div class="module-box-container">
-              <div class="module-box">
+         <!-- SECTION FOR EDITING USER DASHBOARD PAGE -->
+         <section class="main-admin-module" id="CMUserDashboard" style="display: none;">
+          <h1></h1>
+          <div class="module-box-container">
+            
+            <!-- Page 1 Content -->
+            <div class="module-box" id="page1Content">
+              <div class="form-container">
+                <h2 class="form-title">Upload Bulletin Image</h2>
                 <div class="upload-container">
+                  
                   <div class="bulletin-board-container" id="bulletinBoardUploadBox" onclick="triggerUpload('bulletinBoardFileInput')">
-                      <div>
-                          <img src="../img/upload-icon.png" alt="Upload Icon">
-                          <p>Upload Bulletin Board Header Image</p>
-                      </div>
+                    <div>
+                      <img src="../img/upload-icon.png" alt="Upload Icon">
+                      <p>Upload Bulletin Board Header Image</p>
+                    </div>
                   </div>
-                  <input type="file" id="bulletinBoardFileInput" accept=".png, .jpg, .jpeg, .gif" style="display:none;" onchange="replaceWithImage('bulletinBoardFileInput', 'bulletinBoardUploadBox')">
-              </div>
-              
-              <!-- Form Container -->
-            <div class="form-container">
-              <h2 class="form-title">Add Animation</h2>
-              <!-- Form Fields -->
-              <div class="animation-addition">
-                <!-- Category and Animation Name side by side -->
-                <div class="field-pair">
-                  <div class="select-container">
-                    <label for="categoryCountInput">Select Category:</label>
-                    <select id="categoryCountInput">
-                      <option value="" disabled selected>Select Category</option>
-                      <option value="Category 1">Category 1</option>
-                      <option value="Category 2">Category 2</option>
-                      <option value="Category 3">Category 3</option>
-                      <option value="Category 4">Category 4</option>
-                      <option value="Category 5">Category 5</option>
-                      <option value="Category 6">Category 6</option>
-                      <option value="Category 7">Category 7</option>
-                      <option value="Category 8">Category 8</option>
-                      <option value="Category 9">Category 9</option>
-                      <option value="Category 10">Category 10</option>
-                      <option value="Category 11">Category 11</option>
-                      <option value="Category 12">Category 12</option>
-                    </select>
-                  </div>
-                  <div class="input-container">
-                    <label for="animationNameInput">Enter Animation Name:</label>
-                    <input type="text" id="animationNameInput" placeholder="Animation Name" />
-                  </div>
+                  
+                  <input type="file" id="bulletinBoardFileInput" accept=".png, .jpg, .jpeg, .gif" style="display: none;" onchange="replaceWithImage('bulletinBoardFileInput', 'bulletinBoardUploadBox')">
                 </div>
-                <!-- Upload and Save buttons below -->
-                <div class="button-pair">
-                  <!-- Upload Animation -->
-                      <label for="animationVideoInput">Click the button to upload video animation:</label>
-                  <div class="upload-section">
+              </div>
+            </div>
+            
+            <!-- Page 2 Content -->
+            <div class="module-box" id="page2Content" style="display: none;">
+              <div class="form-container">
+                <h2 class="form-title">Add Animation</h2>
+                
+                <!-- Form Fields -->
+                <div class="animation-addition">
+                  <!-- Category and Animation Name side by side -->
+                  <div class="field-pair">
+                    <!-- Category Selection -->
+                    <div class="select-container">
+                      <label for="categoryCountInput">Select Category:</label>
+                      <select id="categoryCountInput">
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Category 1">Category 1</option>
+                        <option value="Category 2">Category 2</option>
+                        <option value="Category 3">Category 3</option>
+                        <option value="Category 4">Category 4</option>
+                        <option value="Category 5">Category 5</option>
+                        <option value="Category 6">Category 6</option>
+                        <option value="Category 7">Category 7</option>
+                        <option value="Category 8">Category 8</option>
+                        <option value="Category 9">Category 9</option>
+                        <option value="Category 10">Category 10</option>
+                        <option value="Category 11">Category 11</option>
+                        <option value="Category 12">Category 12</option>
+                      </select>
+                    </div>
+        
+                    <!-- Animation Name Input -->
+                    <div class="input-container">
+                      <label for="animationNameInput">Enter Animation Name:</label>
+                      <input type="text" id="animationNameInput" placeholder="Animation Name" />
+                    </div>
+                  </div>
+        
+                  <!-- Upload and Save Buttons -->
+                  <div class="button-pair">
+                    <!-- Upload Animation -->
+                    <label for="animationVideoInput">Click the button to upload video animation:</label>
+                    <div class="upload-section">
                       <label for="animationVideoInput" class="upload-button" id="fileLabel">No file chosen</label>
                       <input type="file" id="animationVideoInput" accept="video/*" style="display: none;" />
-                  </div>
-                  <!-- Save Button -->
-                  <div class="save-section">
-                    <button class="add-animation" onclick="addAnimation()">Save</button>
+                    </div>
+                    
+                    <!-- Save Button -->
+                    <div class="save-section">
+                      <button class="add-animation" onclick="addAnimation()">Save</button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>     
+            </div>
+            <button class="next-button" onclick="loadNextModule()">Next</button>
+          </div>
         </section>
+        
+
         <!--THIS SECTION IS FOR EDITING ACCOUNT PAGE PAGE -->
         <section class="main-admin-module" id="CMAccounts" style="display: none;">
           <h1></h1>
@@ -193,11 +213,11 @@
         <section class="main-admin-module" id="LTUserdashboard" style="display: none;">
           <h1></h1>
           <div class="module-box-container">
-            <div class="module-box" id="page1Content">
+            <div class="module-box" id="page4Content">
             </div>
-            <button class="next-button" onclick="loadNextModule()">Next</button>
+            <button class="next-button" onclick="loadNextModule2()">Next</button>
             <div id="pageIndicator" class="page-indicator"></div> 
-        <div class="module-box" id="page2Content" style="display: none;">
+        <div class="module-box" id="page5Content" style="display: none;">
          <div class="filterCategory">
                 <select id="categoryFilter" onchange="filterCategory()">
                   <option value="">Show All</option>
