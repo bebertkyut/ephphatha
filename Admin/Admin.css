@@ -23,8 +23,9 @@ body {
 }
 
 .header h1 {
-  font-size: 32px;
+  font-size: 2rem;
   color: #333;
+  
 }
 
 .header p {
@@ -150,13 +151,14 @@ body {
 .main-containers .card {
   width: 25%;
   margin: 10px;
-  height: 100px;
+  height: 60px;
   background: #fff;
   text-align: center;
   border-radius: 20px;
   padding: 10px;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
+
 
 .main-containers .card h3 {
   margin: 10px;
@@ -192,7 +194,7 @@ body {
 
 .module-box {
   width: 100%;
-  height: 520px;
+  height: 590px;
   padding: 10px 10px 30px 10px;
   margin-top: 10px;
   background: #fff;
@@ -206,9 +208,6 @@ body {
   margin-bottom: 20px;
 }
 
-.main-admin-module {
-  position: relative;
-}
 
 .next-button {
   position: fixed; 
@@ -230,7 +229,7 @@ body {
   margin-right: 280px;
   bottom: 100px;
   right: 10px;
-  margin-left: 5px;
+  margin-left: 10px;
   font-size: 16px;
   color: #333;
 }
@@ -317,17 +316,20 @@ input[type="file"] {
 
 .contact-info-container {
   display: flex;
+  flex-direction: row; /* Arrange items in a row */
   gap: 15px;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 10px;
   width: 100%;
   max-width: 900px;
 }
 
 .contact-item {
-  flex: 1;
+  flex: 1; /* Allow items to take up equal space */
   min-width: 200px;
+  display: flex;
+  flex-direction: column; /* Align label and input vertically */
 }
 
 .contact-item label {
@@ -344,8 +346,14 @@ input[type="file"] {
   font-size: 1em;
 }
 
-.contact-item button {
+.save-button-container {
+  margin-top: 15px;
   width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.save-button-container button {
   padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
@@ -354,22 +362,16 @@ input[type="file"] {
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-top: 18px;
 }
 
-.contact-item button:hover {
+.save-button-container button:hover {
   background-color: #0056b3;
 }
 
+
+
 /* Page 2 Content */
-#page2Content {
-  display: fixed;
-  height: 520px;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-}
+
 
 #page2Content h2 {
   font-size: 24px;
@@ -387,7 +389,7 @@ input[type="file"] {
 
 /* Container for the entire table */
 .table-container {
-  max-height: 400px; /* Adjust height as needed */
+  height: 380px; /* Adjust height as needed */
   width: 100%; /* Ensure it takes the full width of the container */
   border: 1px solid #ddd; /* Optional border for visual separation */
   padding: 0; /* Removed unnecessary padding */
@@ -571,11 +573,7 @@ select, input {
 }
 
 /* Save Button Styles */
-.save-section {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
+
 
 .add-animation {
   padding: 10px 20px;
@@ -590,7 +588,6 @@ select, input {
   background-color: #218838;
 }
 
-/* Add margin to labels */
 label {
   margin: 10px 0;
   font-size: 14px;
@@ -625,3 +622,5 @@ label {
   background-color: #e0f0ff;
   cursor: pointer;
 }
+
+
