@@ -154,7 +154,7 @@ body {
   height: 60px;
   background: #fff;
   text-align: center;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 10px;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
 }
@@ -254,23 +254,22 @@ body {
   border: 2px dashed #000000;
   margin-left: 50px;
   border-radius: 8px;
-  width: 100%;
-  max-width: 600px;
-  height: 180px;
+  width: 550px;
+  height: 200px;
   cursor: pointer;
   transition: border-color 0.3s;
   margin-right: 50px;
 }
 
 .bulletin-board-container {
-  width: 100%;
+  width: 1300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border: 2px dashed #000000;
   border-radius: 8px;
-  height: 180px;
+  height: 420px;
   cursor: pointer;
   transition: border-color 0.3s;
   margin-right: 3px;
@@ -321,8 +320,7 @@ input[type="file"] {
   justify-content: center;
   align-items: flex-start;
   margin-top: 10px;
-  width: 100%;
-  max-width: 900px;
+  width: 1200px;
 }
 
 .contact-item {
@@ -344,6 +342,7 @@ input[type="file"] {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1em;
+  text-align: center;
 }
 
 .save-button-container {
@@ -389,17 +388,18 @@ input[type="file"] {
 
 /* Container for the entire table */
 .table-container {
-  height: 380px; /* Adjust height as needed */
+  height: 45vh; /* Adjust height as needed */
   width: 100%; /* Ensure it takes the full width of the container */
   border: 1px solid #ddd; /* Optional border for visual separation */
   padding: 0; /* Removed unnecessary padding */
   box-sizing: border-box;
   display: block;
   overflow: hidden; /* Ensure no unwanted overflow around the container */
+  width: 100%; /* Ensure table-container takes full width */
 }
 
 /* Table Header Styling */
-#categoryTable thead th {
+#categoryTable thead th, #activeAccountsTable thead th {
   padding: 10px;
   background-color: #0073e6; /* Ensures header background is visible */
   color: white;
@@ -412,19 +412,19 @@ input[type="file"] {
 
 /* Scrollable Body Container */
 .scrollable-body {
-  max-height: 350px; /* Adjust height as needed */
+  max-height: 100%; /* Adjust height as needed */
   overflow-y: auto; /* Enables vertical scrolling */
 }
 
 /* Table Styling */
-#categoryTable {
+#categoryTable, #activeAccountsTable {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed; /* Ensures column widths are uniform */
 }
 
 /* Table Cells Styling */
-#categoryTable th, #categoryTable td {
+#categoryTable th, #categoryTable td, #activeAccountsTable th, #activeAccountsTable td {
   padding: 8px 12px;
   border: 1px solid #ddd;
   text-align: left;
@@ -432,9 +432,24 @@ input[type="file"] {
 }
 
 /* Optional Styling for Cells for better consistency */
-#categoryTable td {
+#categoryTable td, #activeAccountsTable td {
   white-space: nowrap; /* Prevents text from wrapping, keeping alignment consistent */
-}
+} 
+/* Align table headers and body columns */
+#activeAccountsTable th:nth-child(1), 
+#activeAccountsTable td:nth-child(1) { width: 15%; } /* Name column */
+#activeAccountsTable th:nth-child(2), 
+#activeAccountsTable td:nth-child(2) { width: 15%; } /* Username column */
+#activeAccountsTable th:nth-child(3), 
+#activeAccountsTable td:nth-child(3) { width: 10%; } /* Role column */
+#activeAccountsTable th:nth-child(4), 
+#activeAccountsTable td:nth-child(4) { width: 10%; } /* Gender column */
+#activeAccountsTable th:nth-child(5), 
+#activeAccountsTable td:nth-child(5) { width: 15%; } /* Birthday column */
+#activeAccountsTable th:nth-child(6), 
+#activeAccountsTable td:nth-child(6) { width: 15%; } /* Date Created column */
+#activeAccountsTable th:nth-child(7), 
+#activeAccountsTable td:nth-child(7) { width: 20%; } /* Action column */
 
 /* Action Buttons Styles */
 
@@ -503,6 +518,7 @@ input[type="file"] {
 /* Style the title */
 /* Form Title Container */
 .form-title {
+  margin-bottom: 50px;
   width: 100%;
   background-color: #f0f0f0; /* Light gray background */
   padding: 10px 35px; /* Adds padding around the title */
@@ -637,6 +653,42 @@ label {
   z-index: 1000;
 }
 
+/* Basic styling for card */
+.card {
+  position: relative;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect */
+.card:hover {
+  color: #007bff; /* Optional: Change color on hover */
+}
+
+/* Underline effect */
+.card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  bottom: 0;
+  height: 2px;
+  background-color: #007bff; /* Color of the underline */
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.card:hover::after,
+.card.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
 /* Overlay behind the video */
 .modal-overlay {
   position: absolute;
@@ -752,27 +804,6 @@ label {
   background-color: #2980b9;
 }
 
-#headerImagesContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.image-wrapper {
-  width: 40vh;
-  height: 20vh;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: auto;
-}
-
-.header-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block; 
-}
 
 .confirmation-overlay {
   position: fixed;
@@ -814,12 +845,73 @@ label {
   cursor: pointer;
 }
 
-.remove-button {
-  display: inline-block;
-  padding: 5px 10px;
-  background-color: red;
+/* Styling for the image container */
+#headerImagesContainer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 400px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Image wrapper to show one image at a time */
+.image-wrapper {
+  display: none;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-wrapper.active {
+  display: flex;
+}
+
+/* Image styling */
+.header-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Slider controls */
+.slider-button {
+  position: absolute;
+  top: 50%; /* Position buttons at the vertical center */
+  transform: translateY(-50%); /* Align vertically centered */
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
+  padding: 10px;
   cursor: pointer;
-  z-index: auto;
+  z-index: 10;
+}
+
+/* Position prev button on the left side */
+#prevButton {
+  left: 0; /* Move to left edge */
+  margin-left: 65vh; /* Space from the left edge */
+}
+
+/* Position next button on the right side */
+#nextButton {
+  right: 0; /* Move to right edge */
+  margin-right: 65vh; /* Space from the right edge */
+}
+
+
+.remove-button {
+  position: absolute;
+  top: 5px;         /* Positions the button near the top */
+  right: 5px;       /* Positions the button near the right */
+  color: white;
+  padding: 2px;
+  border: 2px solid red; /* Add border width and color */
+  margin-right: 5vh;
+  cursor: pointer;
+  background-color: red;
+  font-size: 18px;  /* Adjusts size for visibility */
+  border-radius: 5px;
 }
