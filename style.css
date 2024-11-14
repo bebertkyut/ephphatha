@@ -295,7 +295,6 @@ p {
     position: relative;
     height: 40vh;
     width: 100%; 
-    background: url('./d.png') no-repeat center center;
     background-size: cover;
     color: white;
 
