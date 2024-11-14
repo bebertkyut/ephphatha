@@ -34,7 +34,7 @@ function showDashboard() {
   document.querySelector('.userdashboard-content').style.display = 'none';
   document.querySelector('.latest-content').style.display = 'none';
   document.getElementById('dashboardHeader').innerText = 'Dashboard';
-  document.getElementById("keyfeatures-content").style.display = "none";
+  document.getElementById("keyfeatures-content").style.display = "block";
 }
 
 // Show the Control Management Interface section and hide others
@@ -679,17 +679,19 @@ async function removeImage(index, imageUrl) {
 document.addEventListener('DOMContentLoaded', populateHeaderImages);
 
 // Firebase Firestore reference (assumes `db` is your Firestore instance)
-const activeAccountsTableBody = document.getElementById('activeAccountsTable').querySelector('tbody');
+const activeAccountsTableBody = document.getElementById('activeAccountsTableBody');  // Fixed the repeated declaration
 
+// Function to populate the Active Accounts Table
 async function populateActiveAccountsTable() {
-  const activeAccountsTableBody = document.getElementById('activeAccountsTableBody').querySelector('tbody');  // Correct table body reference
-
   try {
     // Reference to the Firestore collection
     const querySnapshot = await getDocs(collection(db, "UserAccount"));
 
     // Clear the table body before populating
     activeAccountsTableBody.innerHTML = '';
+
+    // Check if we have data
+    console.log("Fetched data:", querySnapshot.docs);
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
@@ -727,7 +729,7 @@ async function populateActiveAccountsTable() {
           <td>${data.Username || ''}</td>
           <td>${data.Role || ''}</td>
           <td>${data.Gender || ''}</td>
-          <td>${birthday}</td>  <!-- Updated Birthday formatting -->
+          <td>${birthday}</td>
           <td>${dateCreated}</td>
           <td>
             <div style="position: relative;">
@@ -794,52 +796,33 @@ document.addEventListener('click', function(event) {
 populateActiveAccountsTable();
 
 async function populateInactiveAccountsTable() {
-  const inactiveAccountsTableBody = document.getElementById('inactiveAccountsTableBody').querySelector('tbody'); // Correct table body reference
+  const inactiveAccountsTableBody = document.getElementById('inactiveAccountsTableBody');
 
   try {
-    // Reference to the Firestore collection
     const querySnapshot = await getDocs(collection(db, "UserAccount"));
-
+    
     // Clear the table body before populating
     inactiveAccountsTableBody.innerHTML = '';
+    console.log("Query snapshot size:", querySnapshot.size); // Check if data is retrieved
 
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      console.log("Account Status:", data.Status); // Debugging: Check Status field
+      console.log("Data received:", data); // Log all data fields to confirm retrieval
 
-      // Check if the Status is "Inactive"
       if (data.Status === "Inactive") {
-        // Format DateCreated to mm/dd/yyyy
-        const dateCreated = data.DateCreated ? data.DateCreated.toDate().toLocaleDateString('en-US', {
-          month: '2-digit',
-          day: '2-digit',
-          year: 'numeric'
-        }) : '';
+        // Additional logging for dates and values
+        console.log("Inactive account found:", data);
 
-        // Check if Birthday is a Firestore Timestamp and format it to mm/dd/yyyy
-        let birthday = '';
-        if (data.Birthday) {
-          if (data.Birthday.toDate) {
-            // If it's a Timestamp, convert it to a Date
-            birthday = data.Birthday.toDate().toLocaleDateString('en-US', {
-              month: '2-digit',
-              day: '2-digit',
-              year: 'numeric'
-            });
-          } else {
-            // If it's not a Timestamp, assume it's already a string in mm/dd/yyyy format
-            birthday = data.Birthday;
-          }
-        }
+        const dateCreated = data.DateCreated ? data.DateCreated.toDate().toLocaleDateString('en-US') : '';
+        let birthday = data.Birthday ? (data.Birthday.toDate ? data.Birthday.toDate().toLocaleDateString('en-US') : data.Birthday) : '';
 
-        // Create a new table row
         const row = document.createElement('tr');
         row.innerHTML = `
           <td>${data.Name || ''}</td>
           <td>${data.Username || ''}</td>
           <td>${data.Role || ''}</td>
           <td>${data.Gender || ''}</td>
-          <td>${birthday}</td>  <!-- Updated Birthday formatting -->
+          <td>${birthday}</td>
           <td>${dateCreated}</td>
           <td>
             <div style="position: relative;">
@@ -847,13 +830,11 @@ async function populateInactiveAccountsTable() {
               <div class="dropdown-menu">
                 <button onclick="editAccount('${doc.id}')">Edit</button>
                 <button onclick="removeAccount('${doc.id}')">Remove</button>
-                <button onclick="activateAccount('${doc.id}')">Activate</button> <!-- Changed from Deactivate to Activate -->
+                <button onclick="activateAccount('${doc.id}')">Activate</button>
               </div>
             </div>
           </td>
         `;
-
-        // Append the row to the table body
         inactiveAccountsTableBody.appendChild(row);
       }
     });
@@ -864,7 +845,9 @@ async function populateInactiveAccountsTable() {
   }
 }
 
+// Call the function to populate inactive accounts as needed
 populateInactiveAccountsTable();
+
 
 window.showControlManagemen = showDashboard;
 window.loadNextModule = loadNextModule;
@@ -882,3 +865,5 @@ window.toggleDropdown = toggleDropdown;
 window.editAccount = editAccount;
 window.removeAccount = removeAccount;
 window.deactivateAccount = deactivateAccount;
+window.populateInactiveAccountsTable = populateInactiveAccountsTable;
+window.populateActiveAccountsTable = populateActiveAccountsTable;
