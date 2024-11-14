@@ -1,7 +1,7 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
 import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
+import { getStorage, ref, uploadBytes, getDownloadURL, listAll } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
 // Firebase configuration
@@ -16,7 +16,7 @@ const firebaseConfig = {
   
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app); // Make db available globally
+  const db = getFirestore(app);
   const storage = getStorage(app);
 
   
@@ -232,6 +232,28 @@ async function saveContactInfo() {
 
     console.log("Contact information saved to Firestore successfully.");
 }
+
+// Function to count animations in Firebase Storage
+async function countAnimations() {
+    try {
+        // Reference to the folder where animations are stored in Firebase Storage
+        const animationsRef = ref(storage, 'Animations'); // Replace 'Animations' with your specific folder name
+        
+        // List all files in the specified folder
+        const list = await listAll(animationsRef);
+
+        // Get the total count of items in the folder
+        const totalAnimations = list.items.length;
+
+        // Display the total count in the "Total Animation" stat card
+        document.querySelector('.stat-card:nth-child(2) h3').textContent = totalAnimations;
+    } catch (error) {
+        console.error("Error counting animations:", error);
+    }
+}
+
+// Call the countAnimations function when the page loads
+countAnimations();
 
 window.showDashboard = showDashboard;
 window.showEditInterface = showEditInterface;
