@@ -1,6 +1,6 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll, uploadBytesResumable } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
@@ -507,10 +507,12 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchSignAssets();
 });
 
-let currentIndex = 0; // Track the current image index
+let currentIndexHeader = 0;
+let currentIndexDashboard = 0;
+
 // Function to populate header images
 async function populateHeaderImages() {
-  const headerImagesContainer = document.getElementById('headerImagesContainer');
+  const headerImagesContainer = document.querySelector('#headerSliderContainer');
   headerImagesContainer.innerHTML = ''; // Clear previous content
 
   try {
@@ -521,40 +523,15 @@ async function populateHeaderImages() {
       const headerImages = loginPageDoc.data().HeaderImages;
 
       if (Array.isArray(headerImages)) {
-        headerImages.forEach((imageUrl, index) => {
-          const imageWrapper = document.createElement('div');
-          imageWrapper.classList.add('image-wrapper');
-
+        headerImages.forEach((imageUrl) => {
           const imgElement = document.createElement('img');
           imgElement.src = imageUrl;
           imgElement.alt = 'Header Image';
-          imgElement.classList.add('header-image');
-
-          // Create remove icon button with custom delete image
-          const removeButton = document.createElement('button');
-          removeButton.classList.add('remove-button');
-
-          // Create an image element for the delete button
-          const deleteImage = document.createElement('img');
-          deleteImage.src = "../img/delete.png";  // Ensure this is the correct path to your delete.png
-          deleteImage.alt = 'Delete';
-          deleteImage.classList.add('delete-icon'); // Add a class for styling if needed
-          
-          removeButton.appendChild(deleteImage);
-
-          removeButton.addEventListener('click', () => {
-            showConfirmationOverlay(() => removeImage(index, imageUrl)); 
-          });
-
-          imageWrapper.appendChild(imgElement);
-          imageWrapper.appendChild(removeButton);
-          headerImagesContainer.appendChild(imageWrapper);
-
-          // Initially, only the first image is shown
-          if (index === 0) {
-            imageWrapper.classList.add('active');
-          }
+          headerImagesContainer.appendChild(imgElement);
         });
+
+        // Initialize carousel functionality for header images
+        initializeCarousel(headerImagesContainer, 'header');
       } else {
         console.warn('No HeaderImages array found in LoginPage document.');
       }
@@ -566,97 +543,73 @@ async function populateHeaderImages() {
   }
 }
 
+// Function to load bulletin images from Firestore for the dashboard
+async function loadImagesFromFirestore() {
+  const docRef = doc(db, "DynamicPages", "DashboardPage");
+  const docSnap = await getDoc(docRef);
 
+  if (docSnap.exists()) {
+    const bulletinImages = docSnap.data().Bulletin;
 
-// Function to update the slider position
-function updateSliderPosition() {
-  const allImages = document.querySelectorAll('#headerImagesContainer .image-wrapper');
-  const totalImages = allImages.length;
+    if (bulletinImages && Array.isArray(bulletinImages)) {
+      const sliderContainer = document.querySelector('#userDashboardSliderContainer');
+      sliderContainer.innerHTML = ''; // Clear previous content
 
-  // Hide all images
-  allImages.forEach((imgWrapper) => {
-    imgWrapper.classList.remove('active');
+      bulletinImages.forEach((imageUrl) => {
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.alt = "Bulletin Image";
+        sliderContainer.appendChild(img);
+      });
+
+      // Initialize carousel functionality for bulletin images
+      initializeCarousel(sliderContainer, 'bulletin');
+    } else {
+      console.log('No images found in Bulletin array');
+    }
+  } else {
+    console.log('Document not found!');
+  }
+}
+
+// Initialize carousel functionality
+function initializeCarousel(sliderContainer, type) {
+  const images = sliderContainer.querySelectorAll('img');
+  const totalImages = images.length;
+
+  let currentIndex = type === 'header' ? currentIndexHeader : currentIndexDashboard;
+
+  function updateSlide() {
+    const offset = -100 * currentIndex;
+    sliderContainer.style.transform = `translateX(${offset}%)`;
+  }
+
+  const nextButton = document.getElementById(type === 'header' ? 'nextButtonHeader' : 'nextBtn');
+  const prevButton = document.getElementById(type === 'header' ? 'prevButtonHeader' : 'prevBtn');
+
+  nextButton.addEventListener('click', () => {
+    currentIndex = (currentIndex < totalImages - 1) ? currentIndex + 1 : 0;
+    updateSlide();
+    if (type === 'header') currentIndexHeader = currentIndex;
+    else currentIndexDashboard = currentIndex;
   });
 
-  // Show the current image
-  allImages[currentIndex].classList.add('active');
+  prevButton.addEventListener('click', () => {
+    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalImages - 1;
+    updateSlide();
+    if (type === 'header') currentIndexHeader = currentIndex;
+    else currentIndexDashboard = currentIndex;
+  });
+
+  updateSlide();
 }
 
-// Slider navigation functionality
-const nextButton = document.getElementById('nextButton');
-const prevButton = document.getElementById('prevButton');
-
-// Move to the next image
-nextButton.addEventListener('click', () => {
-  const totalImages = document.querySelectorAll('#headerImagesContainer .image-wrapper').length;
-  if (currentIndex < totalImages - 1) {
-    currentIndex++;
-    updateSliderPosition();
-  }
-});
-
-// Move to the previous image
-prevButton.addEventListener('click', () => {
-  if (currentIndex > 0) {
-    currentIndex--;
-    updateSliderPosition();
-  }
-});
-
-// Initialize the image slider
+// Initialize both sliders on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   populateHeaderImages();
+  loadImagesFromFirestore();
 });
 
-
-// Show confirmation overlay function
-function showConfirmationOverlay(onConfirm) {
-  const overlay = document.createElement('div');
-  overlay.classList.add('confirmation-overlay');
-  overlay.innerHTML = `
-    <div class="confirmation-box">
-      <p>Are you sure you want to remove this photo?</p>
-      <button id="confirmRemove" class="confirm-btn">Yes, Remove</button>
-      <button id="cancelRemove" class="cancel-btn">Cancel</button>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  document.getElementById('confirmRemove').onclick = () => {
-    onConfirm();
-    document.body.removeChild(overlay); 
-  };
-  
-  document.getElementById('cancelRemove').onclick = () => {
-    document.body.removeChild(overlay); 
-  };
-}
-
-// Function to remove the image from Firestore
-async function removeImage(index) {
-  try {
-    const loginPageDocRef = doc(db, 'DynamicPages', 'LoginPage');
-    const loginPageDoc = await getDoc(loginPageDocRef);
-
-    if (loginPageDoc.exists()) {
-      let headerImages = loginPageDoc.data().HeaderImages;
-
-      if (Array.isArray(headerImages)) {
-        headerImages = headerImages.filter((_, i) => i !== index);
-
-        await updateDoc(loginPageDocRef, { HeaderImages: headerImages });
-        
-        populateHeaderImages();
-      }
-    }
-  } catch (error) {
-    console.error('Error removing image:', error);
-  }
-}
-
-// Call the function to populate images when the page loads
-document.addEventListener('DOMContentLoaded', populateHeaderImages);
 
 // Firebase Firestore reference (assumes `db` is your Firestore instance)
 const activeAccountsTableBody = document.getElementById('activeAccountsTableBody');  // Fixed the repeated declaration
@@ -740,15 +693,14 @@ function toggleDropdown(button) {
 
   // Hide other open dropdowns
   document.querySelectorAll('.dropdown-menu').forEach(menu => {
-    if (menu !== dropdownMenu) {
-      menu.style.display = 'none';
-    }
+      if (menu !== dropdownMenu) {
+          menu.style.display = 'none';
+      }
   });
 
   // Toggle the clicked dropdown
   dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
 }
-
 
 // Functions to handle each dropdown action (to be implemented)
 function editAccount(id) {
@@ -757,139 +709,13 @@ function editAccount(id) {
 }
 
 function removeAccount(id) {
-    console.log(`Attempting to remove account with ID: ${id}`);
-
-  // Create the modal HTML structure
-  const modal = document.createElement('div');
-  modal.id = 'deleteConfirmationOverlay';
-  modal.className = 'overlay';
-  modal.innerHTML = `
-      <div class="overlay-content">
-        <p>Are you sure you want to remove this account?</p>
-        <button id="confirmRemove" class="confirm-btn">Yes, Remove</button>
-        <button id="cancelRemove" class="cancel-btn">Cancel</button>
-      </div>
-  `;
-  
-  // Append modal to the body
-  document.body.appendChild(modal);
-
-  // Get the buttons from the modal
-  const confirmRemoveBtn = modal.querySelector('#confirmRemove');
-  const cancelRemoveBtn = modal.querySelector('#cancelRemove');
-
-  // Function to handle modal closing
-  function closeModal() {
-    document.body.removeChild(modal);
-  }
-
-  // When user clicks "Yes, Remove", delete the account
-  confirmRemoveBtn.onclick = async function() {
-    try {
-      await removeAccountFromFirestore(id);  // Call the function to remove the account
-      console.log(`Account with ID ${id} removed successfully.`);
-      closeModal();  // Close the modal after removal
-      
-      // Fetch updated data for both active and inactive accounts
-      await populateActiveAccountsTable();
-      await populateInactiveAccountsTable();
-    } catch (error) {
-      console.error('Error removing account:', error);
-    }
-  };
-
-  // When user clicks "Cancel", close the modal without doing anything
-  cancelRemoveBtn.onclick = function() {
-    closeModal();  // Close the modal on cancel
-  };
-
-  // Close modal if clicked outside the content area
-  window.onclick = function(event) {
-    if (event.target === modal) {
-      closeModal();
-    }
-  };
-
-  // Show the modal
-  modal.style.display = "block";
+  console.log(`Remove account with ID: ${id}`);
+  // Implement remove functionality here
 }
 
-// Function to delete account from Firestore
-async function removeAccountFromFirestore(id) {
-  const userRef = doc(db, "UserAccount", id); // Reference to the account document
-  
-  // Delete the document from Firestore
-  await deleteDoc(userRef);
-}
-
-// Function to deactivate account and fetch updated data
 function deactivateAccount(id) {
-  // Create the confirmation modal dynamically
-  const confirmationModal = document.createElement('div');
-  confirmationModal.classList.add('modal');
-
-  // Create the modal content
-  const modalContent = document.createElement('div');
-  modalContent.classList.add('modal-content');
-  
-  const heading = document.createElement('h4');
-  heading.textContent = "Are you sure you want to deactivate this account?";
-  modalContent.appendChild(heading);
-  
-  const confirmBtn = document.createElement('button');
-  confirmBtn.textContent = 'Yes, deactivate';
-  const cancelBtn = document.createElement('button');
-  cancelBtn.textContent = 'Cancel';
-  
-  modalContent.appendChild(confirmBtn);
-  modalContent.appendChild(cancelBtn);
-  confirmationModal.appendChild(modalContent);
-
-  // Append the modal to the body
-  document.body.appendChild(confirmationModal);
-
-  // Show the modal
-  confirmationModal.style.display = "block";
-
-  // Confirm deactivation
-  confirmBtn.onclick = async function() {
-    try {
-      // Reference to the UserAccount document
-      const userRef = doc(db, "UserAccount", id);
-      
-      // Update the "Status" field to "Inactive"
-      await updateDoc(userRef, {
-        Status: "Inactive"
-      });
-
-      console.log(`Account with ID ${id} deactivated successfully.`);
-      
-      // Close the modal after successful deactivation
-      confirmationModal.style.display = "none";
-      document.body.removeChild(confirmationModal);
-
-      // Fetch updated data for both active and inactive accounts
-      await populateActiveAccountsTable();
-      await populateInactiveAccountsTable();
-    } catch (error) {
-      console.error('Error deactivating account:', error);
-      // Optionally, show an error message
-    }
-  };
-
-  // Cancel deactivation
-  cancelBtn.onclick = function() {
-    confirmationModal.style.display = "none";
-    document.body.removeChild(confirmationModal);
-  };
-
-  // Close the modal if the user clicks outside the modal content
-  window.onclick = function(event) {
-    if (event.target === confirmationModal) {
-      confirmationModal.style.display = "none";
-      document.body.removeChild(confirmationModal);
-    }
-  };
+  console.log(`Deactivate account with ID: ${id}`);
+  // Implement deactivate functionality here
 }
 
 // Event listener to close the dropdown if clicked outside
@@ -955,66 +781,6 @@ async function populateInactiveAccountsTable() {
 // Call the function to populate inactive accounts as needed
 populateInactiveAccountsTable();
 
-function activateAccount(id) {
-  // Create the confirmation modal dynamically
-  const confirmationModal = document.createElement('div');
-  confirmationModal.classList.add('modal');
-
-  // Create the modal content
-  const modalContent = document.createElement('div');
-  modalContent.classList.add('modal-content');
-
-  const heading = document.createElement('h4');
-  heading.textContent = "Are you sure you want to activate this account?";
-  modalContent.appendChild(heading);
-
-  const confirmBtn = document.createElement('button');
-  confirmBtn.textContent = 'Yes, activate';
-  const cancelBtn = document.createElement('button');
-  cancelBtn.textContent = 'Cancel';
-
-  modalContent.appendChild(confirmBtn);
-  modalContent.appendChild(cancelBtn);
-  confirmationModal.appendChild(modalContent);
-
-  // Append the modal to the body
-  document.body.appendChild(confirmationModal);
-
-  // Show the modal
-  confirmationModal.style.display = "block";
-
-  // Confirm activation
-  confirmBtn.onclick = async function() {
-    try {
-      // Reference to the UserAccount document
-      const userRef = doc(db, "UserAccount", id);
-
-      // Update the "Status" field to "Active"
-      await updateDoc(userRef, {
-        Status: "Active"
-      });
-
-      console.log(`Account with ID ${id} activated successfully.`);
-
-      // Close the modal after successful activation
-      confirmationModal.style.display = "none";
-      document.body.removeChild(confirmationModal);
-
-      // Fetch updated data for both active and inactive accounts
-      await populateActiveAccountsTable();
-      await populateInactiveAccountsTable();
-    } catch (error) {
-      console.error('Error activating account:', error);
-      // Optionally, show an error message
-    }
-  };
-
-  // Cancel activation and close the modal
-  cancelBtn.onclick = function() {
-    confirmationModal.style.display = "none";
-    document.body.removeChild(confirmationModal);
-  };
-}
 
 // Function to handle the video file upload and display
 function displayUploadedVideo(event) {
@@ -1060,123 +826,6 @@ function loadCategoryOptions() {
     });
 }
 
-// Reference to the div where images will be populated
-const pageContentDiv = document.getElementById('page4Content');
-
-// Function to load images from Firestore
-async function loadImagesFromFirestore() {
-  const docRef = doc(db, "DynamicPages", "DashboardPage");
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    const bulletinImages = docSnap.data().Bulletin;
-
-    if (bulletinImages && Array.isArray(bulletinImages) && bulletinImages.length > 0) {
-      bulletinImages.forEach((imageUrl, index) => {
-        const imageContainer = document.createElement('div');
-        imageContainer.style.marginBottom = "10px";
-        
-        const img = document.createElement('img');
-        img.src = imageUrl;
-        img.alt = "Bulletin Image";
-        img.style.width = "100%";
-        
-        const removeButton = document.createElement('button');
-        removeButton.textContent = "Remove";
-        removeButton.style.marginTop = "5px";
-        removeButton.style.backgroundColor = "red";
-        removeButton.style.color = "white";
-        
-        imageContainer.appendChild(img);
-        imageContainer.appendChild(removeButton);
-        
-        pageContentDiv.appendChild(imageContainer);
-
-        removeButton.addEventListener('click', async () => {
-          const confirmationModal = document.createElement('div');
-          confirmationModal.style.position = 'fixed';
-          confirmationModal.style.top = '0';
-          confirmationModal.style.left = '0';
-          confirmationModal.style.width = '100%';
-          confirmationModal.style.height = '100%';
-          confirmationModal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-          confirmationModal.style.display = 'flex';
-          confirmationModal.style.justifyContent = 'center';
-          confirmationModal.style.alignItems = 'center';
-
-          const modalContent = document.createElement('div');
-          modalContent.style.backgroundColor = 'white';
-          modalContent.style.padding = '20px';
-          modalContent.style.borderRadius = '8px';
-          modalContent.style.textAlign = 'center';
-          modalContent.innerHTML = `
-            <h3>Are you sure you want to remove this image?</h3>
-            <button id="confirmRemove" style="background-color: red; color: white; padding: 10px; margin-right: 10px;">Yes</button>
-            <button id="cancelRemove" style="background-color: gray; color: white; padding: 10px;">No</button>
-          `;
-          
-          confirmationModal.appendChild(modalContent);
-          document.body.appendChild(confirmationModal);
-
-          document.getElementById('confirmRemove').addEventListener('click', async () => {
-            try {
-              const updatedBulletinImages = bulletinImages.filter((_, idx) => idx !== index);
-              await updateDoc(docRef, {
-                Bulletin: updatedBulletinImages
-              });
-
-              console.log('Image removed from Firestore');
-              
-              pageContentDiv.removeChild(imageContainer);
-
-              document.body.removeChild(confirmationModal);
-            } catch (error) {
-              console.error('Error removing image:', error);
-              document.body.removeChild(confirmationModal);
-            }
-          });
-            document.getElementById('cancelRemove').addEventListener('click', () => {
-            document.body.removeChild(confirmationModal);
-          });
-        });
-      });
-    } else {
-      console.log('No images found in Bulletin array');
-    }
-  } else {
-    console.log('Document not found!');
-  }
-}
-
-
-
-// Reference to the stat card element where the active accounts count will be displayed
-const activeAccountsElement = document.querySelector('.stat-card h3');
-
-// Function to fetch the count of active accounts
-async function fetchActiveAccountsCount() {
-  const userRef = collection(db, "UserAccount");
-
-  try {
-    // Query to filter documents where the 'Status' field is 'Active'
-    const querySnapshot = await getDocs(query(userRef, where("Status", "==", "Active")));
-    
-    // Set the count of active accounts to the stat card
-    activeAccountsElement.textContent = querySnapshot.size;
-  } catch (error) {
-    console.error("Error fetching active accounts:", error);
-    activeAccountsElement.textContent = "Error"; // Display an error message if the fetch fails
-  }
-}
-
-// Call the function to update the count when the page loads
-fetchActiveAccountsCount();
-
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-  loadCategoryOptions();
-  loadImagesFromFirestore();
-});
 
 window.displayUploadedVideo = displayUploadedVideo;
 window.showControlManagemen = showDashboard;
@@ -1197,4 +846,3 @@ window.removeAccount = removeAccount;
 window.deactivateAccount = deactivateAccount;
 window.populateInactiveAccountsTable = populateInactiveAccountsTable;
 window.populateActiveAccountsTable = populateActiveAccountsTable;
-window.activateAccount = activateAccount;
