@@ -507,10 +507,12 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchSignAssets();
 });
 
-let currentIndex = 0; // Track the current image index
+let currentIndexHeader = 0;
+let currentIndexDashboard = 0;
+
 // Function to populate header images
 async function populateHeaderImages() {
-  const headerImagesContainer = document.getElementById('headerImagesContainer');
+  const headerImagesContainer = document.querySelector('#headerSliderContainer');
   headerImagesContainer.innerHTML = ''; // Clear previous content
 
   try {
@@ -521,40 +523,15 @@ async function populateHeaderImages() {
       const headerImages = loginPageDoc.data().HeaderImages;
 
       if (Array.isArray(headerImages)) {
-        headerImages.forEach((imageUrl, index) => {
-          const imageWrapper = document.createElement('div');
-          imageWrapper.classList.add('image-wrapper');
-
+        headerImages.forEach((imageUrl) => {
           const imgElement = document.createElement('img');
           imgElement.src = imageUrl;
           imgElement.alt = 'Header Image';
-          imgElement.classList.add('header-image');
-
-          // Create remove icon button with custom delete image
-          const removeButton = document.createElement('button');
-          removeButton.classList.add('remove-button');
-
-          // Create an image element for the delete button
-          const deleteImage = document.createElement('img');
-          deleteImage.src = "../img/delete.png";  // Ensure this is the correct path to your delete.png
-          deleteImage.alt = 'Delete';
-          deleteImage.classList.add('delete-icon'); // Add a class for styling if needed
-          
-          removeButton.appendChild(deleteImage);
-
-          removeButton.addEventListener('click', () => {
-            showConfirmationOverlay(() => removeImage(index, imageUrl)); 
-          });
-
-          imageWrapper.appendChild(imgElement);
-          imageWrapper.appendChild(removeButton);
-          headerImagesContainer.appendChild(imageWrapper);
-
-          // Initially, only the first image is shown
-          if (index === 0) {
-            imageWrapper.classList.add('active');
-          }
+          headerImagesContainer.appendChild(imgElement);
         });
+
+        // Initialize carousel functionality for header images
+        initializeCarousel(headerImagesContainer, 'header');
       } else {
         console.warn('No HeaderImages array found in LoginPage document.');
       }
@@ -566,97 +543,73 @@ async function populateHeaderImages() {
   }
 }
 
+// Function to load bulletin images from Firestore for the dashboard
+async function loadImagesFromFirestore() {
+  const docRef = doc(db, "DynamicPages", "DashboardPage");
+  const docSnap = await getDoc(docRef);
 
+  if (docSnap.exists()) {
+    const bulletinImages = docSnap.data().Bulletin;
 
-// Function to update the slider position
-function updateSliderPosition() {
-  const allImages = document.querySelectorAll('#headerImagesContainer .image-wrapper');
-  const totalImages = allImages.length;
+    if (bulletinImages && Array.isArray(bulletinImages)) {
+      const sliderContainer = document.querySelector('#userDashboardSliderContainer');
+      sliderContainer.innerHTML = ''; // Clear previous content
 
-  // Hide all images
-  allImages.forEach((imgWrapper) => {
-    imgWrapper.classList.remove('active');
+      bulletinImages.forEach((imageUrl) => {
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.alt = "Bulletin Image";
+        sliderContainer.appendChild(img);
+      });
+
+      // Initialize carousel functionality for bulletin images
+      initializeCarousel(sliderContainer, 'bulletin');
+    } else {
+      console.log('No images found in Bulletin array');
+    }
+  } else {
+    console.log('Document not found!');
+  }
+}
+
+// Initialize carousel functionality
+function initializeCarousel(sliderContainer, type) {
+  const images = sliderContainer.querySelectorAll('img');
+  const totalImages = images.length;
+
+  let currentIndex = type === 'header' ? currentIndexHeader : currentIndexDashboard;
+
+  function updateSlide() {
+    const offset = -100 * currentIndex;
+    sliderContainer.style.transform = `translateX(${offset}%)`;
+  }
+
+  const nextButton = document.getElementById(type === 'header' ? 'nextButtonHeader' : 'nextBtn');
+  const prevButton = document.getElementById(type === 'header' ? 'prevButtonHeader' : 'prevBtn');
+
+  nextButton.addEventListener('click', () => {
+    currentIndex = (currentIndex < totalImages - 1) ? currentIndex + 1 : 0;
+    updateSlide();
+    if (type === 'header') currentIndexHeader = currentIndex;
+    else currentIndexDashboard = currentIndex;
   });
 
-  // Show the current image
-  allImages[currentIndex].classList.add('active');
+  prevButton.addEventListener('click', () => {
+    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalImages - 1;
+    updateSlide();
+    if (type === 'header') currentIndexHeader = currentIndex;
+    else currentIndexDashboard = currentIndex;
+  });
+
+  updateSlide();
 }
 
-// Slider navigation functionality
-const nextButton = document.getElementById('nextButton');
-const prevButton = document.getElementById('prevButton');
-
-// Move to the next image
-nextButton.addEventListener('click', () => {
-  const totalImages = document.querySelectorAll('#headerImagesContainer .image-wrapper').length;
-  if (currentIndex < totalImages - 1) {
-    currentIndex++;
-    updateSliderPosition();
-  }
-});
-
-// Move to the previous image
-prevButton.addEventListener('click', () => {
-  if (currentIndex > 0) {
-    currentIndex--;
-    updateSliderPosition();
-  }
-});
-
-// Initialize the image slider
+// Initialize both sliders on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   populateHeaderImages();
+  loadImagesFromFirestore();
 });
 
-
-// Show confirmation overlay function
-function showConfirmationOverlay(onConfirm) {
-  const overlay = document.createElement('div');
-  overlay.classList.add('confirmation-overlay');
-  overlay.innerHTML = `
-    <div class="confirmation-box">
-      <p>Are you sure you want to remove this photo?</p>
-      <button id="confirmRemove" class="confirm-btn">Yes, Remove</button>
-      <button id="cancelRemove" class="cancel-btn">Cancel</button>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  document.getElementById('confirmRemove').onclick = () => {
-    onConfirm();
-    document.body.removeChild(overlay); 
-  };
-  
-  document.getElementById('cancelRemove').onclick = () => {
-    document.body.removeChild(overlay); 
-  };
-}
-
-// Function to remove the image from Firestore
-async function removeImage(index) {
-  try {
-    const loginPageDocRef = doc(db, 'DynamicPages', 'LoginPage');
-    const loginPageDoc = await getDoc(loginPageDocRef);
-
-    if (loginPageDoc.exists()) {
-      let headerImages = loginPageDoc.data().HeaderImages;
-
-      if (Array.isArray(headerImages)) {
-        headerImages = headerImages.filter((_, i) => i !== index);
-
-        await updateDoc(loginPageDocRef, { HeaderImages: headerImages });
-        
-        populateHeaderImages();
-      }
-    }
-  } catch (error) {
-    console.error('Error removing image:', error);
-  }
-}
-
-// Call the function to populate images when the page loads
-document.addEventListener('DOMContentLoaded', populateHeaderImages);
 
 // Firebase Firestore reference (assumes `db` is your Firestore instance)
 const activeAccountsTableBody = document.getElementById('activeAccountsTableBody');  // Fixed the repeated declaration
@@ -873,41 +826,6 @@ function loadCategoryOptions() {
     });
 }
 
-// Reference to the div where images will be populated
-const pageContentDiv = document.getElementById('page4Content');
-
-// Function to load images from Firestore
-async function loadImagesFromFirestore() {
-  const docRef = doc(db, "DynamicPages", "DashboardPage");
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    const bulletinImages = docSnap.data().Bulletin;
-
-    if (bulletinImages && Array.isArray(bulletinImages) && bulletinImages.length > 0) {
-      bulletinImages.forEach((imageUrl) => {
-        const img = document.createElement('img');
-        img.src = imageUrl;
-        img.alt = "Bulletin Image";
-        img.style.width = "100%";
-        img.style.marginBottom = "10px"; 
-
-        pageContentDiv.appendChild(img);
-      });
-    } else {
-      console.log('No images found in Bulletin array');
-    }
-  } else {
-    console.log('Document not found!');
-  }
-}
-
-
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-  loadCategoryOptions();
-  loadImagesFromFirestore();
-});
 
 window.displayUploadedVideo = displayUploadedVideo;
 window.showControlManagemen = showDashboard;

@@ -216,63 +216,83 @@
           <div class="card" onclick="toggleMainModule('LTUserdashboard')"><h3>Latest User Dashboard</h3></div>
           <div class="card" onclick="toggleMainModule('LTAccounts')"><h3>Latest Accounts</h3></div>
         </div>
-      <!-- Latest Login Contents -->
+
+<!-- Latest Login Contents -->
 <section class="main-admin-module" id="LTLogin" style="position: relative;">
   <div class="module-box-container">
     <div class="module-box">
-      <!-- Header Images Section -->
-      <h1></h1>
+      <h1>Header Images</h1>
 
-      <!-- This is the container where images will be dynamically displayed -->
-      <div id="headerImagesContainer" style="position: relative;">
-        <div id="aboutImageRef" style="position: relative;"></div>
-        <!-- Dynamic images will be populated here -->
+      <!-- Image container for the slideshow -->
+      <div class="image-slider-container">
+        <div class="slider-container" id="headerSliderContainer">
+          <!-- Images will be dynamically loaded here -->
+        </div>
       </div>
 
-      <!-- Slider controls -->
-      <button id="prevButton" class="slider-button">Prev</button>
-      <button id="nextButton" class="slider-button">Next</button>
+      <!-- Slider controls for header (Prev and Next) -->
+      <button class="slider-button left" id="prevButtonHeader">←</button>
+      <button class="slider-button right" id="nextButtonHeader">→</button>
     </div>
   </div>
-  
-</section> 
-         <!-- Latest User Dashboard Content -->    
-        <section class="main-admin-module" id="LTUserdashboard" style="display: none;">
-          <h1></h1>
-          <div class="module-box-container">
-            <div class="module-box" id="page4Content">
-            </div>
-            <button class="next-button" onclick="loadNextModule2()">Next</button>
-            <div id="pageIndicator" class="page-indicator"></div> 
-        <div class="module-box" id="page5Content" style="display: none;">
-          <div class="filterCategory">
-            <select id="categoryFilter">
-              <option value="">Show All</option>
-            </select>
-          </div>          
-              <!-- Scrollable Table Container -->
-              <div class="table-container">
-                <table id="categoryTable">
-                  <thead>
-                    <tr>
-                      <th>Category</th>
-                      <th>Name of Animation</th>
-                      <th>Animation Video</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                </table>
-                <div class="scrollable-body">
-                  <table id="categoryTable">
-                    <tbody id="categoryTableBody">
-                      <!-- Table rows go here -->
-                    </tbody>
-                  </table>
-                </div>
-              </div>                   
-          </div>
+</section>
+
+<!-- Latest User Dashboard Content -->    
+<section class="main-admin-module" id="LTUserdashboard" style="display: none;">
+  <div class="module-box-container">
+    <div class="module-box" id="page4Content">
+      <h1>User Dashboard Images</h1>
+
+      <!-- Container for the slider -->
+      <div class="image-slider-container">
+        <div class="slider-container" id="userDashboardSliderContainer">
+          <!-- Images will be dynamically loaded here -->
         </div>
-        </section>
+      </div>
+
+      <!-- Navigation buttons for User Dashboard (Prev and Next) -->
+      <button class="slider-button left" id="prevBtn">←</button>
+      <button class="slider-button right" id="nextBtn">→</button>
+    </div>
+  </div>
+
+  <!-- General "Next" button for loading the next module -->
+  <button class="next-button" onclick="loadNextModule2()">Next</button>
+  <div id="pageIndicator" class="page-indicator"></div>
+</section>
+
+
+
+
+  <div class="module-box" id="page5Content" style="display: none;">
+    <div class="filterCategory">
+      <select id="categoryFilter">
+        <option value="">Show All</option>
+      </select>
+    </div>          
+    <!-- Scrollable Table Container -->
+    <div class="table-container">
+      <table id="categoryTable">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Name of Animation</th>
+            <th>Animation Video</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+      </table>
+      <div class="scrollable-body">
+        <table id="categoryTable">
+          <tbody id="categoryTableBody">
+            <!-- Table rows go here -->
+          </tbody>
+        </table>
+      </div>
+    </div>                   
+  </div>
+</section>
+
      <!-- Latest Accounts Content -->
 <section class="main-admin-module" id="LTAccounts" style="display: none;">
   <h1></h1>

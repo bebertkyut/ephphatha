@@ -828,67 +828,57 @@ label {
   border-radius: 4px;
   cursor: pointer;
 }
-
-/* Styling for the image container */
-#headerImagesContainer {
+/* Style for the container that holds the images */
+.image-slider-container {
   position: relative;
-  overflow: hidden;
   width: 100%;
-  height: 400px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Image wrapper to show one image at a time */
-.image-wrapper {
-  display: none;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.image-wrapper.active {
-  display: flex;
-}
-
-/* Image styling */
-.header-image {
+  height: 520px;
   max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f0f0f0;
 }
 
-/* Slider controls */
+/* Slider container where images are placed */
+.slider-container {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+  height: 520px;
+}
+
+/* Each image takes full width and height of the container */
+.slider-container img {
+  width: 100%;
+  height: 1200px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 0 0 100%;
+}
+
+/* Styling for navigation buttons */
 .slider-button {
   position: absolute;
-  top: 50%; /* Position buttons at the vertical center */
-  transform: translateY(-50%); /* Align vertically centered */
+  top: 50%;
+  transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
+  font-size: 24px;
   border: none;
   padding: 10px;
   cursor: pointer;
   z-index: 10;
 }
 
-/* Position prev button on the left side */
-#prevButton {
-  left: 0; /* Move to left edge */
-  margin-left: 65vh; /* Space from the left edge */
+.slider-button.left {
+  left: 10px;
 }
 
-/* Position next button on the right side */
-#nextButton {
-  right: 0; /* Move to right edge */
-  margin-right: 65vh; /* Space from the right edge */
+.slider-button.right {
+  right: 10px;
 }
-.delete-icon {
-  width: 40px; /* Adjust as needed */
-  height: 40px; /* Adjust as needed */
-  object-fit: contain; /* Ensures the image scales correctly */
-}
+
+
 
 .remove-button {
   position: absolute;
@@ -956,31 +946,5 @@ label {
   font-size: 14px;
   color: #666;
   text-align: center;
-}
-
-/* Container for horizontal layout without scrolling */
-#pageContentDiv {
-  display: flex;
-  flex-direction: row; /* Align items in a row */
-  justify-content: space-around; /* Space images evenly */
-  gap: 15px; /* Space between images */
-  padding: 20px;
-  flex-wrap: nowrap; /* Prevent images from wrapping to the next line */
-  width: 100%; /* Full width container */
-  overflow: hidden; /* Hide overflow if needed */
-}
-
-/* Styling for each image */
-#pageContentDiv img {
-  height: 200px; /* Set a fixed height or adjust as needed */
-  width: auto; /* Adjust width automatically */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  transition: transform 0.3s ease; /* Add hover effect */
-}
-
-/* Hover effect for images */
-#pageContentDiv img:hover {
-  transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
