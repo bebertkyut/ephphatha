@@ -21,21 +21,42 @@ body {
   text-align: left;
   margin-bottom: 10px;
 }
-.logo {
-  margin-right: 20px; /* Adjust space between logo and h1 */
+/* Header container to align logo and h1 */
+.header {
+  display: flex; /* Enables flexbox layout */
+  align-items: center; /* Vertically aligns logo and h1 */
+  text-align: left; /* Aligns content to the left */
+  gap: 10px; /* Adds space between logo and h1 */
 }
 
+/* Header container to align logo and h1 */
+.header {
+  display: flex; /* Aligns logo and h1 horizontally */
+  align-items: center; /* Vertically aligns items */
+  width: 100%; /* Ensure the header spans full width */
+  gap: 30px; /* Space between logo and h1 */
+}
+/* Styling the logo container */
+.logo {
+  width: 120px; /* Adjust width as needed */
+  height: 80px; /* Ensure height scales proportionally */
+}
+
+/* Styling the logo image */
 .logo img {
-  height: 50px; /* Adjust the size of the logo */
-  width: auto; /* Maintain aspect ratio */
+  max-width: 100%; /* Ensures the image scales within the container */
+  height: auto; /* Maintains aspect ratio */
 }
 
 .header h1 {
-  font-size: 2rem;
-  color: #333;
-  
+  font-size: 2rem; /* Adjust font size */
+  color: #333; /* Adjust color */
+  margin: 0; /* Removes default margin */
+  margin-left: 125px; /* Adds extra space to push the h1 further right */
+  position: relative; /* Allows precise positioning */
+  top: -80px; /* Moves the h1 upwards */
+  white-space: nowrap; /* Prevents text from wrapping */
 }
-
 .header p {
   font-size: 30px;
   text-align: left;
@@ -828,32 +849,40 @@ label {
   border-radius: 4px;
   cursor: pointer;
 }
-/* Style for the container that holds the images */
-.image-slider-container {
-  position: relative;
-  width: 100%;
-  height: 520px;
-  max-width: 100%;
-  overflow: hidden;
-  background-color: #f0f0f0;
-}
-
-/* Slider container where images are placed */
+/* Slider Container */
 .slider-container {
   display: flex;
-  transition: transform 0.5s ease-in-out;
-  width: 100%;
-  height: 520px;
+  transition: transform 0.5s ease-in-out; /* Smooth transition */
+  width: 100%; /* Full width of the parent container */
+  height: 100%; /* Ensure container is 100% height of its parent */
 }
 
-/* Each image takes full width and height of the container */
-.slider-container img {
-  width: 100%;
-  height: 1200px;
-  object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  flex: 0 0 100%;
+
+/* Styling for images in the Header slider */
+.header-image {
+  width: 100%; /* Make the image take up the full width of the container */
+  height: 808px; /* Make the image take up the full height of the container */
+  object-fit: cover; /* Ensures the image covers the container completely */
+  object-position: center; /* Ensures the image is centered within the container */
+  flex-shrink: 0; /* Prevent the image from shrinking */
+}
+
+/* Styling for images in the Dashboard slider */
+.dashboard-image {
+  width: 100%; /* Ensures the image takes full width of the container */
+  height: 100%; /* Ensures the image fills the height of the container */
+  object-fit: cover; /* Ensures the image covers the container without distortion */
+  object-position: center; /* Centers the image within the container */
+  flex-shrink: 0; /* Prevent images from shrinking */
+}
+
+/* Additional container styles to ensure proper slider sizing */
+.image-slider-container {
+  position: relative;
+  width: 100%; /* Full width of the parent container */
+  height: 50vh; /* Or a similar value */
+  overflow: hidden; /* Ensures the container doesn't show images outside its bounds */
+  background-color: #ff0000; /* Optional background color */
 }
 
 /* Styling for navigation buttons */
@@ -877,6 +906,7 @@ label {
 .slider-button.right {
   right: 10px;
 }
+
 
 
 
@@ -946,4 +976,28 @@ label {
   font-size: 14px;
   color: #666;
   text-align: center;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1;
+}
+
+.dropdown-menu button {
+  display: block;
+  padding: 5px 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f0f0;
 }

@@ -134,7 +134,7 @@ function loadNextModule() {
     const page1 = document.getElementById("page1Content");
     const page2 = document.getElementById("page2Content");
   
-    // If page1 is visible, switch to page6
+    // If page1 is visible, switch to page2
     if (page1.style.display !== "none") {
       page1.style.display = "none";
       page2.style.display = "block";
@@ -165,19 +165,38 @@ function loadNextModule2() {
 
 function loadNextModule3() {
   const page7 = document.getElementById("page7Content");
-    const page8 = document.getElementById("page8Content");
+  const page8 = document.getElementById("page8Content");
+
+  // If page7 is visible, switch to page8
+  if (page7.style.display !== "none") {
+    page7.style.display = "none";
+    page8.style.display = "block";
+  } 
+  // If page8 is visible, switch back to page7
+  else if (page8.style.display !== "none") {
+    page8.style.display = "none";
+    page7.style.display = "block";
+  }
+}
+
+
+
+function loadNextModule4() {
+  const page10 = document.getElementById("page10Content");
+    const page11 = document.getElementById("page11Content");
   
-    // If page7 is visible, switch to page8
-    if (page7.style.display !== "none") {
-      page7.style.display = "none";
-      page8.style.display = "block";
+    // If page10 is visible, switch to page11
+    if (page10.style.display !== "none") {
+      page10.style.display = "none";
+      page11.style.display = "block";
     } 
-    // If page8 is visible, switch back to page7
-    else if (page8.style.display !== "none") {
-      page8.style.display = "none";
-      page7.style.display = "block";
+    // If page11 is visible, switch back to page10
+    else if (page11.style.display !== "none") {
+      page11.style.display = "none";
+      page10.style.display = "block";
     }
 }
+
 
 
 // Function to trigger the file input
@@ -511,6 +530,7 @@ let currentIndexHeader = 0;
 let currentIndexDashboard = 0;
 
 // Function to populate header images
+// Function to populate header images with the 'header-image' class
 async function populateHeaderImages() {
   const headerImagesContainer = document.querySelector('#headerSliderContainer');
   headerImagesContainer.innerHTML = ''; // Clear previous content
@@ -527,6 +547,7 @@ async function populateHeaderImages() {
           const imgElement = document.createElement('img');
           imgElement.src = imageUrl;
           imgElement.alt = 'Header Image';
+          imgElement.classList.add('header-image'); // Add header-image class
           headerImagesContainer.appendChild(imgElement);
         });
 
@@ -543,7 +564,7 @@ async function populateHeaderImages() {
   }
 }
 
-// Function to load bulletin images from Firestore for the dashboard
+// Function to load dashboard images with the 'dashboard-image' class
 async function loadImagesFromFirestore() {
   const docRef = doc(db, "DynamicPages", "DashboardPage");
   const docSnap = await getDoc(docRef);
@@ -559,10 +580,11 @@ async function loadImagesFromFirestore() {
         const img = document.createElement('img');
         img.src = imageUrl;
         img.alt = "Bulletin Image";
+        img.classList.add('dashboard-image'); // Add dashboard-image class
         sliderContainer.appendChild(img);
       });
 
-      // Initialize carousel functionality for bulletin images
+      // Initialize carousel functionality for dashboard images
       initializeCarousel(sliderContainer, 'bulletin');
     } else {
       console.log('No images found in Bulletin array');
@@ -571,6 +593,7 @@ async function loadImagesFromFirestore() {
     console.log('Document not found!');
   }
 }
+
 
 // Initialize carousel functionality
 function initializeCarousel(sliderContainer, type) {
@@ -1046,7 +1069,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 window.displayUploadedVideo = displayUploadedVideo;
 window.showControlManagemen = showDashboard;
-window.loadNextModule = loadNextModule;
 window.showDashboard = showDashboard;
 window.showControlManagement = showControlManagement;
 window.showLatestInterface = showLatestInterface;
@@ -1055,8 +1077,10 @@ window.addAnimation = addAnimation;
 window.triggerUpload = triggerUpload;
 window.replaceWithImage = replaceWithImage;
 window.saveContactInfo = saveContactInfo;
+window.loadNextModule = loadNextModule;
 window.loadNextModule2 = loadNextModule2;
 window.loadNextModule3 = loadNextModule3;
+window.loadNextModule4 = loadNextModule4;
 window.toggleDropdown = toggleDropdown;
 window.editAccount = editAccount;
 window.removeAccount = removeAccount;

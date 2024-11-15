@@ -13,8 +13,8 @@
     <header class="header">
       <div class="logo">
         <img src="../img/cog-logo.png" alt="Logo">
-      </div>
       <h1 id="dashboardHeader">Dashboard</h1>
+    </div>
     </header>    
     <div class="button-section">
       <button class="interface-button" onclick="showDashboard()">Dashboard</button>
@@ -200,10 +200,11 @@
 
         <!--THIS SECTION IS FOR EDITING ACCOUNT PAGE PAGE -->
         <section class="main-admin-module" id="CMAccounts" style="display: none;">
-          <h1></h1>
           <div class="module-box-container">
+            
             <div class="module-box">
-              <!-- Content goes here -->
+              <div class="form-container">
+              <h2 class="form-title">Add Animation</h2>
             </div> 
           </div> 
         </section> 
@@ -220,13 +221,14 @@
 <!-- Latest Login Contents -->
 <section class="main-admin-module" id="LTLogin" style="position: relative;">
   <div class="module-box-container">
-    <div class="module-box">
+    <!-- Page 10 Content: Header Images -->
+    <div class="module-box" id="page10Content">
       <h1>Header Images</h1>
 
       <!-- Image container for the slideshow -->
       <div class="image-slider-container">
         <div class="slider-container" id="headerSliderContainer">
-          <!-- Images will be dynamically loaded here -->
+          <!-- Images will be dynamically loaded here with 'header-image' class -->
         </div>
       </div>
 
@@ -234,19 +236,28 @@
       <button class="slider-button left" id="prevButtonHeader">←</button>
       <button class="slider-button right" id="nextButtonHeader">→</button>
     </div>
+
+    <!-- 'Next' button to load next page -->
+    <button class="next-button" onclick="loadNextModule4()">Next</button>
+
+    <!-- Page 11 Content (initially hidden) -->
+    <div class="module-box" id="page11Content" style="display: none;">
+      <h1></h1>
+      <p></p>
+    </div>
   </div>
 </section>
 
-<!-- Latest User Dashboard Content -->    
+<!-- Latest User Dashboard Content -->
 <section class="main-admin-module" id="LTUserdashboard" style="display: none;">
   <div class="module-box-container">
     <div class="module-box" id="page4Content">
       <h1>User Dashboard Images</h1>
-
+      
       <!-- Container for the slider -->
       <div class="image-slider-container">
         <div class="slider-container" id="userDashboardSliderContainer">
-          <!-- Images will be dynamically loaded here -->
+          <!-- Images will be dynamically loaded here with 'dashboard-image' class -->
         </div>
       </div>
 
@@ -257,109 +268,108 @@
   </div>
 
   <!-- General "Next" button for loading the next module -->
-<button class="next-button" onclick="loadNextModule2()">Next</button>
-<div id="pageIndicator" class="page-indicator"></div>
-</section>
-
-
-
-
-
-  <div class="module-box" id="page5Content" style="display: none;">
-    <div class="filterCategory">
-      <select id="categoryFilter">
-        <option value="">Show All</option>
-      </select>
-    </div>          
-    <!-- Scrollable Table Container -->
-    <div class="table-container">
+  <button class="next-button" onclick="loadNextModule2()">Next</button>
+  
+  <!-- Page indicator -->
+  <div id="pageIndicator" class="page-indicator"></div>
+<!-- Page 5 Content (initially hidden) -->
+<div class="module-box" id="page5Content" style="display: none;">
+  <!-- Filter Category Section -->
+  <div class="filterCategory">
+    <select id="categoryFilter">
+      <option value="">Show All</option>
+    </select>
+  </div>          
+  
+  <!-- Scrollable Table Container -->
+  <div class="table-container">
+    <table id="categoryTable">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Name of Animation</th>
+          <th>Animation Video</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="categoryTableBody">
+        <!-- Table rows will be dynamically loaded here -->
+      </tbody>
+    </table>
+    <!-- Scrollable table body -->
+    <div class="scrollable-body">
       <table id="categoryTable">
+        <tbody id="categoryTableBody">
+          <!-- Table rows go here -->
+        </tbody>
+      </table>
+    </div>
+  </div>                   
+</div>
+</section>
+<!-- Latest Accounts Content -->
+<section class="main-admin-module" id="LTAccounts" style="display: none;">
+  <!-- Active Accounts Section -->
+  <div class="module-box" id="page7Content">
+    <div class="form-container">
+      <h2 class="form-title">Active Accounts</h2>
+    </div>
+    <div class="table-container">
+      <!-- Table Header -->
+      <table id="categoryTable" class="table-header">
         <thead>
           <tr>
-            <th>Category</th>
-            <th>Name of Animation</th>
-            <th>Animation Video</th>
-            <th>Actions</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Gender</th>
+            <th>Birthday</th>
+            <th>Date Created</th>
+            <th>Action</th>
           </tr>
         </thead>
       </table>
+      <!-- Scrollable Table Body -->
       <div class="scrollable-body">
-        <table id="categoryTable">
-          <tbody id="categoryTableBody">
-            <!-- Table rows go here -->
+        <table id="categoryTable"> <!-- Keeping the same ID as requested -->
+          <tbody id="activeAccountsTableBody">
+            <!-- Rows will be dynamically added here -->
           </tbody>
         </table>
       </div>
-    </div>                   
-  </div>
-</section>
-
-     <!-- Latest Accounts Content -->
-<section class="main-admin-module" id="LTAccounts" style="display: none;">
-  <h1></h1>
-  <div class="module-box-container">
-    <!-- Active Accounts Section -->
-    <div class="module-box" id="page7Content">
-      <div class="form-container">
-        <h2 class="form-title">Active Accounts</h2>
-      </div>
-      <div class="table-container">
-        <!-- Table Header -->
-        <table id="categoryTable" class="table-header">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Username</th>
-              <th>Role</th>
-              <th>Gender</th>
-              <th>Birthday</th>
-              <th>Date Created</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-        </table>
-        <!-- Scrollable Table Body -->
-        <div class="scrollable-body">
-          <table id="categoryTable">
-            <tbody id="activeAccountsTableBody">
-              <!-- Rows will be dynamically added here -->
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
+  </div>
 
-    <!-- "Next" Button to Switch to Inactive Accounts -->
-    <button class="next-button" onclick="loadNextModule3()">Next</button>
+  <!-- "Next" Button to Switch to Inactive Accounts -->
+  <button class="next-button" onclick="loadNextModule3()">Next</button>
 
-    <!-- Inactive Accounts Section -->
-    <div class="module-box" id="page8Content" style="display: none;">
-      <div class="form-container">
-        <h2 class="form-title">Inactive Accounts</h2>
-      </div>
-      <div class="table-container">
-        <!-- Table Header -->
-        <table id="categoryTable" class="table-header">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Username</th>
-              <th>Role</th>
-              <th>Gender</th>
-              <th>Birthday</th>
-              <th>Date Created</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+  <!-- Inactive Accounts Section -->
+  <div class="module-box" id="page8Content" style="display: none;">
+    <div class="form-container">
+      <h2 class="form-title">Inactive Accounts</h2>
+    </div>
+    <div class="table-container">
+      <!-- Table Header -->
+      <table id="categoryTable" class="table-header">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Gender</th>
+            <th>Birthday</th>
+            <th>Date Created</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+      </table>
+      <!-- Scrollable Table Body -->
+      <div class="scrollable-body">
+        <table id="categoryTable"> <!-- Keeping the same ID as requested -->
+          <tbody id="inactiveAccountsTableBody">
+            <!-- Rows will be dynamically added here -->
+          </tbody>
         </table>
-        <!-- Scrollable Table Body -->
-        <div class="scrollable-body">
-          <table id="categoryTable">
-            <tbody id="inactiveAccountsTableBody">
-              <!-- Rows will be dynamically added here -->
-            </tbody>
-          </table>
-        </div>
       </div>
     </div>
   </div>
