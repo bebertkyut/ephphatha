@@ -1,6 +1,6 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc,addDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll, uploadBytesResumable } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
@@ -24,7 +24,6 @@ const firebaseConfig = {
 document.querySelectorAll('.widget').forEach(widget => {
   widget.addEventListener('click', () => {
       widget.style.display = widget.style.display === 'none' ? 'block' : 'none';
-      console.log("Widget toggled:", widget);
   });
 });
 
@@ -59,30 +58,26 @@ function showLatestInterface() {
 
 
 function toggleMainModule(moduleId) {
-    console.log("Toggling module:", moduleId);
+  // Hide all sections
+  const modules = document.querySelectorAll('.main-admin-module');
+  modules.forEach(module => {
+      module.style.display = 'none';
+  });
 
-    // Hide all sections
-    const modules = document.querySelectorAll('.main-admin-module');
-    modules.forEach(module => {
-        module.style.display = 'none';
-    });
+  // Show the selected section
+  const selectedModule = document.getElementById(moduleId);
+  if (selectedModule) {
+      selectedModule.style.display = 'block';
+  }
 
-    // Show the selected section
-    const selectedModule = document.getElementById(moduleId);
-    if (selectedModule) {
-        console.log("Showing module:", moduleId);
-        selectedModule.style.display = 'block';
-    }
+  // Remove 'active' class from all cards
+  const cards = document.querySelectorAll(".card");
+  cards.forEach(card => card.classList.remove("active"));
 
-    // Remove 'active' class from all cards
-    const cards = document.querySelectorAll(".card");
-    cards.forEach(card => card.classList.remove("active"));
-
-    // Add 'active' class to the clicked card to show underline
-    const clickedCard = document.querySelector(`[onclick="toggleMainModule('${moduleId}')"]`);
-    clickedCard.classList.add("active");
+  // Add 'active' class to the clicked card to show underline
+  const clickedCard = document.querySelector(`[onclick="toggleMainModule('${moduleId}')"]`);
+  clickedCard.classList.add("active");
 }
-
 
 // Function to upload video and save data to Firestore
 async function addAnimation() {
@@ -108,8 +103,6 @@ async function addAnimation() {
   uploadTask.on('state_changed', 
     (snapshot) => {
       // Handle progress if needed
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log(`Upload is ${progress}% done`);
     }, 
     (error) => {
       // Handle upload errors
@@ -725,12 +718,128 @@ function toggleDropdown(button) {
   dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
 }
 
+let currentEditAccountId = null;
 
-// Functions to handle each dropdown action (to be implemented)
-function editAccount(id) {
-  console.log(`Edit account with ID: ${id}`);
-  // Implement edit functionality here
+// Functions to handle each dropdown action
+async function editAccount(id) {
+  currentEditAccountId = id; // Store the ID of the account being edited
+  const docRef = doc(db, "UserAccount", id);
+
+  try {
+    const docSnapshot = await getDoc(docRef);
+
+    if (docSnapshot.exists()) {
+      const data = docSnapshot.data();
+      document.getElementById('editOverlayName').value = data.Name || '';
+      document.getElementById('editOverlayUsername').value = data.Username || '';
+      document.getElementById('editOverlayPassword').value = data.Password || '';
+      document.getElementById('editOverlayConfirmPassword').value = data.Password || '';
+      document.getElementById('editOverlayRole').value = data.Role || 'Teacher';
+
+      // Display the overlay
+      document.getElementById('editAccountOverlay').style.display = 'flex';
+    } else {
+      console.error("Account not found!");
+    }
+  } catch (error) {
+    console.error("Error fetching account for editing:", error);
+  }
 }
+
+async function saveEditedAccount() {
+  const name = document.getElementById('editOverlayName').value;
+  const username = document.getElementById('editOverlayUsername').value;
+  const password = document.getElementById('editOverlayPassword').value;
+  const confirmPassword = document.getElementById('editOverlayConfirmPassword').value;
+  const role = document.getElementById('editOverlayRole').value;
+
+  if (password !== confirmPassword) {
+    alert("Password and Confirm Password do not match.");
+    return;
+  }
+
+  if (!currentEditAccountId) {
+    console.error("No account ID available for saving changes.");
+    return;
+  }
+
+  try {
+    const docRef = doc(db, "UserAccount", currentEditAccountId);
+
+    await updateDoc(docRef, {
+      Name: name,
+      Username: username,
+      Password: password,
+      Role: role
+    });
+
+    alert("Account updated successfully!");
+    closeEditOverlay();
+    populateActiveAccountsTable(); // Refresh active accounts
+    populateInactiveAccountsTable(); // Refresh inactive accounts
+  } catch (error) {
+    console.error("Error updating account:", error);
+  }
+}
+
+function closeEditOverlay() {
+  document.getElementById('editAccountOverlay').style.display = 'none';
+  currentEditAccountId = null; // Clear the current account ID
+}
+
+// Function to save a new account
+document.getElementById('submitModuleButton').addEventListener('click', async function(event) {
+  event.preventDefault(); // Prevent form submission refresh
+
+  const name = document.getElementById('moduleName').value;
+  const username = document.getElementById('moduleUsername').value;
+  const password = document.getElementById('modulePassword').value;
+  const confirmPassword = document.getElementById('moduleConfirmPassword').value;
+  const role = document.getElementById('moduleRole').value;
+
+  if (password !== confirmPassword) {
+    alert("Password and Confirm Password do not match.");
+    return;
+  }
+
+  // Define the new fields
+  const gender = "Select Gender";
+  const about = "Add Description";
+  const status = "Active";
+  const dateCreated = new Date();
+  const birthday = "Select Birthday";
+
+  // Default profile picture URL from Firebase Storage. Do not touch.
+  const pictureURL = "https://firebasestorage.googleapis.com/v0/b/ephphathadb.appspot.com/o/profile_pictures%2Fdefault-user.png?alt=media";
+
+  try {
+    // Add the document to Firestore
+    await addDoc(collection(db, "UserAccount"), {
+      Name: name,
+      Username: username,
+      Password: password,
+      Role: role,
+      Gender: gender,
+      About: about,
+      Status: status,
+      DateCreated: dateCreated,
+      Birthday: birthday,
+      PictureURL: pictureURL
+    });
+
+    await populateActiveAccountsTable();
+    await populateInactiveAccountsTable();
+
+    alert("Account saved successfully!");
+    // Optionally reset the form fields
+    document.getElementById('editAccountModuleForm').reset();
+
+  } catch (error) {
+    console.error("Error saving account:", error);
+    alert("There was an error saving the account. Please try again.");
+  }
+});
+
 
 function removeAccount(id) {
     console.log(`Attempting to remove account with ID: ${id}`);
@@ -1088,3 +1197,5 @@ window.deactivateAccount = deactivateAccount;
 window.populateInactiveAccountsTable = populateInactiveAccountsTable;
 window.populateActiveAccountsTable = populateActiveAccountsTable;
 window.activateAccount = activateAccount;
+window.saveEditedAccount = saveEditedAccount;
+window.closeEditOverlay = closeEditOverlay;

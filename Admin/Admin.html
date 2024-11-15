@@ -198,16 +198,48 @@
   </div>
 </section>
 
-        <!--THIS SECTION IS FOR EDITING ACCOUNT PAGE PAGE -->
-        <section class="main-admin-module" id="CMAccounts" style="display: none;">
-          <div class="module-box-container">
-            
-            <div class="module-box">
-              <div class="form-container">
-              <h2 class="form-title">Add Animation</h2>
-            </div> 
-          </div> 
-        </section> 
+<section class="main-admin-module" id="CMAccounts" style="display: none;">
+  <h1>Edit Account</h1>
+  <div class="module-box-container">
+    <div class="module-box">
+      <form id="editAccountModuleForm">
+        <!-- Name -->
+        <div class="form-group">
+          <label for="moduleName">Name:</label>
+          <input type="text" id="moduleName" name="name" placeholder="Enter name" required>
+        </div>
+        <!-- Username -->
+        <div class="form-group">
+          <label for="moduleUsername">Username:</label>
+          <input type="text" id="moduleUsername" name="username" placeholder="Enter username" required>
+        </div>
+        <!-- Password -->
+        <div class="form-group">
+          <label for="modulePassword">Password:</label>
+          <input type="password" id="modulePassword" name="password" placeholder="Enter password" required>
+        </div>
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label for="moduleConfirmPassword">Confirm Password:</label>
+          <input type="password" id="moduleConfirmPassword" name="confirmPassword" placeholder="Confirm password" required>
+        </div>
+        <!-- Role -->
+        <div class="form-group">
+          <label for="moduleRole">Role:</label>
+          <select id="moduleRole" name="role" required>
+            <option value="" disabled selected>Select role</option>
+            <option value="Teacher">Teacher</option>
+            <option value="Student">Student</option>
+          </select>
+        </div>
+        <!-- Submit Button -->
+        <div class="form-group">
+          <button type="submit" id="submitModuleButton">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
       </div>
     </div>
     <div id="latest-content" class="latest-content" style="display: none;">
@@ -384,6 +416,43 @@
     <button id="cancelDeleteBtn">Cancel</button>
   </div>
 </div>
+
+<!-- Overlay Form -->
+<div id="editAccountOverlay" class="overlay" style="display: none;">
+  <div class="overlay-content">
+    <h2>Edit Account</h2>
+    <form id="editAccountOverlayForm">
+      <div class="form-group">
+        <label for="editOverlayName">Name:</label>
+        <input type="text" id="editOverlayName" name="editName" required>
+      </div>
+      <div class="form-group">
+        <label for="editOverlayUsername">Username:</label>
+        <input type="text" id="editOverlayUsername" name="editUsername" required>
+      </div>
+      <div class="form-group">
+        <label for="editOverlayPassword">Password:</label>
+        <input type="password" id="editOverlayPassword" name="editPassword" required>
+      </div>
+      <div class="form-group">
+        <label for="editOverlayConfirmPassword">Confirm Password:</label>
+        <input type="password" id="editOverlayConfirmPassword" name="editConfirmPassword" required>
+      </div>
+      <div class="form-group">
+        <label for="editOverlayRole">Role:</label>
+        <select id="editOverlayRole" name="editRole" required>
+          <option value="Teacher">Teacher</option>
+          <option value="Student">Student</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button type="button" onclick="saveEditedAccount()">Save</button>
+        <button type="button" onclick="closeEditOverlay()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js"></script>
