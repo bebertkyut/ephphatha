@@ -1,6 +1,6 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll, uploadBytesResumable } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
@@ -693,14 +693,15 @@ function toggleDropdown(button) {
 
   // Hide other open dropdowns
   document.querySelectorAll('.dropdown-menu').forEach(menu => {
-      if (menu !== dropdownMenu) {
-          menu.style.display = 'none';
-      }
+    if (menu !== dropdownMenu) {
+      menu.style.display = 'none';
+    }
   });
 
   // Toggle the clicked dropdown
   dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
 }
+
 
 // Functions to handle each dropdown action (to be implemented)
 function editAccount(id) {
@@ -709,13 +710,139 @@ function editAccount(id) {
 }
 
 function removeAccount(id) {
-  console.log(`Remove account with ID: ${id}`);
-  // Implement remove functionality here
+    console.log(`Attempting to remove account with ID: ${id}`);
+
+  // Create the modal HTML structure
+  const modal = document.createElement('div');
+  modal.id = 'deleteConfirmationOverlay';
+  modal.className = 'overlay';
+  modal.innerHTML = `
+      <div class="overlay-content">
+        <p>Are you sure you want to remove this account?</p>
+        <button id="confirmRemove" class="confirm-btn">Yes, Remove</button>
+        <button id="cancelRemove" class="cancel-btn">Cancel</button>
+      </div>
+  `;
+  
+  // Append modal to the body
+  document.body.appendChild(modal);
+
+  // Get the buttons from the modal
+  const confirmRemoveBtn = modal.querySelector('#confirmRemove');
+  const cancelRemoveBtn = modal.querySelector('#cancelRemove');
+
+  // Function to handle modal closing
+  function closeModal() {
+    document.body.removeChild(modal);
+  }
+
+  // When user clicks "Yes, Remove", delete the account
+  confirmRemoveBtn.onclick = async function() {
+    try {
+      await removeAccountFromFirestore(id);  // Call the function to remove the account
+      console.log(`Account with ID ${id} removed successfully.`);
+      closeModal();  // Close the modal after removal
+      
+      // Fetch updated data for both active and inactive accounts
+      await populateActiveAccountsTable();
+      await populateInactiveAccountsTable();
+    } catch (error) {
+      console.error('Error removing account:', error);
+    }
+  };
+
+  // When user clicks "Cancel", close the modal without doing anything
+  cancelRemoveBtn.onclick = function() {
+    closeModal();  // Close the modal on cancel
+  };
+
+  // Close modal if clicked outside the content area
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      closeModal();
+    }
+  };
+
+  // Show the modal
+  modal.style.display = "block";
 }
 
+// Function to delete account from Firestore
+async function removeAccountFromFirestore(id) {
+  const userRef = doc(db, "UserAccount", id); // Reference to the account document
+  
+  // Delete the document from Firestore
+  await deleteDoc(userRef);
+}
+
+// Function to deactivate account and fetch updated data
 function deactivateAccount(id) {
-  console.log(`Deactivate account with ID: ${id}`);
-  // Implement deactivate functionality here
+  // Create the confirmation modal dynamically
+  const confirmationModal = document.createElement('div');
+  confirmationModal.classList.add('modal');
+
+  // Create the modal content
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content');
+  
+  const heading = document.createElement('h4');
+  heading.textContent = "Are you sure you want to deactivate this account?";
+  modalContent.appendChild(heading);
+  
+  const confirmBtn = document.createElement('button');
+  confirmBtn.textContent = 'Yes, deactivate';
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = 'Cancel';
+  
+  modalContent.appendChild(confirmBtn);
+  modalContent.appendChild(cancelBtn);
+  confirmationModal.appendChild(modalContent);
+
+  // Append the modal to the body
+  document.body.appendChild(confirmationModal);
+
+  // Show the modal
+  confirmationModal.style.display = "block";
+
+  // Confirm deactivation
+  confirmBtn.onclick = async function() {
+    try {
+      // Reference to the UserAccount document
+      const userRef = doc(db, "UserAccount", id);
+      
+      // Update the "Status" field to "Inactive"
+      await updateDoc(userRef, {
+        Status: "Inactive"
+      });
+
+      console.log(`Account with ID ${id} deactivated successfully.`);
+      
+      // Close the modal after successful deactivation
+      confirmationModal.style.display = "none";
+      document.body.removeChild(confirmationModal);
+
+      // Fetch updated data for both active and inactive accounts
+      await populateActiveAccountsTable();
+      await populateInactiveAccountsTable();
+    } catch (error) {
+      console.error('Error deactivating account:', error);
+      // Optionally, show an error message
+    }
+  };
+
+  // Cancel deactivation
+  cancelBtn.onclick = function() {
+    confirmationModal.style.display = "none";
+    document.body.removeChild(confirmationModal);
+  };
+
+  // Close the modal if the user clicks outside the modal content
+  window.onclick = function(event) {
+    if (event.target === confirmationModal) {
+      confirmationModal.style.display = "none";
+      document.body.removeChild(confirmationModal);
+    }
+  };
 }
 
 // Event listener to close the dropdown if clicked outside
@@ -781,6 +908,66 @@ async function populateInactiveAccountsTable() {
 // Call the function to populate inactive accounts as needed
 populateInactiveAccountsTable();
 
+function activateAccount(id) {
+  // Create the confirmation modal dynamically
+  const confirmationModal = document.createElement('div');
+  confirmationModal.classList.add('modal');
+
+  // Create the modal content
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content');
+
+  const heading = document.createElement('h4');
+  heading.textContent = "Are you sure you want to activate this account?";
+  modalContent.appendChild(heading);
+
+  const confirmBtn = document.createElement('button');
+  confirmBtn.textContent = 'Yes, activate';
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = 'Cancel';
+
+  modalContent.appendChild(confirmBtn);
+  modalContent.appendChild(cancelBtn);
+  confirmationModal.appendChild(modalContent);
+
+  // Append the modal to the body
+  document.body.appendChild(confirmationModal);
+
+  // Show the modal
+  confirmationModal.style.display = "block";
+
+  // Confirm activation
+  confirmBtn.onclick = async function() {
+    try {
+      // Reference to the UserAccount document
+      const userRef = doc(db, "UserAccount", id);
+
+      // Update the "Status" field to "Active"
+      await updateDoc(userRef, {
+        Status: "Active"
+      });
+
+      console.log(`Account with ID ${id} activated successfully.`);
+
+      // Close the modal after successful activation
+      confirmationModal.style.display = "none";
+      document.body.removeChild(confirmationModal);
+
+      // Fetch updated data for both active and inactive accounts
+      await populateActiveAccountsTable();
+      await populateInactiveAccountsTable();
+    } catch (error) {
+      console.error('Error activating account:', error);
+      // Optionally, show an error message
+    }
+  };
+
+  // Cancel activation and close the modal
+  cancelBtn.onclick = function() {
+    confirmationModal.style.display = "none";
+    document.body.removeChild(confirmationModal);
+  };
+}
 
 // Function to handle the video file upload and display
 function displayUploadedVideo(event) {
@@ -826,6 +1013,36 @@ function loadCategoryOptions() {
     });
 }
 
+// Reference to the div where images will be populated
+const pageContentDiv = document.getElementById('page4Content');
+
+// Reference to the stat card element where the active accounts count will be displayed
+const activeAccountsElement = document.querySelector('.stat-card h3');
+
+// Function to fetch the count of active accounts
+async function fetchActiveAccountsCount() {
+  const userRef = collection(db, "UserAccount");
+
+  try {
+    // Query to filter documents where the 'Status' field is 'Active'
+    const querySnapshot = await getDocs(query(userRef, where("Status", "==", "Active")));
+    
+    // Set the count of active accounts to the stat card
+    activeAccountsElement.textContent = querySnapshot.size;
+  } catch (error) {
+    console.error("Error fetching active accounts:", error);
+    activeAccountsElement.textContent = "Error"; // Display an error message if the fetch fails
+  }
+}
+
+// Call the function to update the count when the page loads
+fetchActiveAccountsCount();
+
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  loadCategoryOptions();
+  loadImagesFromFirestore();
+});
 
 window.displayUploadedVideo = displayUploadedVideo;
 window.showControlManagemen = showDashboard;
@@ -846,3 +1063,4 @@ window.removeAccount = removeAccount;
 window.deactivateAccount = deactivateAccount;
 window.populateInactiveAccountsTable = populateInactiveAccountsTable;
 window.populateActiveAccountsTable = populateActiveAccountsTable;
+window.activateAccount = activateAccount;
