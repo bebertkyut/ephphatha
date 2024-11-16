@@ -313,31 +313,29 @@
     </select>
   </div>          
   
-  <!-- Scrollable Table Container -->
-  <div class="table-container">
-    <table id="categoryTable">
+ <!-- Scrollable Table Container -->
+<div class="table-container">
+  <table id="categoryTable">
       <thead>
-        <tr>
-          <th>Category</th>
-          <th>Name of Animation</th>
-          <th>Animation Video</th>
-          <th>Actions</th>
-        </tr>
+          <tr>
+              <th>Category</th>
+              <th>Name of Animation</th>
+              <th>Animation Video</th>
+              <th>Actions</th>
+          </tr>
       </thead>
-      <tbody id="categoryTableBody">
-        <!-- Table rows will be dynamically loaded here -->
-      </tbody>
-    </table>
-    <!-- Scrollable table body -->
-    <div class="scrollable-body">
+  </table>
+
+  <!-- Scrollable table body -->
+  <div class="scrollable-body">
       <table id="categoryTable">
-        <tbody id="categoryTableBody">
-          <!-- Table rows go here -->
-        </tbody>
+          <tbody id="categoryTableBody">
+              <!-- Table rows will be dynamically loaded here -->
+          </tbody>
       </table>
-    </div>
-  </div>                   
+  </div>
 </div>
+
 </section>
 <!-- Latest Accounts Content -->
 <section class="main-admin-module" id="LTAccounts" style="display: none;">
@@ -407,36 +405,43 @@
   </div>
 </section>
 
-
-  <!-- Confirmation Overlay (hidden by default) -->
+<!-- Confirmation Modal -->
 <div id="deleteConfirmationOverlay" class="overlay">
   <div class="overlay-content">
-    <p>Are you sure you want to delete this sign asset?</p>
-    <button id="confirmDeleteBtn">Confirm</button>
+    <div class="warning-icon">⚠️</div>
+    <p>Are you sure? This action cannot be undone.</p>
+    <p>All values associated with this field will be lost.</p>
+    <button id="confirmDeleteBtn">Delete</button>
     <button id="cancelDeleteBtn">Cancel</button>
   </div>
 </div>
 
+
 <!-- Overlay Form -->
 <div id="editAccountOverlay" class="overlay" style="display: none;">
-  <div class="overlay-content">
+  <div class="overlay-content-edit ">
+    <!-- Close Button (X) -->
+    <button type="button" class="close-btn" onclick="closeEditOverlay()">X</button>
+    
     <h2>Edit Account</h2>
     <form id="editAccountOverlayForm">
       <div class="form-group">
         <label for="editOverlayName">Name:</label>
-        <input type="text" id="editOverlayName" name="editName" required>
+        <input type="text" id="editOverlayName" name="editName" required placeholder="Enter your name">
       </div>
       <div class="form-group">
         <label for="editOverlayUsername">Username:</label>
-        <input type="text" id="editOverlayUsername" name="editUsername" required>
+        <input type="text" id="editOverlayUsername" name="editUsername" required placeholder="Enter your username">
       </div>
-      <div class="form-group">
-        <label for="editOverlayPassword">Password:</label>
-        <input type="password" id="editOverlayPassword" name="editPassword" required>
-      </div>
-      <div class="form-group">
-        <label for="editOverlayConfirmPassword">Confirm Password:</label>
-        <input type="password" id="editOverlayConfirmPassword" name="editConfirmPassword" required>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editOverlayPassword">Password:</label>
+          <input type="password" id="editOverlayPassword" name="editPassword" required placeholder="Enter your password">
+        </div>
+        <div class="form-group">
+          <label for="editOverlayConfirmPassword">Confirm Password:</label>
+          <input type="password" id="editOverlayConfirmPassword" name="editConfirmPassword" required placeholder="Confirm your password">
+        </div>
       </div>
       <div class="form-group">
         <label for="editOverlayRole">Role:</label>
@@ -445,13 +450,14 @@
           <option value="Student">Student</option>
         </select>
       </div>
-      <div class="form-group">
-        <button type="button" onclick="saveEditedAccount()">Save</button>
-        <button type="button" onclick="closeEditOverlay()">Cancel</button>
+      <div class="form-actions">
+        <button type="button" onclick="saveEditedAccount()" class="save-btn">Save</button>
       </div>
     </form>
   </div>
 </div>
+
+
 
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
