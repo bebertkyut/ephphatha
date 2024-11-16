@@ -9,7 +9,7 @@ const synonymsMap = {
 function playVideo(word) {
     const videoPlayer = document.getElementById('videoPlayer');
     const baseWord = findBaseWord(word.toLowerCase());
-    const processedVideoName = baseWord.replace(/[^\w\s]/g, '');
+    const processedVideoName = baseWord.replace(/[^\w\s]/g, '').toLowerCase();
     const videoPath = '../SignAsset/' + processedVideoName + '.mp4';
 
     var xhr = new XMLHttpRequest();
@@ -107,7 +107,7 @@ function record() {
         videoTitle.innerHTML = words.map(word => `<span>${word}</span>`).join(' ');
 
         var mappedWords = words.map(word => {
-            var cleanWord = word.replace(/[^\w\s]/g, '');
+            var cleanWord = word.replace(/[^\w\s]/g, '').toLowerCase();
             return findBaseWord(cleanWord);
         });
 
@@ -171,7 +171,7 @@ function playVideos() {
 
 
 function removeSymbols(word) {
-    return word.replace(/[^\w\s]/g, '');
+    return word.replace(/[^\w\s]/g, '').toLowerCase();
 }
 
 function playNextVideo(videoNames, index, videoPlayer, callback) {
@@ -186,7 +186,7 @@ function playNextVideo(videoNames, index, videoPlayer, callback) {
     var originalVideoName = videoNames[index];
     var hasQuestionMark = originalVideoName.includes('?');
     // Process the video name to remove symbols and convert to lowercase
-    var processedVideoName = originalVideoName.replace(/[^\w\s]/g, '');
+    var processedVideoName = originalVideoName.replace(/[^\w\s]/g, '').toLowerCase();
 
     var videoPath = '../SignAsset/' + processedVideoName + '.mp4';
 
@@ -264,7 +264,7 @@ function playNextLetter(letters, index, videoPlayer, videoNames, wordIndex, hasQ
         return;
     }
 
-    var letter = letters[index];
+    var letter = letters[index].toLowerCase();
 
     if (isSymbol(letter)) {
         // If the letter is a symbol, add it to the videoTitle and move to the next letter
