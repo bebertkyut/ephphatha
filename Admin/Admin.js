@@ -1245,10 +1245,124 @@ async function fetchActiveAccountsCount() {
 // Call the function to update the count when the page loads
 fetchActiveAccountsCount();
 
+async function showPage11Content() {
+  const page10Div = document.getElementById('page10Content');
+  const page11Div = document.getElementById('page11Content');
+
+  // Hide the Page 10 Content
+  page11Div.style.display = 'none';
+
+  // Show the Page 11 Content
+  page10Div.style.display = 'block';
+
+  // Fetch the content for Page 11 and display it
+  await fetchPage11Content();
+}
+
+// Function to fetch Page 11 content from Firestore
+async function fetchPage11Content() {
+  const page11Div = document.getElementById('page11Content');
+
+  try {
+    const docRef = doc(db, 'DynamicPages', 'LoginPage');
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+
+      // Create elements to display the data
+      const aboutImage = document.createElement('img');
+      aboutImage.src = data.AboutImage;
+      aboutImage.alt = "About Section Image";
+      aboutImage.style.maxWidth = "80vh";
+      aboutImage.style.maxHeight = "50vh";
+
+      const contactAddress = document.createElement('p');
+      contactAddress.textContent = `Address: ${data.ContactAddress || 'N/A'}`;
+
+      const contactEmail = document.createElement('p');
+      contactEmail.textContent = `Email: ${data.ContactEmail || 'N/A'}`;
+
+      const contactPhone = document.createElement('p');
+      contactPhone.textContent = `Phone: ${data.ContactPhone || 'N/A'}`;
+
+      // Clear existing content and append new content
+      page11Div.innerHTML = '';
+      page11Div.appendChild(aboutImage);
+      page11Div.appendChild(contactAddress);
+      page11Div.appendChild(contactEmail);
+      page11Div.appendChild(contactPhone);
+
+      // Add the Remove button below the content
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove Image';
+      removeButton.classList.add('remove-button');
+      removeButton.onclick = () => showRemoveConfirmation(docRef)
+      page11Div.appendChild(removeButton);
+
+    } else {
+      console.error("No such document found!");
+    }
+  } catch (error) {
+    console.error("Error fetching document:", error);
+  }
+}
+
+// Function to show the confirmation modal (dynamically created)
+function showRemoveConfirmation(docRef) {
+  const modal = document.createElement('div');
+  modal.classList.add('modal');
+  modal.style.display = 'flex';
+
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content');
+
+  const modalText = document.createElement('p');
+  modalText.textContent = 'Are you sure you want to remove the About Image?';
+  modalContent.appendChild(modalText);
+
+  const confirmButton = document.createElement('button');
+  confirmButton.textContent = 'Confirm';
+  confirmButton.onclick = () => removeAboutImage(docRef, modal);
+  modalContent.appendChild(confirmButton);
+
+  const cancelButton = document.createElement('button');
+  cancelButton.textContent = 'Cancel';
+  cancelButton.onclick = () => closeConfirmationModal(modal);
+  modalContent.appendChild(cancelButton);
+
+  modal.appendChild(modalContent);
+
+  document.body.appendChild(modal);
+}
+
+// Function to remove the About Image when confirmed
+async function removeAboutImage(docRef, modal) {
+  try {
+    await updateDoc(docRef, {
+      AboutImage: ""
+    });
+
+    closeConfirmationModal(modal);
+
+    fetchPage11Content();
+  } catch (error) {
+    console.error("Error removing AboutImage:", error);
+  }
+}
+
+// Function to close the confirmation modal
+function closeConfirmationModal(modal) {
+  modal.style.display = 'none'; 
+}
+
+
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
   loadCategoryOptions();
   loadImagesFromFirestore();
+  fetchPage11Content();
+  showPage11Content();
 });
 
 window.displayUploadedVideo = displayUploadedVideo;
