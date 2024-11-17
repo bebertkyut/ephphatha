@@ -841,21 +841,34 @@ label {
   right: 10px;
 }
 
-
-
-
 .remove-button {
   position: absolute;
-  top: 5px;         /* Positions the button near the top */
-  right: 5px;       /* Positions the button near the right */
-  padding: 2px;
-  margin-right: 5vh;
+  top: 20px;                /* Space from top */
+  right: 10px;              /* Space from right */
+  margin-right: 15px;        /* Added margin-left to push the button to the left */
+  padding: 10px 10px;       /* Reduced horizontal padding for shorter width */
   cursor: pointer;
-  font-size: 18px;  /* Adjusts size for visibility */
-  border-radius: 5px;
-  background: transparent;  /* Removes the button background */
-  border: none;             /* Removes default button border */
+  font-size: 12px;          /* Adjusted font size for balance */
+  border-radius: 20px;      /* Rounded corners for a softer look */
+  background-color: #f44336;  /* Red background color */
+  color: white;             /* White text for good contrast */
+  border: none;             /* No border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+  transition: background-color 0.3s, transform 0.2s ease-in-out;  /* Smooth transition effects */
+  max-width: 150px;         /* Optionally limit width for a smaller button */
 }
+
+/* Hover and active states for interactivity */
+.remove-button:hover {
+  background-color: #d32f2f;  /* Darker red on hover */
+  transform: scale(1.1);       /* Slightly enlarge the button */
+}
+
+.remove-button:active {
+  background-color: #c62828;  /* Even darker red on click */
+  transform: scale(1);         /* Reset size when clicked */
+}
+
 
 .key-features {
   text-align: center;
@@ -1221,3 +1234,77 @@ input:focus, select:focus {
 .modal-close-button:hover {
   background-color: #d9363e;
 }
+/* Form row for Name and Username */
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px; /* Space between the inputs */
+  width: 100%;
+}
+
+/* Form group styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Space between label and input */
+  width: 100%; /* Ensure inputs take up 48% of the space, allowing a gap */
+}
+
+/* Input and select field styling */
+input[type="text"],
+input[type="password"],
+select {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9fafc; /* Light background */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%; /* Full width of the parent form group */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+/* Adjust width for the Role dropdown to match other inputs */
+select {
+  width: 100%; /* Match the width of input fields */
+}
+
+/* Input focus effect */
+input:focus,
+select:focus {
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Glow effect */
+  outline: none;
+}
+
+/* Label styling */
+label {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Submit button styling */
+button {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: center; /* Center the button */
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Space below the form elements */
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
