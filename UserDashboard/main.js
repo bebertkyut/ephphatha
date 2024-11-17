@@ -1,3 +1,23 @@
+// Import necessary Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyAW65C2w8uxxDw9Va_GFOoCYQUVgm21cM4",
+    authDomain: "ephphathadb.firebaseapp.com",
+    projectId: "ephphathadb",
+    storageBucket: "ephphathadb.appspot.com",
+    messagingSenderId: "408778244868",
+    appId: "1:408778244868:web:43bb14d52f45c4c5424651",
+  };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
 const synonymsMap = {
     "cheerful": ["happy", "joyful", "content"],
     "attend": ["participate", "join"],
@@ -6,48 +26,46 @@ const synonymsMap = {
     "angry": ["anger", "fury", "wraith"],
 };
 
-function playVideo(word) {
+window.playVideo = function(word) {
     const videoPlayer = document.getElementById('videoPlayer');
     const baseWord = findBaseWord(word.toLowerCase());
     const processedVideoName = baseWord.replace(/[^\w\s]/g, '').toLowerCase();
-    const videoPath = '../SignAsset/' + processedVideoName + '.mp4';
+    const videoPath = 'Animations/' + processedVideoName + '.mp4';
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('HEAD', videoPath, true);
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            var video = document.createElement('video');
-            video.setAttribute('width', '640');
-            video.setAttribute('height', '360');
-            video.playbackRate = currentPlaybackSpeed;
+    // Get reference to the video in Firebase Storage
+    const videoRef = ref(storage, videoPath);
 
-            var source = document.createElement('source');
-            source.setAttribute('src', videoPath);
-            source.setAttribute('type', 'video/mp4');
+    getDownloadURL(videoRef).then(function(url) {
+        var video = document.createElement('video');
+        video.setAttribute('width', '640');
+        video.setAttribute('height', '360');
+        video.playbackRate = currentPlaybackSpeed;
 
-            video.appendChild(source);
+        var source = document.createElement('source');
+        source.setAttribute('src', url);
+        source.setAttribute('type', 'video/mp4');
 
-            videoPlayer.innerHTML = '';
-            videoPlayer.appendChild(video);
+        video.appendChild(source);
 
-            video.play().catch(function (error) {
-                console.error('Error playing video:', error);
-                hidePlaybackButtons();
-            });
+        videoPlayer.innerHTML = '';
+        videoPlayer.appendChild(video);
 
-            video.onended = function () {
-                displayPicture();
-                hidePlaybackButtons();
-                document.getElementById('videoTitle').textContent = ' ';
-            };
-        } else {
-            console.error('Video not found:', videoPath);
+        video.play().catch(function (error) {
+            console.error('Error playing video:', error);
+            hidePlaybackButtons();
+        });
+
+        video.onended = function () {
             displayPicture();
             hidePlaybackButtons();
-        }
-    };
-    xhr.send();
-}
+            document.getElementById('videoTitle').textContent = ' ';
+        };
+    }).catch(function(error) {
+        console.error('Error getting video URL:', error);
+        displayPicture();
+        hidePlaybackButtons();
+    });
+};
 
 function findBaseWord(word) {
     if (synonymsMap[word]) {
@@ -79,7 +97,7 @@ function displayPicture() {
 var currentPlaybackSpeed = 1;
 var activeVideo = null;
 
-function record() {
+window.record = function() {
     var recognition = new webkitSpeechRecognition();
     recognition.lang = 'en-US';
 
@@ -138,105 +156,103 @@ function record() {
     };
 
     recognition.start();
-}
+};
 
 
-function playVideos() {
+window.playVideos = function() {
     var videoNames = document.getElementById('videoNames').value.replace(/\s+/g, ' ').trim().split(' ');
     var videoPlayer = document.getElementById('videoPlayer');
     var videoTitle = document.getElementById('videoTitle');
 
-    videoTitle.innerHTML = videoNames.map(name => `<span>${name}</span>`).join(' ');
-
-    var mappedVideoNames = videoNames.map(name => {
-        var cleanedName = removeSymbols(name);
-        for (let baseWord in synonymsMap) {
-            if (cleanedName === baseWord || synonymsMap[baseWord].includes(cleanedName)) {
-                return baseWord; 
-            }
+    // Dissect multi-digit numbers into individual digits
+    var dissectedVideoNames = videoNames.flatMap(name => {
+        if (/^\d+$/.test(name)) {
+            // If the name is a number, split it into individual digits
+            return name.split('');
         }
-        return name;
+        return name; // Leave other entries as is
     });
+
+    videoTitle.innerHTML = dissectedVideoNames.map(name => `<span>${name}</span>`).join(' ');
 
     document.getElementById('playbackButtons').style.display = 'block';
     highlightButton('btnNormal');
 
-    var wordIndex = 0;
-    playNextVideo(mappedVideoNames, wordIndex, videoPlayer, function () {
+    playNextVideo(dissectedVideoNames, 0, videoPlayer, function () {
         displayPicture();
         document.getElementById('videoTitle').textContent = ' ';
         document.getElementById('playbackButtons').style.display = 'none';
     });
-}
+};
 
 
-function removeSymbols(word) {
+window.removeSymbols = function(word) {
     return word.replace(/[^\w\s]/g, '').toLowerCase();
 }
+
+var currentPlaybackSpeed = 1;
+var activeVideo = null;
 
 function playNextVideo(videoNames, index, videoPlayer, callback) {
     if (index >= videoNames.length) {
         // If all videos are played, execute the callback function
-        if (callback && typeof (callback) === "function") {
+        if (callback && typeof callback === "function") {
             callback();
         }
         return;
     }
 
     var originalVideoName = videoNames[index];
-    var hasQuestionMark = originalVideoName.includes('?');
-    // Process the video name to remove symbols and convert to lowercase
     var processedVideoName = originalVideoName.replace(/[^\w\s]/g, '').toLowerCase();
 
-    var videoPath = '../SignAsset/' + processedVideoName + '.mp4';
+    // Firebase Storage reference
+    const videoRef = ref(storage, 'Animations/' + processedVideoName + '.mp4');
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('HEAD', videoPath, true);
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            // If the video exists, play it
-            var video = document.createElement('video');
-            video.setAttribute('width', '640');
-            video.setAttribute('height', '360');
-            video.playbackRate = currentPlaybackSpeed;
+    getDownloadURL(videoRef).then(function (url) {
+        // If the video exists in Firebase Storage, play it
+        var video = document.createElement('video');
+        video.setAttribute('width', '640');
+        video.setAttribute('height', '360');
+        video.playbackRate = currentPlaybackSpeed;
 
-            var source = document.createElement('source');
-            source.setAttribute('src', videoPath);
-            source.setAttribute('type', 'video/mp4');
+        var source = document.createElement('source');
+        source.setAttribute('src', url); // Use the URL from Firebase Storage
+        source.setAttribute('type', 'video/mp4');
 
-            video.appendChild(source);
+        video.appendChild(source);
 
-            videoPlayer.innerHTML = '';
-            videoPlayer.appendChild(video);
+        videoPlayer.innerHTML = '';
+        videoPlayer.appendChild(video);
 
-            activeVideo = video; // Store the currently playing video
+        activeVideo = video; // Store the currently playing video
 
-            var videoTitle = document.getElementById('videoTitle');
-            var currentWord = videoTitle.children[index];
+        var videoTitle = document.getElementById('videoTitle');
+        var currentWord = videoTitle.children[index];
 
-            // Highlight the entire word in red
-            currentWord.style.color = 'red';
+        // Highlight the entire word in red
+        currentWord.style.color = 'red';
 
-            video.onended = function () {
-                activeVideo = null; // Reset the active video
-                currentWord.style.color = 'white';
-                playNextVideo(videoNames, index + 1, videoPlayer, callback);
-            };
+        video.onended = function () {
+            activeVideo = null; // Reset the active video
+            currentWord.style.color = 'white';
+            playNextVideo(videoNames, index + 1, videoPlayer, callback);
+        };
 
-            video.play().catch(function (error) {
-                console.error('Error playing video:', error);
-                playNextVideo(videoNames, index + 1, videoPlayer, callback);
-            });
-        } else {
-            // If the video does not exist, handle the word letter by letter
-            var letters = processedVideoName.split('');
-            playNextLetter(letters, 0, videoPlayer, videoNames, index, hasQuestionMark, callback);
-        }
-    };
-    xhr.send();
+        video.play().catch(function (error) {
+            console.error('Error playing video:', error);
+            playNextVideo(videoNames, index + 1, videoPlayer, callback);
+        });
+    }).catch(function (error) {
+        console.error('Error retrieving video from Firebase:', error);
+
+        // Spell out the word if the video is not found
+        const letters = processedVideoName.split('');
+        playNextLetter(letters, 0, videoPlayer, videoNames, index, false, callback);
+    });
 }
 
-function playNextLetter(letters, index, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback) {
+
+window.playNextLetter = function(letters, index, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback) {
     // Get the current word element
     var videoTitle = document.getElementById('videoTitle');
     var currentWord = videoTitle.children[wordIndex];
@@ -257,7 +273,6 @@ function playNextLetter(letters, index, videoPlayer, videoNames, wordIndex, hasQ
 
     if (index >= letters.length) {
         // If all letters in the word have been processed, move to the next word
-        // Change the color of the last letter of the word to white
         var lastLetterIndex = letters.length - 1;
         currentWord.children[lastLetterIndex].style.color = 'white';
         playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
@@ -265,73 +280,61 @@ function playNextLetter(letters, index, videoPlayer, videoNames, wordIndex, hasQ
     }
 
     var letter = letters[index].toLowerCase();
+    var videoPath = `Animations/${letter}.mp4`; // Video path in the Animations folder
 
-    if (isSymbol(letter)) {
-        // If the letter is a symbol, add it to the videoTitle and move to the next letter
-        var span = document.createElement('span');
-        span.textContent = letter;
-        currentWord.appendChild(span);
-        playNextLetter(letters, index + 1, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback);
-    } else {
-        var videoPath = '../SignAsset/' + letter + '.mp4';
+    // Firebase Storage reference
+    const videoRef = ref(storage, videoPath);
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('HEAD', videoPath, true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // If video exists for the current letter, play it
-                var video = document.createElement('video');
-                video.setAttribute('width', '640');
-                video.setAttribute('height', '360');
-                video.playbackRate = currentPlaybackSpeed;
+    getDownloadURL(videoRef)
+        .then(function(url) {
+            // If the video exists, play it
+            var video = document.createElement('video');
+            video.setAttribute('width', '640');
+            video.setAttribute('height', '360');
+            video.playbackRate = currentPlaybackSpeed;
 
-                var source = document.createElement('source');
-                source.setAttribute('src', videoPath);
-                source.setAttribute('type', 'video/mp4');
+            var source = document.createElement('source');
+            source.setAttribute('src', url);
+            source.setAttribute('type', 'video/mp4');
 
-                video.appendChild(source);
+            video.appendChild(source);
 
-                videoPlayer.innerHTML = '';
-                videoPlayer.appendChild(video);
+            videoPlayer.innerHTML = '';
+            videoPlayer.appendChild(video);
 
-                activeVideo = video; // Store the currently playing video
+            activeVideo = video; // Store the currently playing video
 
-                // Reset the color of previous letters to white
-                var previousLetters = currentWord.querySelectorAll('span');
-                previousLetters.forEach(function (span) {
-                    span.style.color = 'white';
-                });
+            // Reset the color of previous letters to white
+            var previousLetters = currentWord.querySelectorAll('span');
+            previousLetters.forEach(function(span) {
+                span.style.color = 'white';
+            });
 
-                // Highlight the current letter
-                var currentLetter = currentWord.children[index];
-                currentLetter.style.color = 'red';
+            // Highlight the current letter
+            var currentLetter = currentWord.children[index];
+            currentLetter.style.color = 'red';
 
-                video.onended = function () {
-                    activeVideo = null; // Reset the active video
-
-                    // Move to the next letter in the word
-                    playNextLetter(letters, index + 1, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback);
-                };
-
-                video.play().catch(function (error) {
-                    console.error('Error playing video:', error);
-                    playNextLetter(letters, index + 1, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback);
-                });
-            } else {
-                // If video doesn't exist, move to the next letter in the word
+            video.onended = function() {
+                activeVideo = null; // Reset the active video
                 playNextLetter(letters, index + 1, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback);
-            }
-        };
-        xhr.send();
-    }
-}
+            };
 
+            video.play().catch(function(error) {
+                console.error('Error playing video:', error);
+                playNextLetter(letters, index + 1, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback);
+            });
+        })
+        .catch(function(error) {
+            console.error('Error retrieving video from Firebase:', error);
+            playNextLetter(letters, index + 1, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback);
+        });
+};
 
-function isSymbol(char) {
+window.isSymbol = function(char) {
     return /[^\w\s]/.test(char);
 }
 
-function setPlaybackSpeed(speed) {
+window.setPlaybackSpeed = function(speed) {
     currentPlaybackSpeed = speed;
     if (activeVideo) {
         activeVideo.playbackRate = speed;
