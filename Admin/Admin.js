@@ -1,7 +1,7 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
 import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc,addDoc, deleteField } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
-import { getStorage, ref, uploadBytes, getDownloadURL, listAll, uploadBytesResumable } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
+import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
 // Firebase configuration
@@ -18,8 +18,8 @@ const firebaseConfig = {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const storage = getStorage(app);
+  const firestore = getFirestore(app);
 
-  
 // Toggle visibility of widgets on click
 document.querySelectorAll('.widget').forEach(widget => {
   widget.addEventListener('click', () => {
@@ -34,6 +34,9 @@ function showDashboard() {
   document.querySelector('.latest-content').style.display = 'none';
   document.getElementById('dashboardHeader').innerText = 'Dashboard';
   document.getElementById("keyfeatures-content").style.display = "block";
+  countSignAssetFields();
+  countUsers()
+  fetchActiveAccountsCount();
 }
 
 // Show the Control Management Interface section and hide others
@@ -269,20 +272,25 @@ async function saveContactInfo() {
 }
 
 // Function to count animations in Firebase Storage
-async function countAnimations() {
-    try {
-        const animationsRef = ref(storage, 'Animations'); 
-        const list = await listAll(animationsRef);
-        const totalAnimations = list.items.length;
+async function countSignAssetFields() {
+  try {
+      const signAssetRef = collection(firestore, 'SignAsset');
+      const querySnapshot = await getDocs(signAssetRef);
+      let totalFields = 0;
 
-        document.querySelector('.stat-card:nth-child(2) h3').textContent = totalAnimations;
-    } catch (error) {
-        console.error("Error counting animations:", error);
-    }
+      querySnapshot.forEach(doc => {
+          totalFields += Object.keys(doc.data()).length; // Count the fields in each document
+      });
+
+      document.querySelector('.stat-card:nth-child(2) h3').textContent = totalFields;
+  } catch (error) {
+      console.error("Error counting fields in SignAsset:", error);
+  }
 }
 
-// Call the countAnimations function when the page loads
-countAnimations();
+// Call the function
+countSignAssetFields();
+
 
 // Function to count users in Firestore
 async function countUsers() {
