@@ -297,8 +297,6 @@ async function countUsers() {
     }
 }
 
-
-
 // Call the countUsers function when the page loads
 countUsers()
 
