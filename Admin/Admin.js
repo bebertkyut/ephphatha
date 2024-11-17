@@ -1291,7 +1291,7 @@ async function fetchPage11Content() {
       const aboutImage = document.createElement('img');
       aboutImage.src = data.AboutImage;
       aboutImage.alt = "About Section Image";
-      aboutImage.style.maxWidth = "80vh";
+      aboutImage.style.width = "100%";         // Ensure the image covers the full width of the container
       aboutImage.style.maxHeight = "50vh";
 
       const contactAddress = document.createElement('p');
@@ -1312,7 +1312,7 @@ async function fetchPage11Content() {
 
       // Add the Remove button below the content
       const removeButton = document.createElement('button');
-      removeButton.textContent = 'Remove Image';
+      removeButton.textContent = 'Remove';
       removeButton.classList.add('remove-button');
       removeButton.onclick = () => showRemoveConfirmation(docRef)
       page11Div.appendChild(removeButton);

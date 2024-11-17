@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <input type="file" id="fileInput" accept=".png, .jpg, .jpeg, .gif" style="display:none;" onchange="replaceWithImage('fileInput', 'uploadBox')">
-            
+                
                 <!-- About Image Upload -->
                 <div class="upload-about-container" id="aboutBox" onclick="triggerUpload('aboutFileInput', 'aboutBox')">
                     <div>
@@ -132,7 +132,6 @@
         </section>
       <!-- SECTION FOR EDITING USER DASHBOARD PAGE -->
 <section class="main-admin-module" id="CMUserDashboard" style="display: none;">
-  <h1></h1>
   <div class="module-box-container">
     
     <!-- Page 1 Content - Upload Bulletin Image -->
@@ -147,6 +146,7 @@
             </div>
           </div>
           <input type="file" id="bulletinBoardFileInput" accept=".png, .jpg, .jpeg, .gif" style="display: none;" onchange="replaceWithImage('bulletinBoardFileInput', 'bulletinBoardUploadBox')">
+       
         </div>
       </div>
     </div>
@@ -199,39 +199,45 @@
 </section>
 
 <section class="main-admin-module" id="CMAccounts" style="display: none;">
-  <h1>Edit Account</h1>
   <div class="module-box-container">
     <div class="module-box">
+      <div class="form-container">
+        <h2 class="form-title">Add Account</h2>
       <form id="editAccountModuleForm">
-        <!-- Name -->
-        <div class="form-group">
-          <label for="moduleName">Name:</label>
-          <input type="text" id="moduleName" name="name" placeholder="Enter name" required>
-        </div>
-        <!-- Username -->
-        <div class="form-group">
-          <label for="moduleUsername">Username:</label>
-          <input type="text" id="moduleUsername" name="username" placeholder="Enter username" required>
-        </div>
-        <!-- Password -->
-        <div class="form-group">
-          <label for="modulePassword">Password:</label>
-          <input type="password" id="modulePassword" name="password" placeholder="Enter password" required>
-        </div>
-        <!-- Confirm Password -->
-        <div class="form-group">
-          <label for="moduleConfirmPassword">Confirm Password:</label>
-          <input type="password" id="moduleConfirmPassword" name="confirmPassword" placeholder="Confirm password" required>
-        </div>
-        <!-- Role -->
-        <div class="form-group">
-          <label for="moduleRole">Role:</label>
-          <select id="moduleRole" name="role" required>
-            <option value="" disabled selected>Select role</option>
-            <option value="Teacher">Teacher</option>
-            <option value="Student">Student</option>
-          </select>
-        </div>
+        <!-- Name and Username in the same row -->
+<div class="form-row">
+  <div class="form-group">
+    <label for="moduleName">Name:</label>
+    <input type="text" id="moduleName" name="name" placeholder="Enter name" required>
+  </div>
+  <div class="form-group">
+    <label for="moduleUsername">Username:</label>
+    <input type="text" id="moduleUsername" name="username" placeholder="Enter username" required>
+  </div>
+</div>
+
+<!-- Password and Confirm Password in the same row -->
+<div class="form-row">
+  <div class="form-group">
+    <label for="modulePassword">Password:</label>
+    <input type="password" id="modulePassword" name="password" placeholder="Enter password" required>
+  </div>
+  <div class="form-group">
+    <label for="moduleConfirmPassword">Confirm Password:</label>
+    <input type="password" id="moduleConfirmPassword" name="confirmPassword" placeholder="Confirm password" required>
+  </div>
+</div>
+
+<!-- Role -->
+<div class="form-group">
+  <label for="moduleRole">Role:</label>
+  <select id="moduleRole" name="role" required>
+    <option value="" disabled selected>Select role</option>
+    <option value="Teacher">Teacher</option>
+    <option value="Student">Student</option>
+  </select>
+</div>
+
         <!-- Submit Button -->
         <div class="form-group">
           <button type="submit" id="submitModuleButton">Save</button>
@@ -261,6 +267,7 @@
       <div class="image-slider-container">
         <div class="slider-container" id="headerSliderContainer">
           <!-- Images will be dynamically loaded here with 'header-image' class -->
+
         </div>
       </div>
 
