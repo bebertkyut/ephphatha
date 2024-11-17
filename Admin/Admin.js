@@ -297,8 +297,6 @@ async function countUsers() {
     }
 }
 
-
-
 // Call the countUsers function when the page loads
 countUsers()
 
@@ -874,60 +872,62 @@ function removeAccount(id) {
   console.log(`Attempting to remove account with ID: ${id}`);
 
   // Create the modal HTML structure
-  const modal = document.createElement('div');
-  modal.className = 'overlay';  // Use the class for styling
-  modal.innerHTML = `
-      <div class="overlay-content">
-          <div class="warning-icon">⚠️</div>
-          <p>This action will permanently remove the account.</p>
-          <p>Are you sure you want to continue?</p>
-          <button id="confirmRemove" class="confirm-btn">Remove</button>
-          <button id="cancelRemove" class="cancel-btn">Cancel</button>
-      </div>
-  `;
+const modal = document.createElement('div');
+modal.className = 'overlay';  // Use the class for styling
+modal.innerHTML = `
+    <div class="overlay-content">
+        <div class="warning-icon">⚠️</div>
+        <p>This action will permanently remove the account.</p>
+        <p>Are you sure you want to continue?</p>
+        <button id="confirmDeleteBtn" class="confirm-btn">Remove</button>
+        <button id="cancelDeleteBtn" class="cancel-btn">Cancel</button>
+    </div>
+`;
 
-  // Append modal to the body
-  document.body.appendChild(modal);
+// Append modal to the body
+document.body.appendChild(modal);
 
-  // Get the buttons from the modal
-  const confirmRemoveBtn = modal.querySelector('#confirmRemove');
-  const cancelRemoveBtn = modal.querySelector('#cancelRemove');
+// Get the buttons from the modal
+const confirmDeleteBtn = modal.querySelector('#confirmDeleteBtn');  // Correct selector for confirm button
+const cancelDeleteBtn = modal.querySelector('#cancelDeleteBtn');  // Correct selector for cancel button
 
-  // Function to handle modal closing
-  function closeModal() {
-      document.body.removeChild(modal);
-  }
-
-  // When user clicks "Yes, Remove", delete the account
-  confirmRemoveBtn.addEventListener('click', async function() {
-      try {
-          await removeAccountFromFirestore(id);  // Call the function to remove the account
-          console.log(`Account with ID ${id} removed successfully.`);
-          closeModal();  // Close the modal after removal
-
-          // Fetch updated data for both active and inactive accounts
-          await populateActiveAccountsTable();
-          await populateInactiveAccountsTable();
-      } catch (error) {
-          console.error('Error removing account:', error);
-      }
-  });
-
-  // When user clicks "Cancel", close the modal without doing anything
-  cancelRemoveBtn.addEventListener('click', function() {
-      closeModal();  // Close the modal on cancel
-  });
-
-  // Close modal if clicked outside the content area
-  modal.addEventListener('click', function(event) {
-      if (event.target === modal) {
-          closeModal();
-      }
-  });
-
-  // Show the modal
-  modal.classList.add('show');  // Add a class to show the modal (you can define the "show" class in CSS)
+// Function to handle modal closing
+function closeModal() {
+    document.body.removeChild(modal);
 }
+
+// When user clicks "Remove", delete the account
+confirmDeleteBtn.addEventListener('click', async function() {
+    try {
+        await removeAccountFromFirestore(id);  // Call the function to remove the account
+        console.log(`Account with ID ${id} removed successfully.`);
+        closeModal();  // Close the modal after removal
+
+        // Fetch updated data for both active and inactive accounts
+        await populateActiveAccountsTable();
+        await populateInactiveAccountsTable();
+    } catch (error) {
+        console.error('Error removing account:', error);
+    }
+});
+
+// When user clicks "Cancel", close the modal without doing anything
+cancelDeleteBtn.addEventListener('click', function() {
+    closeModal();  // Close the modal on cancel
+});
+
+// Close modal if clicked outside the content area
+modal.addEventListener('click', function(event) {
+    if (event.target === modal) {
+        closeModal();
+    }
+});
+
+// Show the modal
+modal.classList.add('show');  
+}// Add a class to show the modal (you can define the "show" class in CSS)
+
+
 
 // Function to delete account from Firestore
 async function removeAccountFromFirestore(id) {
@@ -964,14 +964,16 @@ function deactivateAccount(id) {
   subHeading.textContent = "This action cannot be undone.";
   modalContent.appendChild(subHeading);
   
-  // Create the confirmation buttons
+  // Create the confirmation buttons with matching classes
   const confirmBtn = document.createElement('button');
   confirmBtn.textContent = 'Deactivate';
-  confirmBtn.classList.add('confirmDeleteBtn'); // Add confirm-btn class for styling
+  confirmBtn.id = 'confirmDeleteBtn';  // Apply the same ID as your static button
+  confirmBtn.classList.add('confirmDeleteBtn'); // Ensure same class for styling
   
   const cancelBtn = document.createElement('button');
   cancelBtn.textContent = 'Cancel';
-  cancelBtn.classList.add('cancelDeleteBtn'); // Add cancel-btn class for styling
+  cancelBtn.id = 'cancelDeleteBtn';  // Apply the same ID as your static button
+  cancelBtn.classList.add('cancelDeleteBtn'); // Ensure same class for styling
   
   modalContent.appendChild(confirmBtn);
   modalContent.appendChild(cancelBtn);
@@ -1005,7 +1007,6 @@ function deactivateAccount(id) {
       await populateInactiveAccountsTable();
     } catch (error) {
       console.error('Error deactivating account:', error);
-      // Optionally, show an error message
     }
   };
 
@@ -1023,6 +1024,7 @@ function deactivateAccount(id) {
     }
   };
 }
+
 
 
 // Event listener to close the dropdown if clicked outside
@@ -1124,7 +1126,7 @@ function activateAccount(id) {
 
   // Create the confirmation buttons
   const confirmBtn = document.createElement('button');
-  confirmBtn.textContent = 'Yes, activate';
+  confirmBtn.textContent = 'Activate';
   confirmBtn.classList.add('confirm-btn'); // Add confirm-btn class for styling
 
   const cancelBtn = document.createElement('button');
