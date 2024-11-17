@@ -24,6 +24,8 @@ function redirectTo(category) {
         fetchEmotion();
     } else if (category === 'Date') {
         fetchDate();
+    } else if (category === 'Animal') {
+        fetchAnimal();
     } else {
         // Otherwise, display the category name in the overlay
         document.getElementById('selected-category').innerText = category;
@@ -136,9 +138,52 @@ async function fetchDate() {
     }
 }
 
-
 // Displays the list of field names from the fetched 'Date' data in an overlay
 function displayDateList(data) {
+    const overlayContent = document.getElementById('selected-category');
+    overlayContent.innerHTML = '';  
+
+    const listElement = document.createElement('ul');
+
+    // Sort the keys alphabetically
+    const sortedKeys = Object.keys(data).sort();
+
+    // Iterate over the sorted keys and display them in a list
+    sortedKeys.forEach(key => {
+        const listItem = document.createElement('li');
+        listItem.textContent = key; 
+        listItem.style.marginBottom = "10px"; 
+
+        listItem.dataset.videoUrl = data[key];
+
+        listItem.onclick = () => displayVideo(data[key]);
+
+        listElement.appendChild(listItem);
+    });
+
+    overlayContent.appendChild(listElement);
+    document.getElementById('overlay').style.display = 'block'; 
+}
+
+// Fetch the 'SingleCharacter' document from Firestore
+async function fetchAnimal() {
+    const singleCharacterRef = doc(db, 'SignAsset', 'Animal');
+
+    try {
+        const docSnap = await getDoc(singleCharacterRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            displayAnimal(data);
+        } else {
+            console.log("No such document!");
+        }
+    } catch (error) {
+        console.error("Error fetching document: ", error);
+    }
+}
+
+// Displays the list of field names from the fetched data in an overlay
+function displayAnimal(data) {
     const overlayContent = document.getElementById('selected-category');
     overlayContent.innerHTML = '';  
 

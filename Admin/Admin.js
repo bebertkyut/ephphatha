@@ -317,54 +317,60 @@ async function fetchSignAssets() {
   try {
     const signAssetCollection = collection(db, 'SignAsset');
     const snapshot = await getDocs(signAssetCollection);
-    
+
+    const allFields = [];
+
     snapshot.forEach(doc => {
-      const category = doc.id;
-      const data = doc.data();  
-
+      const data = doc.data();
       if (data) {
+        // Add each field to the allFields array with its corresponding document ID
         for (const [field, videoUrl] of Object.entries(data)) {
-          const row = document.createElement('tr');
-          
-          const categoryCell = document.createElement('td');
-          categoryCell.textContent = category; 
-          row.appendChild(categoryCell);
-
-          const nameCell = document.createElement('td');
-          nameCell.textContent = field;  
-          row.appendChild(nameCell);
-
-          const videoCell = document.createElement('td');
-          const videoLink = document.createElement('a');
-          videoLink.href = '#';
-          videoLink.textContent = 'Watch Video';
-          videoLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            showVideoModal(videoUrl); 
-          });
-          videoCell.appendChild(videoLink);
-          row.appendChild(videoCell);
-
-          const actionsCell = document.createElement('td');
-          // Create the delete icon directly, no button wrapper
-          const icon = document.createElement('i');
-          icon.classList.add('fas', 'fa-trash-alt', 'delete-icon');  // Add delete-icon class for styling
-          icon.setAttribute('title', 'Remove');
-          
-          // Add the click event to show delete confirmation
-          icon.addEventListener('click', () => {
-            showDeleteConfirmation(doc.id, field);
-          });
-          
-          actionsCell.appendChild(icon);  // Append the icon directly to the table cell
-          row.appendChild(actionsCell);
-
-          categoryTableBody.appendChild(row);
+          allFields.push({ field, videoUrl, category: doc.id });
         }
       } else {
         console.warn(`Missing data in document: ${doc.id}`);
       }
     });
+
+    // Sort the fields alphabetically by field name
+    const sortedFields = allFields.sort((a, b) => a.field.localeCompare(b.field));
+
+    // Now, create table rows for sorted fields
+    sortedFields.forEach(({ category, field, videoUrl }) => {
+      const row = document.createElement('tr');
+      
+      const categoryCell = document.createElement('td');
+      categoryCell.textContent = category;
+      row.appendChild(categoryCell);
+
+      const nameCell = document.createElement('td');
+      nameCell.textContent = field;  
+      row.appendChild(nameCell);
+
+      const videoCell = document.createElement('td');
+      const videoLink = document.createElement('a');
+      videoLink.href = '#';
+      videoLink.textContent = 'Watch Video';
+      videoLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        showVideoModal(videoUrl); 
+      });
+      videoCell.appendChild(videoLink);
+      row.appendChild(videoCell);
+
+      const actionsCell = document.createElement('td');
+      const icon = document.createElement('i');
+      icon.classList.add('fas', 'fa-trash-alt', 'delete-icon');
+      icon.setAttribute('title', 'Remove');
+      icon.addEventListener('click', () => {
+        showDeleteConfirmation(category, field);
+      });
+      actionsCell.appendChild(icon);
+      row.appendChild(actionsCell);
+
+      categoryTableBody.appendChild(row);
+    });
+
   } catch (error) {
     console.error('Error getting documents:', error);
   }
@@ -668,6 +674,9 @@ async function populateActiveAccountsTable() {
     // Check if we have data
     console.log("Fetched data:", querySnapshot.docs);
 
+    // Collect all active accounts into an array
+    const activeAccounts = [];
+
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       console.log("Account Status:", data.Status); // Debugging: Check Status field
@@ -697,39 +706,55 @@ async function populateActiveAccountsTable() {
           }
         }
 
-// Create a new table row
-const row = document.createElement('tr');
-row.innerHTML = `
-  <td>${data.Name || ''}</td>
-  <td>${data.Username || ''}</td>
-  <td>${data.Role || ''}</td>
-  <td>${data.Gender || ''}</td>
-  <td>${birthday}</td>
-  <td>${dateCreated}</td>
-  <td>
-
-  <div class="a-buttons">
-    <button class="a-button" onclick="editAccount('${doc.id}')" title="Edit">
-      <i class="fas fa-edit"></i>
-    </button>
-    <button class="b-button" onclick="removeAccount('${doc.id}')" title="Remove">
-      <i class="fas fa-trash-alt"></i>
-    </button>
-    <!-- Conditional Rendering of Deactivate or Activate Button -->
-    ${data.Status === 'Active' 
-      ? `<button class="a-button" onclick="deactivateAccount('${doc.id}')" title="Deactivate">
-           <i class="fas fa-ban"></i>
-         </button>` 
-      : `<button class="b-button" onclick="activateAccount('${doc.id}')" title="Activate">
-           <i class="fas fa-ban"></i>
-         </button>`
-    }
-  </div>
-</td>
-`;
-        // Append the row to the table body
-        activeAccountsTableBody.appendChild(row);
+        // Push the active account data into the array
+        activeAccounts.push({
+          docId: doc.id,
+          name: data.Name,
+          username: data.Username,
+          role: data.Role,
+          gender: data.Gender,
+          birthday: birthday,
+          dateCreated: dateCreated,
+          status: data.Status
+        });
       }
+    });
+
+    // Sort the active accounts array by Name field alphabetically
+    activeAccounts.sort((a, b) => a.name.localeCompare(b.name));
+
+    // Create table rows for each sorted active account
+    activeAccounts.forEach((account) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${account.name || ''}</td>
+        <td>${account.username || ''}</td>
+        <td>${account.role || ''}</td>
+        <td>${account.gender || ''}</td>
+        <td>${account.birthday}</td>
+        <td>${account.dateCreated}</td>
+        <td>
+          <div class="a-buttons">
+            <button class="a-button" onclick="editAccount('${account.docId}')" title="Edit">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="b-button" onclick="removeAccount('${account.docId}')" title="Remove">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+            <!-- Conditional Rendering of Deactivate or Activate Button -->
+            ${account.status === 'Active' 
+              ? `<button class="a-button" onclick="deactivateAccount('${account.docId}')" title="Deactivate">
+                   <i class="fas fa-ban"></i>
+                 </button>` 
+              : `<button class="b-button" onclick="activateAccount('${account.docId}')" title="Activate">
+                   <i class="fas fa-ban"></i>
+                 </button>`
+            }
+          </div>
+        </td>
+      `;
+      // Append the row to the table body
+      activeAccountsTableBody.appendChild(row);
     });
 
     console.log("Table populated successfully with active accounts.");
@@ -737,6 +762,7 @@ row.innerHTML = `
     console.error("Error fetching active accounts from Firestore:", error);
   }
 }
+
 
 // Function to toggle the dropdown menu visibility
 function toggleDropdown(button) {
@@ -1055,6 +1081,9 @@ async function populateInactiveAccountsTable() {
     inactiveAccountsTableBody.innerHTML = '';
     console.log("Query snapshot size:", querySnapshot.size); // Check if data is retrieved
 
+    // Collect all inactive accounts into an array
+    const inactiveAccounts = [];
+
     querySnapshot.forEach((doc) => {
       const data = doc.data();
       console.log("Data received:", data); // Log all data fields to confirm retrieval
@@ -1066,37 +1095,55 @@ async function populateInactiveAccountsTable() {
         const dateCreated = data.DateCreated ? data.DateCreated.toDate().toLocaleDateString('en-US') : '';
         let birthday = data.Birthday ? (data.Birthday.toDate ? data.Birthday.toDate().toLocaleDateString('en-US') : data.Birthday) : '';
 
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${data.Name || ''}</td>
-          <td>${data.Username || ''}</td>
-          <td>${data.Role || ''}</td>
-          <td>${data.Gender || ''}</td>
-          <td>${birthday}</td>
-          <td>${dateCreated}</td>
-          <td>
-          
-  <div class="a-buttons">
-    <button class="a-button" onclick="editAccount('${doc.id}')" title="Edit">
-      <i class="fas fa-edit"></i>
-    </button>
-    <button class="b-button" onclick="removeAccount('${doc.id}')" title="Remove">
-      <i class="fas fa-trash-alt"></i>
-    </button>
-    <!-- Conditional Rendering of Deactivate or Activate Button -->
-    ${data.Status === 'Active' 
-      ? `<button class="a-button" onclick="deactivateAccount('${doc.id}')" title="Deactivate">
-           <i class="fas fa-ban"></i>
-         </button>` 
-      : `<button class="b-button" onclick="activateAccount('${doc.id}')" title="Activate">
-           <i class="fas fa-ban"></i>
-         </button>`
-    }
-  </div>
-          </td>
-        `;
-        inactiveAccountsTableBody.appendChild(row);
+        // Push inactive account data into the array
+        inactiveAccounts.push({
+          docId: doc.id,
+          name: data.Name,
+          username: data.Username,
+          role: data.Role,
+          gender: data.Gender,
+          birthday: birthday,
+          dateCreated: dateCreated,
+          status: data.Status
+        });
       }
+    });
+
+    // Sort the inactive accounts array by Name field alphabetically
+    inactiveAccounts.sort((a, b) => a.name.localeCompare(b.name));
+
+    // Create table rows for each sorted inactive account
+    inactiveAccounts.forEach((account) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${account.name || ''}</td>
+        <td>${account.username || ''}</td>
+        <td>${account.role || ''}</td>
+        <td>${account.gender || ''}</td>
+        <td>${account.birthday}</td>
+        <td>${account.dateCreated}</td>
+        <td>
+          <div class="a-buttons">
+            <button class="a-button" onclick="editAccount('${account.docId}')" title="Edit">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="b-button" onclick="removeAccount('${account.docId}')" title="Remove">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+            <!-- Conditional Rendering of Deactivate or Activate Button -->
+            ${account.status === 'Inactive' 
+              ? `<button class="b-button" onclick="activateAccount('${account.docId}')" title="Activate">
+                   <i class="fas fa-ban"></i>
+                 </button>` 
+              : `<button class="a-button" onclick="deactivateAccount('${account.docId}')" title="Deactivate">
+                   <i class="fas fa-ban"></i>
+                 </button>`
+            }
+          </div>
+        </td>
+      `;
+      // Append the row to the table body
+      inactiveAccountsTableBody.appendChild(row);
     });
 
     console.log("Table populated successfully with inactive accounts.");
