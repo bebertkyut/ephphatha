@@ -365,7 +365,7 @@ async function fetchSignAssets() {
 // Function to show the delete confirmation overlay
 function showDeleteConfirmation(category, field) {
   const overlay = document.getElementById('deleteConfirmationOverlay');
-  const confirmBtn = document.getElementById('confirmDeleteBtn');
+  const confirmBtn = document.getElementById('confirmBtn');
   const cancelBtn = document.getElementById('cancelDeleteBtn');
   
   // Show overlay
@@ -393,13 +393,23 @@ function showDeleteConfirmation(category, field) {
 // Function to delete a sign asset from Firestore
 async function deleteSignAsset(category, field) {
   const signAssetDocRef = doc(db, 'SignAsset', category);
-  const signAssetDoc = await getDoc(signAssetDocRef);
 
-  if (signAssetDoc.exists()) {
-    const data = signAssetDoc.data();
-    delete data[field]; 
+  try {
+    // Retrieve the document
+    const signAssetDoc = await getDoc(signAssetDocRef);
 
-    await updateDoc(signAssetDocRef, data);
+    if (signAssetDoc.exists()) {
+      // Use deleteField() to remove the specified field
+      await updateDoc(signAssetDocRef, {
+        [field]: deleteField() // Firestore recognizes this as a delete operation
+      });
+
+      console.log(`Field "${field}" in category "${category}" deleted successfully.`);
+    } else {
+      console.error(`Document for category "${category}" does not exist.`);
+    }
+  } catch (error) {
+    console.error('Error deleting sign asset:', error);
   }
 }
 
@@ -407,21 +417,21 @@ async function deleteSignAsset(category, field) {
 function showVideoModal(videoUrl) {
   const modal = document.createElement('div');
   modal.classList.add('modal');
-  
+
   const overlay = document.createElement('div');
   overlay.classList.add('modal-overlay');
   modal.appendChild(overlay);
 
   const videoContainer = document.createElement('div');
   videoContainer.classList.add('modal-video-container');
-  
+
   const video = document.createElement('video');
   video.src = videoUrl;
   video.controls = true;
   video.autoplay = true;
   video.classList.add('modal-video');
   videoContainer.appendChild(video);
-  
+
   // Close button
   const closeButton = document.createElement('button');
   closeButton.textContent = 'Close';
@@ -874,8 +884,8 @@ function removeAccount(id) {
           <div class="warning-icon">⚠️</div>
           <p>This action will permanently remove the account.</p>
           <p>Are you sure you want to continue?</p>
-          <button id="confirmRemove" class="confirm-btn">Remove</button>
-          <button id="cancelRemove" class="cancel-btn">Cancel</button>
+          <button id="confirmDeleteBtn">Remove</button>
+          <button id="cancelDeleteBtn">Cancel</button>
       </div>
   `;
 
@@ -883,8 +893,9 @@ function removeAccount(id) {
   document.body.appendChild(modal);
 
   // Get the buttons from the modal
-  const confirmRemoveBtn = modal.querySelector('#confirmRemove');
-  const cancelRemoveBtn = modal.querySelector('#cancelRemove');
+  const confirmDeleteBtn = modal.querySelector('#confirmDeleteBtn');
+  const cancelDeleteBtn = modal.querySelector('#cancelDeleteBtn');
+  
 
   // Function to handle modal closing
   function closeModal() {
@@ -892,7 +903,7 @@ function removeAccount(id) {
   }
 
   // When user clicks "Yes, Remove", delete the account
-  confirmRemoveBtn.addEventListener('click', async function() {
+  confirmDeleteBtn.addEventListener('click', async function() {
       try {
           await removeAccountFromFirestore(id);  // Call the function to remove the account
           console.log(`Account with ID ${id} removed successfully.`);
@@ -907,7 +918,7 @@ function removeAccount(id) {
   });
 
   // When user clicks "Cancel", close the modal without doing anything
-  cancelRemoveBtn.addEventListener('click', function() {
+  cancelDeleteBtn.addEventListener('click', function() {
       closeModal();  // Close the modal on cancel
   });
 
@@ -932,86 +943,83 @@ async function removeAccountFromFirestore(id) {
 
 
 
-// Function to deactivate account and fetch updated data
 function deactivateAccount(id) {
-  // Create the confirmation modal dynamically
+  // Create the modal container
   const confirmationModal = document.createElement('div');
-  confirmationModal.classList.add('overlay'); // Use the existing overlay class
+  confirmationModal.id = 'deleteConfirmationOverlay';
+  confirmationModal.classList.add('overlay'); // Apply the 'overlay' class for styling
 
   // Create the modal content
   const modalContent = document.createElement('div');
-  modalContent.classList.add('overlay-content'); // Use the existing overlay-content class
-  
-  // Add the warning icon (optional)
-  const warningIcon = document.createElement('i');
-  warningIcon.classList.add('fas', 'fa-exclamation-triangle', 'warning-icon'); // Icon for warning
+  modalContent.classList.add('overlay-content'); // Apply the 'overlay-content' class
+
+  // Add the warning icon
+  const warningIcon = document.createElement('div');
+  warningIcon.classList.add('warning-icon');
+  warningIcon.textContent = '⚠️'; // Use the same warning icon
   modalContent.appendChild(warningIcon);
 
-  // Add the heading text
+  // Add the main confirmation text
   const heading = document.createElement('p');
-  heading.textContent = "Are you sure you want to deactivate this account?";
+  heading.textContent = 'Are you sure? This action cannot be undone.';
   modalContent.appendChild(heading);
 
   // Add the subheading text
   const subHeading = document.createElement('p');
-  subHeading.textContent = "This action cannot be undone.";
+  subHeading.textContent = 'All values associated with this field will be lost.';
   modalContent.appendChild(subHeading);
-  
-  // Create the confirmation buttons
-  const confirmBtn = document.createElement('button');
-  confirmBtn.textContent = 'Deactivate';
-  confirmBtn.classList.add('confirmDeleteBtn'); // Add confirm-btn class for styling
-  
-  const cancelBtn = document.createElement('button');
-  cancelBtn.textContent = 'Cancel';
-  cancelBtn.classList.add('cancelDeleteBtn'); // Add cancel-btn class for styling
-  
-  modalContent.appendChild(confirmBtn);
-  modalContent.appendChild(cancelBtn);
+
+  // Add the confirm button
+  const confirmDeleteBtn = document.createElement('button');
+  confirmDeleteBtn.id = 'confirmDeleteBtn';
+  confirmDeleteBtn.textContent = 'Deactivate';
+  modalContent.appendChild(confirmDeleteBtn);
+
+  // Add the cancel button
+  const cancelDeleteBtn = document.createElement('button');
+  cancelDeleteBtn.id = 'cancelDeleteBtn';
+  cancelDeleteBtn.textContent = 'Cancel';
+  modalContent.appendChild(cancelDeleteBtn);
+
+  // Append modal content to modal container
   confirmationModal.appendChild(modalContent);
 
   // Append the modal to the body
   document.body.appendChild(confirmationModal);
 
   // Show the modal
-  confirmationModal.classList.add('show'); // Use show class to display the modal
+  confirmationModal.classList.add('show'); // Use the 'show' class to display the modal
 
-  // Confirm deactivation
-  confirmBtn.onclick = async function() {
+  // Confirm deactivation logic
+  confirmDeleteBtn.onclick = async function () {
     try {
-      // Reference to the UserAccount document
-      const userRef = doc(db, "UserAccount", id);
-      
-      // Update the "Status" field to "Inactive"
-      await updateDoc(userRef, {
-        Status: "Inactive"
-      });
+      const userRef = doc(db, 'UserAccount', id);
+      await updateDoc(userRef, { Status: 'Inactive' });
 
       console.log(`Account with ID ${id} deactivated successfully.`);
-      
-      // Close the modal after successful deactivation
-      confirmationModal.classList.remove('show'); // Hide modal
+
+      // Close the modal
+      confirmationModal.classList.remove('show');
       document.body.removeChild(confirmationModal);
 
-      // Fetch updated data for both active and inactive accounts
+      // Fetch updated account data
       await populateActiveAccountsTable();
       await populateInactiveAccountsTable();
     } catch (error) {
       console.error('Error deactivating account:', error);
-      // Optionally, show an error message
     }
   };
 
-  // Cancel deactivation
-  cancelBtn.onclick = function() {
-    confirmationModal.classList.remove('show'); // Hide modal
+  // Cancel deactivation logic
+  cancelDeleteBtn.onclick = function () {
+    confirmationModal.classList.remove('show');
     document.body.removeChild(confirmationModal);
   };
 
-  // Close the modal if the user clicks outside the modal content
-  window.onclick = function(event) {
+  // Close modal on clicking outside the content area
+  confirmationModal.onclick = function (event) {
     if (event.target === confirmationModal) {
-      confirmationModal.classList.remove('show'); // Hide modal
+      confirmationModal.classList.remove('show');
       document.body.removeChild(confirmationModal);
     }
   };
@@ -1092,88 +1100,87 @@ async function populateInactiveAccountsTable() {
 populateInactiveAccountsTable();
 
 function activateAccount(id) {
-  // Create the confirmation modal dynamically
+  // Create the modal container
   const confirmationModal = document.createElement('div');
-  confirmationModal.classList.add('overlay'); // Use the existing overlay class
+  confirmationModal.id = 'deleteConfirmationOverlay'; // Use the same ID as your example
+  confirmationModal.classList.add('overlay'); // Apply the 'overlay' class for styling
 
   // Create the modal content
   const modalContent = document.createElement('div');
-  modalContent.classList.add('overlay-content'); // Use the existing overlay-content class
+  modalContent.classList.add('overlay-content'); // Apply the 'overlay-content' class
 
-  // Add the warning icon (optional)
-  const warningIcon = document.createElement('i');
-  warningIcon.classList.add('fas', 'fa-exclamation-triangle', 'warning-icon'); // Icon for warning
+  // Add the warning icon
+  const warningIcon = document.createElement('div');
+  warningIcon.classList.add('warning-icon');
+  warningIcon.textContent = '⚠️'; // Use the same warning icon
   modalContent.appendChild(warningIcon);
 
-  // Add the heading text
+  // Add the main confirmation text
   const heading = document.createElement('p');
-  heading.textContent = "Are you sure you want to activate this account?";
+  heading.textContent = 'Are you sure you want to activate this account?';
   modalContent.appendChild(heading);
 
   // Add the subheading text
   const subHeading = document.createElement('p');
-  subHeading.textContent = "This action will reactivate the account.";
+  subHeading.textContent = 'This action will reactivate the account.';
   modalContent.appendChild(subHeading);
 
-  // Create the confirmation buttons
+  // Add the confirm button
   const confirmBtn = document.createElement('button');
-  confirmBtn.textContent = 'Yes, activate';
-  confirmBtn.classList.add('confirm-btn'); // Add confirm-btn class for styling
-
-  const cancelBtn = document.createElement('button');
-  cancelBtn.textContent = 'Cancel';
-  cancelBtn.classList.add('cancel-btn'); // Add cancel-btn class for styling
-
+  confirmBtn.id = 'confirmDeleteBtn'; // Use the same ID as your example
+  confirmBtn.textContent = 'Activate';
   modalContent.appendChild(confirmBtn);
+
+  // Add the cancel button
+  const cancelBtn = document.createElement('button');
+  cancelBtn.id = 'cancelDeleteBtn'; // Use the same ID as your example
+  cancelBtn.textContent = 'Cancel';
   modalContent.appendChild(cancelBtn);
+
+  // Append modal content to modal container
   confirmationModal.appendChild(modalContent);
 
   // Append the modal to the body
   document.body.appendChild(confirmationModal);
 
   // Show the modal
-  confirmationModal.classList.add('show'); // Use show class to display the modal
+  confirmationModal.classList.add('show'); // Use the 'show' class to display the modal
 
-  // Confirm activation
-  confirmBtn.onclick = async function() {
+  // Confirm activation logic
+  confirmBtn.onclick = async function () {
     try {
-      // Reference to the UserAccount document
-      const userRef = doc(db, "UserAccount", id);
-
-      // Update the "Status" field to "Active"
-      await updateDoc(userRef, {
-        Status: "Active"
-      });
+      const userRef = doc(db, 'UserAccount', id);
+      await updateDoc(userRef, { Status: 'Active' });
 
       console.log(`Account with ID ${id} activated successfully.`);
 
-      // Close the modal after successful activation
-      confirmationModal.classList.remove('show'); // Hide modal
+      // Close the modal
+      confirmationModal.classList.remove('show');
       document.body.removeChild(confirmationModal);
 
-      // Fetch updated data for both active and inactive accounts
+      // Fetch updated account data
       await populateActiveAccountsTable();
       await populateInactiveAccountsTable();
     } catch (error) {
       console.error('Error activating account:', error);
-      // Optionally, show an error message
     }
   };
 
-  // Cancel activation and close the modal
-  cancelBtn.onclick = function() {
-    confirmationModal.classList.remove('show'); // Hide modal
+  // Cancel activation logic
+  cancelBtn.onclick = function () {
+    confirmationModal.classList.remove('show');
     document.body.removeChild(confirmationModal);
   };
 
-  // Close the modal if the user clicks outside the modal content
-  window.onclick = function(event) {
+  // Close modal on clicking outside the content area
+  confirmationModal.onclick = function (event) {
     if (event.target === confirmationModal) {
-      confirmationModal.classList.remove('show'); // Hide modal
+      confirmationModal.classList.remove('show');
       document.body.removeChild(confirmationModal);
     }
   };
 }
+
 
 
 // Function to handle the video file upload and display
