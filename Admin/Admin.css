@@ -1,3 +1,5 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,7 +11,7 @@ body {
   background-color: #f4f6f8;
   display: flex;
   justify-content: center;
-  padding: 50px;
+  padding: 40px;
 }
 
 .dashboard {
@@ -19,33 +21,62 @@ body {
 
 .header {
   text-align: left;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+}
+/* Header container to align logo and h1 */
+.header {
+  display: flex; /* Enables flexbox layout */
+  align-items: center; /* Vertically aligns logo and h1 */
+  text-align: left; /* Aligns content to the left */
+  gap: 10px; /* Adds space between logo and h1 */
+}
+
+/* Header container to align logo and h1 */
+.header {
+  display: flex; /* Aligns logo and h1 horizontally */
+  align-items: center; /* Vertically aligns items */
+  width: 100%; /* Ensure the header spans full width */
+  gap: 30px; /* Space between logo and h1 */
+}
+/* Styling the logo container */
+.logo {
+  width: 120px; /* Adjust width as needed */
+  height: 80px; /* Ensure height scales proportionally */
+}
+
+/* Styling the logo image */
+.logo img {
+  max-width: 100%; /* Ensures the image scales within the container */
+  height: auto; /* Maintains aspect ratio */
 }
 
 .header h1 {
-  font-size: 2rem;
-  color: #333;
-  
+  font-size: 2rem; /* Adjust font size */
+  color: #333; /* Adjust color */
+  margin: 0; /* Removes default margin */
+  margin-left: 125px; /* Adds extra space to push the h1 further right */
+  position: relative; /* Allows precise positioning */
+  top: -80px; /* Moves the h1 upwards */
+  white-space: nowrap; /* Prevents text from wrapping */
 }
-
 .header p {
-  font-size: 18px;
+  font-size: 30px;
+  text-align: left;
   color: #888;
 }
 
 .welcome-section {
   display: flex;
   background: white;
-  padding: 40px;
+  padding: 15px;
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
   align-items: center;
-  gap: 30px;
 }
 
 .welcome-text h2 {
-  font-size: 28px;
+  font-size: 30px;
   color: #0073e6;
   margin-bottom: 10px;
 }
@@ -211,7 +242,7 @@ body {
 
 .next-button {
   position: fixed; 
-  bottom: 130px;
+  bottom: 80px;
   right: 10px;
   padding: 10px 20px;
   background-color: #007bff;
@@ -260,7 +291,19 @@ body {
   transition: border-color 0.3s;
   margin-right: 50px;
 }
-
+.animation-video-container{
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #000000;
+  border-radius: 8px;
+  height: 220px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  margin-right: 3px;
+}
 .bulletin-board-container {
   width: 1300px;
   display: flex;
@@ -278,14 +321,16 @@ body {
 .upload-header-container:hover,
 .upload-about-container:hover,
 .upload-learn-more-container:hover,
-.bulletin-board-container:hover {
+.bulletin-board-container:hover,
+.animation-video-container :hover {
   border-color: #ff0000;
 }
 
 .upload-header-container img,
 .upload-about-container img,
 .upload-learn-more-container img,
-.bulletin-board-container img {
+.bulletin-board-container img,
+.animation-video-container img {
   display: block;
   margin: 0 auto;
   width: 80px;
@@ -294,7 +339,8 @@ body {
 .upload-header-container p,
 .upload-about-container p,
 .upload-learn-more-container p,
-.bulletin-board-container p {
+.bulletin-board-container p,
+.animation-video-container p {
   margin: 0;
   text-align: center;
   color: #666666;
@@ -388,18 +434,17 @@ input[type="file"] {
 
 /* Container for the entire table */
 .table-container {
-  height: 45vh; /* Adjust height as needed */
+  height: 380px; /* Adjust height as needed */
   width: 100%; /* Ensure it takes the full width of the container */
   border: 1px solid #ddd; /* Optional border for visual separation */
   padding: 0; /* Removed unnecessary padding */
   box-sizing: border-box;
   display: block;
   overflow: hidden; /* Ensure no unwanted overflow around the container */
-  width: 100%; /* Ensure table-container takes full width */
 }
 
 /* Table Header Styling */
-#categoryTable thead th, #activeAccountsTable thead th {
+#categoryTable thead th {
   padding: 10px;
   background-color: #0073e6; /* Ensures header background is visible */
   color: white;
@@ -412,19 +457,19 @@ input[type="file"] {
 
 /* Scrollable Body Container */
 .scrollable-body {
-  max-height: 100%; /* Adjust height as needed */
+  max-height: 350px; /* Adjust height as needed */
   overflow-y: auto; /* Enables vertical scrolling */
 }
 
 /* Table Styling */
-#categoryTable, #activeAccountsTable {
+#categoryTable {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed; /* Ensures column widths are uniform */
 }
 
 /* Table Cells Styling */
-#categoryTable th, #categoryTable td, #activeAccountsTable th, #activeAccountsTable td {
+#categoryTable th, #categoryTable td {
   padding: 8px 12px;
   border: 1px solid #ddd;
   text-align: left;
@@ -432,24 +477,9 @@ input[type="file"] {
 }
 
 /* Optional Styling for Cells for better consistency */
-#categoryTable td, #activeAccountsTable td {
+#categoryTable td {
   white-space: nowrap; /* Prevents text from wrapping, keeping alignment consistent */
-} 
-/* Align table headers and body columns */
-#activeAccountsTable th:nth-child(1), 
-#activeAccountsTable td:nth-child(1) { width: 15%; } /* Name column */
-#activeAccountsTable th:nth-child(2), 
-#activeAccountsTable td:nth-child(2) { width: 15%; } /* Username column */
-#activeAccountsTable th:nth-child(3), 
-#activeAccountsTable td:nth-child(3) { width: 10%; } /* Role column */
-#activeAccountsTable th:nth-child(4), 
-#activeAccountsTable td:nth-child(4) { width: 10%; } /* Gender column */
-#activeAccountsTable th:nth-child(5), 
-#activeAccountsTable td:nth-child(5) { width: 15%; } /* Birthday column */
-#activeAccountsTable th:nth-child(6), 
-#activeAccountsTable td:nth-child(6) { width: 15%; } /* Date Created column */
-#activeAccountsTable th:nth-child(7), 
-#activeAccountsTable td:nth-child(7) { width: 20%; } /* Action column */
+}
 
 /* Action Buttons Styles */
 
@@ -563,30 +593,6 @@ select, input {
   width: 100%;
 }
 
-/* Upload Section */
-.upload-section {
-  display: flex;
-  align-items: center;
-  width: 100%;
-
-}
-
-/* Upload Button Styles */
-.upload-button {
-  padding: 10px;
-  margin-top: -5px;
-  background-color: #007bff;
-  color: white;
-  text-align: center; /* Centers the text inside the label */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  
-}
-
-.upload-button:hover {
-  background-color: #0056b3;
-}
 
 /* Save Button Styles */
 
@@ -606,7 +612,8 @@ select, input {
 
 label {
   margin: 10px 0;
-  font-size: 14px;
+  margin-bottom: 130px;
+  font-size: 15px;
   width: 100%;
 }
 
@@ -639,19 +646,7 @@ label {
   cursor: pointer;
 }
 
-/* Style for the modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
+
 
 /* Basic styling for card */
 .card {
@@ -689,229 +684,475 @@ label {
   transform: scaleX(1);
   transform-origin: left;
 }
-/* Overlay behind the video */
-.modal-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-/* Container for the video */
-.modal-video-container {
-  position: relative;
-  z-index: 2;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-}
-
-/* Video style */
-.modal-video {
-  max-width: 100%;
-  max-height: 80vh;
-  display: block;
-  margin: 0 auto;
-}
-
-/* Close button style */
-.modal-close-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: white;
-  color: black;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Style for the Delete button */
-.delete-button {
-  padding: 8px 16px;
-  background-color: #e74c3c; /* Red background */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.delete-button:hover {
-  background-color: #c0392b; /* Darker red on hover */
-  transform: scale(1.05); /* Slight zoom effect */
-}
-
-.delete-button:active {
-  transform: scale(0.98); /* Slight shrink effect when clicked */
-}
-
-.delete-button:focus {
-  outline: none; /* Removes the default focus outline */
-}
-
-/* delete confirmation in animation */
-/* Overlay Background */
+/* General Overlay Style */
 .overlay {
+  display: none; /* Hidden by default */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  display: none; 
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 1000;
 }
 
-/* Overlay Content */
+/* Show the modal */
+.overlay.show {
+  display: flex; /* Use flex to center the content */
+}
+
+/* Modal Content Box */
 .overlay-content {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
   text-align: center;
+  width: 300px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border: 2px solid #1c1c1c;
 }
 
-.overlay button {
-  margin: 10px;
-  padding: 8px 16px;
+/* Warning Icon */
+.warning-icon {
+  font-size: 40px;
+  color: #961102;
+  margin-bottom: 10px;
+}
+
+/* Text Styles */
+.overlay-content p {
+  margin: 15px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.overlay-content p:first-of-type {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.overlay-content p:last-of-type {
+  color: #666;
+}
+
+/* Confirm Button */
+#confirmDeleteBtn {
+  background-color: #961102;
+  color: #fff;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+/* Cancel Button */
+#cancelDeleteBtn {
+  background-color: gray;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
 }
 
-#confirmDeleteBtn {
-  background-color: #e74c3c;
-  color: white;
-}
-
-#cancelDeleteBtn {
-  background-color: #3498db;
-  color: white;
-}
-
+/* Hover Effects */
 #confirmDeleteBtn:hover {
-  background-color: #c0392b;
+  background-color: darkred;
 }
 
 #cancelDeleteBtn:hover {
-  background-color: #2980b9;
+  background-color: darkgray;
+}
+
+.delete-icon {
+  font-size: 18px;  /* Adjust icon size */
+  color: red;  /* Icon color */
+  cursor: pointer;  /* Make it clickable */
+  padding: 5px;  /* Add some padding for better hit area */
+  transition: color 0.3s ease;  /* Smooth color transition on hover */
+}
+
+.delete-icon:hover {
+  color: darkred;  /* Change color on hover */
 }
 
 
-.confirmation-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+
+/* Slider Container */
+.slider-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  transition: transform 0.5s ease-in-out; /* Smooth transition */
+  width: 100%; /* Full width of the parent container */
+  height: 100%; /* Ensure container is 100% height of its parent */
 }
 
-.confirmation-box {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
 
-.confirm-btn {
-  background-color: #e74c3c;
-  color: white;
-  padding: 8px 16px;
-  margin-right: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.cancel-btn {
-  background-color: #7f8c8d;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* Styling for the image container */
-#headerImagesContainer {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 400px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Image wrapper to show one image at a time */
-.image-wrapper {
-  display: none;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.image-wrapper.active {
-  display: flex;
-}
-
-/* Image styling */
+/* Styling for images in the Header slider */
 .header-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 8px;
+  width: 100%; /* Make the image take up the full width of the container */
+  height: 808px; /* Make the image take up the full height of the container */
+  object-fit: cover; /* Ensures the image covers the container completely */
+  object-position: center; /* Ensures the image is centered within the container */
+  flex-shrink: 0; /* Prevent the image from shrinking */
 }
 
-/* Slider controls */
+/* Styling for images in the Dashboard slider */
+.dashboard-image {
+  width: 100%; /* Ensures the image takes full width of the container */
+  height: 100%; /* Ensures the image fills the height of the container */
+  object-fit: cover; /* Ensures the image covers the container without distortion */
+  object-position: center; /* Centers the image within the container */
+  flex-shrink: 0; /* Prevent images from shrinking */
+}
+
+/* Additional container styles to ensure proper slider sizing */
+.image-slider-container {
+  position: relative;
+  width: 100%; /* Full width of the parent container */
+  height: 50vh; /* Or a similar value */
+  overflow: hidden; /* Ensures the container doesn't show images outside its bounds */
+  background-color: #ff0000; /* Optional background color */
+}
+
+/* Styling for navigation buttons */
 .slider-button {
   position: absolute;
-  top: 50%; /* Position buttons at the vertical center */
-  transform: translateY(-50%); /* Align vertically centered */
+  top: 50%;
+  transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
+  font-size: 24px;
   border: none;
   padding: 10px;
   cursor: pointer;
   z-index: 10;
 }
 
-/* Position prev button on the left side */
-#prevButton {
-  left: 0; /* Move to left edge */
-  margin-left: 65vh; /* Space from the left edge */
+.slider-button.left {
+  left: 10px;
 }
 
-/* Position next button on the right side */
-#nextButton {
-  right: 0; /* Move to right edge */
-  margin-right: 65vh; /* Space from the right edge */
+.slider-button.right {
+  right: 10px;
 }
+
+
 
 
 .remove-button {
   position: absolute;
   top: 5px;         /* Positions the button near the top */
   right: 5px;       /* Positions the button near the right */
-  color: white;
   padding: 2px;
-  border: 2px solid red; /* Add border width and color */
   margin-right: 5vh;
   cursor: pointer;
-  background-color: red;
   font-size: 18px;  /* Adjusts size for visibility */
   border-radius: 5px;
+  background: transparent;  /* Removes the button background */
+  border: none;             /* Removes default button border */
+}
+
+.key-features {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+.key-features h2 {
+  font-size: 24px;
+  text-align: center;
+  padding-top: 30px;
+  margin-top: 50;
+  margin-bottom: 40px;
+}
+
+.feature-cards {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.feature-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: -20px;
+}
+
+.feature-icon.first { background-color: #007bff; }
+.feature-icon.second { background-color: #007bff; }
+.feature-icon.third { background-color: #007bff; }
+
+.feature-title {
+  text-align: center;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.feature-description {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+/* Container for action buttons */
+.a-buttons {
+  display: flex;
+  gap: 8px; /* Space between buttons */
+  justify-content: center;
+  align-items: center;
+}
+
+/* General action button styling */
+.a-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 16%;
+  width: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.b-button {
+  background-color: #ff1e00;
+  color: #fff;
+  border: none;
+  border-radius: 16%;
+  width: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+
+.a-button i {
+  pointer-events: none; /* Prevent icon from blocking click events */
+}
+
+.a-button:hover {
+  background-color: #0056b3;
+}
+
+.a-button:active {
+  background-color: #003f7f;
+}
+
+/* Edit action button (icon styling) */
+.edit-action {
+  background-color: #28a745; /* Green for edit */
+}
+
+.edit-action:hover {
+  background-color: #dc3545;
+}
+
+/* Delete action button (icon styling) */
+.delete-action {
+  background-color: #dc3545; /* Red for delete */
+}
+
+.delete-action:hover {
+  background-color: #c82333;
+}
+
+/* Deactivate action button (icon styling) */
+.deactivate-action {
+  background-color: #ffc107; /* Yellow for deactivate */
+}
+
+.deactivate-action:hover {
+  background-color: #e0a800;
+}
+
+/* Add tooltips for icons */
+.action-button[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  bottom: 120%; /* Position above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+  /* Make the table container relatively positioned for any layout control */
+  .table-container {
+    width: 100%;
+}
+
+/* Scrollable Table Body */
+.scrollable-body {
+    max-height: 300px;  /* Adjust the max height */
+    overflow-y: auto;   /* Enable vertical scrolling */
+    display: block;
+    width: 100%;        /* Full width of the parent container */
+}
+
+/* Styling for table */
+#categoryTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#categoryTable th, #categoryTable td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table-container th {
+    background-color: #f4f4f4;
+}
+
+
+/* Form Container */
+.overlay-content-edit  {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: left;
+  width: 500px;  /* Increased width for a wider form */
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  position: relative; /* Needed for positioning the close button */
+}
+
+/* Close Button (X) */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;  /* Positioning it to the top-right */
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+/* Form Title */
+.overlay-content-edit h2 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Form Group Styles */
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Form Row for 2-Column Layout */
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  width: 48%; /* 50% width for each item in the row */
+}
+
+/* Form Actions (Save Button) */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.save-btn {
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Adjustments for Small Screens */
+@media screen and (max-width: 480px) {
+  .overlay-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .form-row {
+    flex-direction: column; /* Stack form elements on small screens */
+  }
+
+  .form-row .form-group {
+    width: 100%; /* Full width on small screens */
+  }
+
+  .save-btn {
+    width: 100%; /* Save button takes full width on mobile */
+  }
 }
