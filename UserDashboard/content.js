@@ -22,6 +22,8 @@ function redirectTo(category) {
         fetchSingleCharacter();
     } else if (category === 'Emotion') {
         fetchEmotion();
+    } else if (category === 'Date') {
+        fetchDate();
     } else {
         // Otherwise, display the category name in the overlay
         document.getElementById('selected-category').innerText = category;
@@ -53,8 +55,11 @@ function displaySingleCharacterList(data) {
 
     const listElement = document.createElement('ul');
 
-    // Iterate over each field name in the Firestore data and display it in a list
-    Object.keys(data).forEach(key => {
+    // Sort the keys alphabetically
+    const sortedKeys = Object.keys(data).sort();
+
+    // Iterate over the sorted keys and display them in a list
+    sortedKeys.forEach(key => {
         const listItem = document.createElement('li');
         listItem.textContent = key; 
         listItem.style.marginBottom = "10px"; 
@@ -94,8 +99,56 @@ function displayEmotionList(data) {
 
     const listElement = document.createElement('ul');
 
-    // Iterate over each field name in the Firestore data and display it in a list
-    Object.keys(data).forEach(key => {
+    // Sort the keys alphabetically
+    const sortedKeys = Object.keys(data).sort();
+
+    // Iterate over the sorted keys and display them in a list
+    sortedKeys.forEach(key => {
+        const listItem = document.createElement('li');
+        listItem.textContent = key; 
+        listItem.style.marginBottom = "10px"; 
+
+        listItem.dataset.videoUrl = data[key];
+
+        listItem.onclick = () => displayVideo(data[key]);
+
+        listElement.appendChild(listItem);
+    });
+
+    overlayContent.appendChild(listElement);
+    document.getElementById('overlay').style.display = 'block'; 
+}
+
+// Fetch the 'Date' document from Firestore
+async function fetchDate() {
+    const dateRef = doc(db, 'SignAsset', 'Date');
+
+    try {
+        const docSnap = await getDoc(dateRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            displayDateList(data);
+        } else {
+            console.log("No such document!");
+        }
+    } catch (error) {
+        console.error("Error fetching document: ", error);
+    }
+}
+
+
+// Displays the list of field names from the fetched 'Date' data in an overlay
+function displayDateList(data) {
+    const overlayContent = document.getElementById('selected-category');
+    overlayContent.innerHTML = '';  
+
+    const listElement = document.createElement('ul');
+
+    // Sort the keys alphabetically
+    const sortedKeys = Object.keys(data).sort();
+
+    // Iterate over the sorted keys and display them in a list
+    sortedKeys.forEach(key => {
         const listItem = document.createElement('li');
         listItem.textContent = key; 
         listItem.style.marginBottom = "10px"; 

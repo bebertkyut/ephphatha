@@ -1,6 +1,6 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc,addDoc } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc,addDoc, deleteField } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL, listAll, uploadBytesResumable } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
@@ -305,6 +305,8 @@ countUsers()
 // Function to fetch the Animations and populate the table
 async function fetchSignAssets() {
   const categoryTableBody = document.getElementById('categoryTableBody');
+
+  categoryTableBody.innerHTML = '';
   
   try {
     const signAssetCollection = collection(db, 'SignAsset');
@@ -377,7 +379,7 @@ function showDeleteConfirmation(category, field) {
       await deleteSignAsset(category, field);
       overlay.style.display = 'none';
       alert('Sign asset deleted successfully!');
-      fetchSignAssets();
+      await fetchSignAssets();
     } catch (error) {
       console.error('Error deleting sign asset:', error);
       alert('An error occurred while deleting the sign asset.');
@@ -393,13 +395,18 @@ function showDeleteConfirmation(category, field) {
 // Function to delete a sign asset from Firestore
 async function deleteSignAsset(category, field) {
   const signAssetDocRef = doc(db, 'SignAsset', category);
-  const signAssetDoc = await getDoc(signAssetDocRef);
 
-  if (signAssetDoc.exists()) {
-    const data = signAssetDoc.data();
-    delete data[field]; 
-
-    await updateDoc(signAssetDocRef, data);
+  try {
+    const signAssetDoc = await getDoc(signAssetDocRef);
+    if (signAssetDoc.exists()) {
+      const updateObject = { [field]: deleteField() };
+      await updateDoc(signAssetDocRef, updateObject);
+    } else {
+      throw new Error('Document does not exist');
+    }
+  } catch (error) {
+    console.error('Error while deleting field:', error);
+    throw error;
   }
 }
 
