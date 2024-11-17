@@ -16,6 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+
 // Function that navigates to different content categories
 function redirectTo(category) {
     if (category === 'Single Character') {
@@ -28,6 +29,8 @@ function redirectTo(category) {
         fetchHome();
     } else if (category === 'Animal') {
         fetchAnimal();
+    } else if (category === 'Family') {
+        fetchFamily();
     } else {
         // Otherwise, display the category name in the overlay
         document.getElementById('selected-category').innerText = category;
@@ -168,10 +171,10 @@ function displayDateList(data) {
 }
 
 async function fetchHome() {
-    const singleCharacterRef = doc(db, 'SignAsset', 'Home');
+    const homeRef = doc(db, 'SignAsset', 'Home');
 
     try {
-        const docSnap = await getDoc(singleCharacterRef);
+        const docSnap = await getDoc(homeRef);
         if (docSnap.exists()) {
             const data = docSnap.data();
             displayHomeList(data);
@@ -213,10 +216,10 @@ function displayHomeList(data) {
 
 // Fetch the 'SingleCharacter' document from Firestore
 async function fetchAnimal() {
-    const singleCharacterRef = doc(db, 'SignAsset', 'Animal');
+    const animalRef = doc(db, 'SignAsset', 'Animal');
 
     try {
-        const docSnap = await getDoc(singleCharacterRef);
+        const docSnap = await getDoc(animalRef);
         if (docSnap.exists()) {
             const data = docSnap.data();
             displayAnimal(data);
@@ -254,6 +257,53 @@ function displayAnimal(data) {
     overlayContent.appendChild(listElement);
     document.getElementById('overlay').style.display = 'block'; 
 }
+
+// Fetch the 'SingleCharacter' document from Firestore
+async function fetchFamily() {
+    const familyRef = doc(db, 'SignAsset', 'Family');
+    
+    try {
+        const docSnap = await getDoc(familyRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            displayFamilyList(data);
+        } else {
+            console.log("No such document, check the document path in Firestore.");
+        }
+    } catch (error) {
+        console.error("Error fetching document:", error);
+        alert("Error fetching data. Check console for details.");
+    }
+}
+
+
+// Displays the list of field names from the fetched data in an overlay
+function displayFamilyList(data) {
+    const overlayContent = document.getElementById('selected-category');
+    overlayContent.innerHTML = '';  
+
+    const listElement = document.createElement('ul');
+
+    // Sort the keys alphabetically
+    const sortedKeys = Object.keys(data).sort();
+
+    // Iterate over the sorted keys and display them in a list
+    sortedKeys.forEach(key => {
+        const listItem = document.createElement('li');
+        listItem.textContent = key; 
+        listItem.style.marginBottom = "10px"; 
+
+        listItem.dataset.videoUrl = data[key];
+
+        listItem.onclick = () => displayVideo(data[key]);
+
+        listElement.appendChild(listItem);
+    });
+
+    overlayContent.appendChild(listElement);
+    document.getElementById('overlay').style.display = 'block'; 
+}
+
 
 // Displays the video in a full-screen overlay
 function displayVideo(videoUrl) {

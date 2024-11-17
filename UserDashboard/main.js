@@ -167,10 +167,9 @@ window.playVideos = function() {
     // Dissect multi-digit numbers into individual digits
     var dissectedVideoNames = videoNames.flatMap(name => {
         if (/^\d+$/.test(name)) {
-            // If the name is a number, split it into individual digits
             return name.split('');
         }
-        return name; // Leave other entries as is
+        return name;
     });
 
     videoTitle.innerHTML = dissectedVideoNames.map(name => `<span>${name}</span>`).join(' ');
@@ -216,7 +215,7 @@ function playNextVideo(videoNames, index, videoPlayer, callback) {
         video.playbackRate = currentPlaybackSpeed;
 
         var source = document.createElement('source');
-        source.setAttribute('src', url); // Use the URL from Firebase Storage
+        source.setAttribute('src', url);
         source.setAttribute('type', 'video/mp4');
 
         video.appendChild(source);
@@ -224,16 +223,15 @@ function playNextVideo(videoNames, index, videoPlayer, callback) {
         videoPlayer.innerHTML = '';
         videoPlayer.appendChild(video);
 
-        activeVideo = video; // Store the currently playing video
+        activeVideo = video;
 
         var videoTitle = document.getElementById('videoTitle');
         var currentWord = videoTitle.children[index];
 
-        // Highlight the entire word in red
         currentWord.style.color = 'red';
 
         video.onended = function () {
-            activeVideo = null; // Reset the active video
+            activeVideo = null;
             currentWord.style.color = 'white';
             playNextVideo(videoNames, index + 1, videoPlayer, callback);
         };
@@ -253,17 +251,12 @@ function playNextVideo(videoNames, index, videoPlayer, callback) {
 
 
 window.playNextLetter = function(letters, index, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback) {
-    // Get the current word element
     var videoTitle = document.getElementById('videoTitle');
     var currentWord = videoTitle.children[wordIndex];
 
-    // If the word hasn't been highlighted yet, do it now
     if (!currentWord.classList.contains('highlighted')) {
-        // Add a class to mark the word as highlighted
         currentWord.classList.add('highlighted');
-        // Clear the contents of the word to avoid duplication
         currentWord.innerHTML = '';
-        // Create spans for each character of the word
         videoNames[wordIndex].split('').forEach(function (char, i) {
             var span = document.createElement('span');
             span.textContent = char;
@@ -272,7 +265,6 @@ window.playNextLetter = function(letters, index, videoPlayer, videoNames, wordIn
     }
 
     if (index >= letters.length) {
-        // If all letters in the word have been processed, move to the next word
         var lastLetterIndex = letters.length - 1;
         currentWord.children[lastLetterIndex].style.color = 'white';
         playNextVideo(videoNames, wordIndex + 1, videoPlayer, callback);
@@ -280,14 +272,13 @@ window.playNextLetter = function(letters, index, videoPlayer, videoNames, wordIn
     }
 
     var letter = letters[index].toLowerCase();
-    var videoPath = `Animations/${letter}.mp4`; // Video path in the Animations folder
+    var videoPath = `Animations/${letter}.mp4`;
 
     // Firebase Storage reference
     const videoRef = ref(storage, videoPath);
 
     getDownloadURL(videoRef)
         .then(function(url) {
-            // If the video exists, play it
             var video = document.createElement('video');
             video.setAttribute('width', '640');
             video.setAttribute('height', '360');
@@ -302,7 +293,7 @@ window.playNextLetter = function(letters, index, videoPlayer, videoNames, wordIn
             videoPlayer.innerHTML = '';
             videoPlayer.appendChild(video);
 
-            activeVideo = video; // Store the currently playing video
+            activeVideo = video;
 
             // Reset the color of previous letters to white
             var previousLetters = currentWord.querySelectorAll('span');
@@ -315,7 +306,7 @@ window.playNextLetter = function(letters, index, videoPlayer, videoNames, wordIn
             currentLetter.style.color = 'red';
 
             video.onended = function() {
-                activeVideo = null; // Reset the active video
+                activeVideo = null; 
                 playNextLetter(letters, index + 1, videoPlayer, videoNames, wordIndex, hasQuestionMark, callback);
             };
 
