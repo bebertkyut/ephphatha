@@ -3,21 +3,18 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main 
+      - main  # Trigger deploy on push to the 'main' branch
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
+      # Step 2: Inject Firebase Config into firebaseConfig.js (directly in the root)
       - name: Inject Firebase Config
         run: |
           echo "const firebaseConfig = {" > firebaseConfig.js
@@ -29,13 +26,9 @@ jobs:
           echo "  appId: '${{ secrets.FIREBASE_APP_ID }}'" >> firebaseConfig.js
           echo "};" >> firebaseConfig.js
 
-      - name: Build project
-        run: |
-          npm install
-          npm run build # Or another build command, if needed
-
+      # Step 3: No deployment to a separate branch, since you are deploying from `main`
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./ 
+          publish_dir: ./  
