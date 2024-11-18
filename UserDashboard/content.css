@@ -1,0 +1,97 @@
+/* hindi ginagamit hahahahahahaha */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    display: flex;
+}
+
+.sidenav {
+    width: 250px;
+    background-color: #333;
+    padding: 20px;
+    position: fixed;
+    height: 100vh;
+}
+
+.sidenav .icon_items ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.sidenav .icon_items ul li {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.sidenav .icon_items ul li i {
+    margin-right: 10px;
+}
+
+.sidenav .icon_items ul li a {
+    text-decoration: none;
+    color: white;
+}
+
+.sidenav .icon_items ul li.active a {
+    color: #4CAF50;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    width: 100%;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Adjust grid for two items per row */
+    gap: 20px;
+}
+
+.content-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;    /* Center content horizontally */
+}
+
+.content-item img {
+    width: 100%; /* Ensures image takes full width of the container */
+    height: auto; /* Height adjusts to the width to maintain aspect ratio */
+    object-fit: contain; /* Prevents the image from being cropped */
+    max-height: 200px; /* Limits the height to match the aspect ratio in the example */
+    margin-bottom: 15px;
+}
+
+.content-item i {
+    font-size: 50px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.content-item h2 {
+    margin-bottom: 10px;
+}
+
+.content-item p {
+    font-size: 16px;
+}

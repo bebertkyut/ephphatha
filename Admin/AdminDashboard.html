@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="AdminDashboard.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <a href="#">
+      <img src="../AdminDashboardAssets/accounts.png" alt="Accounts Icon">
+      <span>Accounts</span>
+    </a>
+    <a href="#">
+      <img src="../AdminDashboardAssets/library.png" alt="Library Icon">
+      <span>Library</span>
+    </a>
+    <a href="AuditTrail.html">
+      <img src="../AdminDashboardAssets/audit.png" alt="Audit Icon">
+      <span>Account Records</span>
+    </a>
+  </div>
+
+  <div class="main-content">
+    <button class="add-account-button" onclick="openModal()">Add Account</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Username</th>
+          <th>Status</th> <!-- New Status column -->
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- table content -->
+      </tbody>
+    </table>
+  </div>
+
+<!-- Add Account Modal -->
+<div id="accountModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Add Account</h2>
+    <form id="addAccountForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="confirmPassword">Confirm Password:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+      <label for="role">Role:</label>
+      <select id="role" name="role" required>
+        <option value="Student">Student</option>
+        <option value="Teacher">Teacher</option>
+      </select>
+
+      <button type="button" onclick="addAccount()">Submit</button>
+    </form>
+  </div>
+</div>
+
+
+  <!-- Edit Account Modal (Overlay) -->
+  <div id="editAccountModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeEditModal()">×</span>
+      <form>
+        <label for="editName">Name</label>
+        <input type="text" id="editName" />
+
+        <label for="editUsername">Username</label>
+        <input type="text" id="editUsername" />
+
+        <label for="editPassword">Password</label>
+        <input type="password" id="editPassword" />
+
+        <label for="editRole">Role</label>
+        <!-- Change the role input to a dropdown -->
+        <select id="editRole">
+          <option value="Student">Student</option>
+          <option value="Teacher">Teacher</option>
+        </select>
+
+        <input type="hidden" id="editUserId" />
+
+        <button type="button" onclick="updateUser()">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal for Remove -->
+  <div id="confirmRemoveModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeConfirmModal()">&times;</span>
+      <h2>Confirm Removal</h2>
+      <p>Are you sure you want to remove this user?</p>
+      <button id="confirmRemoveButton">Yes, Remove</button>
+      <button onclick="closeConfirmModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal for Deactivate -->
+  <div id="confirmDeactivateModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeDeactivateModal()">&times;</span>
+      <h2>Confirm Deactivation</h2>
+      <p>Are you sure you want to deactivate this account?</p>
+      <button id="confirmDeactivateButton">Yes, Deactivate</button>
+      <button onclick="closeDeactivateModal()">Cancel</button>
+    </div>
+  </div>
+
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
+  <script type="module" src="AdminDashboard.js"></script>
+</body>
+</html>

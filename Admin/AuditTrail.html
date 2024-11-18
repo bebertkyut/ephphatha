@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Records</title>
+  <link rel="stylesheet" href="AuditTrail.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <a href="AdminDashboard.html">
+      <img src="../AdminDashboardAssets/accounts.png" alt="Accounts Icon">
+      <span>Accounts</span>
+    </a>
+    <a href="#page2">
+      <img src="../AdminDashboardAssets/library.png" alt="Library Icon">
+      <span>Library</span>
+    </a>
+    <a href="#">
+      <img src="../AdminDashboardAssets/audit.png" alt="Audit Icon">
+      <span>Account Records</span>
+    </a>
+  </div>
+  
+  <div class="main-content">
+    <div class="header-container">
+      <h2 class="header">Active Accounts</h2>
+      <button id="printBtn">Print</button>
+    </div>
+    <table id="activeAccountsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Gender</th>
+          <th>Birthday</th>
+          <th>Date Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows for active accounts will be dynamically added here -->
+      </tbody>
+    </table>
+
+    <h2 class="header">Inactive Accounts</h2>
+    <table id="inactiveAccountsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Gender</th>
+          <th>Birthday</th>
+          <th>Date Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows for inactive accounts will be dynamically added here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
+
+  <script type="module" src="AuditTraill.js"></script>
+
+</body>
+</html>

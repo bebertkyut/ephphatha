@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="Admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="Admin.js" defer></script> 
+</head>
+<body>
+  <div class="dashboard">
+    <header class="header">
+      <div class="logo">
+        <img src="../img/cog-logo.png" alt="Logo">
+      <h1 id="dashboardHeader">Dashboard</h1>
+    </div>
+    </header>    
+    <div class="button-section">
+      <button class="interface-button" onclick="showDashboard()">Dashboard</button>
+      <button class="interface-button" onclick="showControlManagement()">Control Management</button>
+      <button class="interface-button" onclick="showLatestInterface()">Latest Interface</button>
+    </div>
+    <div id="dashboard-content" class="dashboard-content">
+      <div class="welcome-section">
+        <div class="welcome-text">
+          <h2>Welcome, Admin!</h2>
+          <p>This platform allows you to manage and update the key sections of your website efficiently. 
+            From here, you can control announcements, update contact details, manage content for different pages, and upload media. 
+            All changes made through this dashboard are automatically reflected on the live site, ensuring that the content is always up-to-date.</p>
+        </div>
+        <div class="welcome-image">
+          <img src="../img/dashboard-illustration.png" alt="Dashboard illustration">
+        </div>
+      </div>
+      <div class="stats-section">
+        <div class="stat-card">
+          <p>Total Active Accounts</p>
+          <h3>0</h3>
+        </div>
+        <div class="stat-card">
+          <p>Total Animation</p>
+          <h3>0</h3>
+        </div>
+        <div class="stat-card">
+          <p>Total Users</p>
+          <h3>0</h3>
+        </div>
+      </div>
+    </div>
+    <div id="keyfeatures-content" class="key-features">
+      <h2>Features</h2>
+      <div id="keyfeatures-content" class="feature-cards">
+          <div class="feature-card">
+              <div class="feature-icon first"></div>
+              <div class="feature-title">Dynamic Card Interface</div>
+              <div class="feature-description">Interactive cards that provide a responsive and engaging way to manage content, highlighting the active section with a visual indicator.</div>
+          </div>
+          <div id="keyfeatures-content" class="feature-card">
+              <div class="feature-icon second"></div>
+              <div class="feature-title">Effortless Content Updates</div>
+              <div class="feature-description">Quickly edit key information such as contact details and page content to keep your site current.</div>
+          </div>
+          <div id="keyfeatures-content" class="feature-card">
+              <div class="feature-icon third"></div>
+              <div class="feature-title">Streamlined Media Management</div>
+              <div class="feature-description">Easily upload and organize images for announcements and other sections, ensuring your site remains visually engaging.</div>
+          </div>
+      </div>
+  </div>
+
+    <div id="userdashboard-content" class="userdashboard-content" style="display: none;">
+      <div class="container">
+        <section class="main">
+          <div class="main-containers">
+            <div class="card" onclick="toggleMainModule('CMLogin')"><h3>Login</h3></div>
+            <div class="card" onclick="toggleMainModule('CMUserDashboard')"><h3>User Dashboard</h3></div>
+            <div class="card" onclick="toggleMainModule('CMAccounts')"><h3>Accounts</h3></div>
+          </div>
+         <!--THIS SECTION IS FOR EDITING LOG IN PAGE -->
+         <section class="main-admin-module" id="CMLogin" style="display: none;">
+          <div class="module-box">
+            <div class="form-container">
+              <h2 class="form-title">Upload Header/About Images</h2>
+              <div class="upload-container">
+                <!-- Header Image Upload -->
+                <div class="upload-header-container" id="uploadBox" onclick="triggerUpload('fileInput', 'uploadBox')">
+                    <div>
+                        <img src="../img/upload-icon.png" alt="Upload Icon">
+                        <p>Upload Header Images</p>
+                    </div>
+                </div>
+                <input type="file" id="fileInput" accept=".png, .jpg, .jpeg, .gif" style="display:none;" onchange="replaceWithImage('fileInput', 'uploadBox')">
+                
+                <!-- About Image Upload -->
+                <div class="upload-about-container" id="aboutBox" onclick="triggerUpload('aboutFileInput', 'aboutBox')">
+                    <div>
+                        <img src="../img/upload-icon.png" alt="Upload Icon">
+                        <p>Upload About Images</p>
+                    </div>
+                </div>
+                <input type="file" id="aboutFileInput" accept=".png, .jpg, .jpeg, .gif" style="display:none;" onchange="replaceWithImage('aboutFileInput', 'aboutBox')">
+            </div>            
+            <!-- Contact Information Form -->
+            <div class="center-wrapper">
+              <div class="form-container">
+                <h2 class="form-title">Edit Contact Information</h2>
+                <div class="contact-info-container">
+                  <!-- Phone Number -->
+                  <div class="contact-item">
+                    <label for="contactPhone">Phone Number:</label>
+                    <input type="text" id="contactPhone" placeholder="Enter phone number">
+                  </div>
+                  <!-- Email Address -->
+                  <div class="contact-item">
+                    <label for="contactEmail">Email Address:</label>
+                    <input type="text" id="contactEmail" placeholder="Enter email address">
+                  </div>
+                  <!-- Address -->
+                  <div class="contact-item">
+                    <label for="contactAddress">Address:</label>
+                    <input type="text" id="contactAddress" placeholder="Enter address">
+                  </div>
+                </div>
+                <!-- Save Button -->
+                <div class="save-button-container">
+                  <button type="button" onclick="saveContactInfo()">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      <!-- SECTION FOR EDITING USER DASHBOARD PAGE -->
+<section class="main-admin-module" id="CMUserDashboard" style="display: none;">
+  <div class="module-box-container">
+    
+    <!-- Page 1 Content - Upload Bulletin Image -->
+    <div class="module-box" id="page1Content">
+      <div class="form-container">
+        <h2 class="form-title">Upload Bulletin Image</h2>
+        <div class="upload-container">
+          <div class="bulletin-board-container" id="bulletinBoardUploadBox" onclick="triggerUpload('bulletinBoardFileInput')">
+            <div>
+              <img src="../img/upload-icon.png" alt="Upload Icon">
+              <p>Upload Bulletin Board Header Image</p>
+            </div>
+          </div>
+          <input type="file" id="bulletinBoardFileInput" accept=".png, .jpg, .jpeg, .gif" style="display: none;" onchange="replaceWithImage('bulletinBoardFileInput', 'bulletinBoardUploadBox')">
+       
+        </div>
+      </div>
+    </div>
+    
+    <!-- Page 2 Content - Add Animation -->
+    <div class="module-box" id="page2Content" style="display: none;">
+      <div class="form-container">
+        <h2 class="form-title">Add Animation</h2>
+        
+        <!-- Category and Animation Name Fields -->
+        <div class="animation-addition">
+          <div class="field-pair">
+            <!-- Category Selection -->
+            <div class="select-container">
+              <label for="categoryCountInput">Select Category:</label>
+              <select id="categoryCountInput">
+                <option value="" selected>Select Category</option>
+                <!-- Options will be populated here dynamically -->
+              </select>
+            </div>
+            
+            <!-- Animation Name Input -->
+            <div class="input-container">
+              <label for="animationNameInput">Enter Animation Name:</label>
+              <input type="text" id="animationNameInput" placeholder="Animation Name" />
+            </div>
+          </div>
+    
+          <!-- Upload Animation Video -->
+          <div class="upload-container">
+            <div class="animation-video-container" id="animationVideoUploadBox" onclick="triggerUpload('animationVideoInput')">
+              <div>
+                <img src="../img/upload-icon.png" alt="Upload Icon">
+                <p>Upload Animation Video</p>
+              </div>
+            </div>
+            <input type="file" id="animationVideoInput" accept="video/*" style="display: none;" onchange="displayUploadedVideo(event)">          
+          </div>
+          <!-- Save Button -->
+          <div class="save-button-container">
+            <button class="add-animation" onclick="addAnimation()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Next Button -->
+    <button class="next-button" onclick="loadNextModule()">Next</button>
+  </div>
+</section>
+
+<section class="main-admin-module" id="CMAccounts" style="display: none;">
+  <div class="module-box-container">
+    <div class="module-box">
+      <div class="form-container">
+        <h2 class="form-title">Add Account</h2>
+      <form id="editAccountModuleForm">
+        <!-- Name and Username in the same row -->
+<div class="form-row">
+  <div class="form-group">
+    <label for="moduleName">Name:</label>
+    <input type="text" id="moduleName" name="name" placeholder="Enter name" required>
+  </div>
+  <div class="form-group">
+    <label for="moduleUsername">Username:</label>
+    <input type="text" id="moduleUsername" name="username" placeholder="Enter username" required>
+  </div>
+</div>
+
+<!-- Password and Confirm Password in the same row -->
+<div class="form-row">
+  <div class="form-group">
+    <label for="modulePassword">Password:</label>
+    <input type="password" id="modulePassword" name="password" placeholder="Enter password" required>
+  </div>
+  <div class="form-group">
+    <label for="moduleConfirmPassword">Confirm Password:</label>
+    <input type="password" id="moduleConfirmPassword" name="confirmPassword" placeholder="Confirm password" required>
+  </div>
+</div>
+
+<!-- Role -->
+<div class="form-group">
+  <label for="moduleRole">Role:</label>
+  <select id="moduleRole" name="role" required>
+    <option value="" disabled selected>Select role</option>
+    <option value="Teacher">Teacher</option>
+    <option value="Student">Student</option>
+  </select>
+</div>
+
+        <!-- Submit Button -->
+        <div class="form-group">
+          <button type="submit" id="submitModuleButton">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+      </div>
+    </div>
+    <div id="latest-content" class="latest-content" style="display: none;">
+      <section class="main">
+        <div class="main-containers">
+          <div class="card" onclick="toggleMainModule('LTLogin')"><h3>Latest Login</h3></div>
+          <div class="card" onclick="toggleMainModule('LTUserdashboard')"><h3>Latest User Dashboard</h3></div>
+          <div class="card" onclick="toggleMainModule('LTAccounts')"><h3>Latest Accounts</h3></div>
+        </div>
+
+<!-- Latest Login Contents -->
+<section class="main-admin-module" id="LTLogin" style="position: relative;">
+  <div class="module-box-container">
+    <!-- Page 10 Content: Header Images -->
+    <div class="module-box" id="page10Content">
+      <h1>Header Images</h1>
+
+      <!-- Image container for the slideshow -->
+      <div class="image-slider-container">
+        <div class="slider-container" id="headerSliderContainer">
+          <!-- Images will be dynamically loaded here with 'header-image' class -->
+
+        </div>
+      </div>
+
+      <!-- Slider controls for header (Prev and Next) -->
+      <button class="slider-button left" id="prevButtonHeader">←</button>
+      <button class="slider-button right" id="nextButtonHeader">→</button>
+    </div>
+
+    <!-- Page 11 Content (initially hidden) -->
+    <div class="module-box" id="page11Content" style="display: none;">
+      <h1></h1>
+      <p></p>
+    </div>
+
+    <!-- 'Next' button to load next page -->
+    <button class="next-button" onclick="loadNextModule4()">Next</button>
+  </div>
+</section>
+
+<!-- Latest User Dashboard Content -->
+<section class="main-admin-module" id="LTUserdashboard" style="display: none;">
+  <div class="module-box-container">
+    <div class="module-box" id="page4Content">
+      <h1>User Dashboard Images</h1>
+      
+      <!-- Container for the slider -->
+      <div class="image-slider-container">
+        <div class="slider-container" id="userDashboardSliderContainer">
+          <!-- Images will be dynamically loaded here with 'dashboard-image' class -->
+        </div>
+      </div>
+
+      <!-- Navigation buttons for User Dashboard (Prev and Next) -->
+      <button class="slider-button left" id="prevBtn">←</button>
+      <button class="slider-button right" id="nextBtn">→</button>
+    </div>
+  </div>
+
+  <!-- General "Next" button for loading the next module -->
+  <button class="next-button" onclick="loadNextModule2()">Next</button>
+  
+  <!-- Page indicator -->
+  <div id="pageIndicator" class="page-indicator"></div>
+<!-- Page 5 Content (initially hidden) -->
+<div class="module-box" id="page5Content" style="display: none;">
+  <!-- Filter Category Section -->
+  <div class="filterCategory">
+    <select id="categoryFilter">
+      <option value="">Show All</option>
+    </select>
+  </div>          
+  
+ <!-- Scrollable Table Container -->
+<div class="table-container">
+  <table id="categoryTable">
+      <thead>
+          <tr>
+              <th>Category</th>
+              <th>Name of Animation</th>
+              <th>Animation Video</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+  </table>
+
+  <!-- Scrollable table body -->
+  <div class="scrollable-body">
+      <table id="categoryTable">
+          <tbody id="categoryTableBody">
+              <!-- Table rows will be dynamically loaded here -->
+          </tbody>
+      </table>
+  </div>
+</div>
+
+</section>
+<!-- Latest Accounts Content -->
+<section class="main-admin-module" id="LTAccounts" style="display: none;">
+  <!-- Active Accounts Section -->
+  <div class="module-box" id="page7Content">
+    <div class="form-container">
+      <h2 class="form-title">Active Accounts</h2>
+    </div>
+    <div class="table-container">
+      <!-- Table Header -->
+      <table id="categoryTable" class="table-header">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Gender</th>
+            <th>Birthday</th>
+            <th>Date Created</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+      </table>
+      <!-- Scrollable Table Body -->
+      <div class="scrollable-body">
+        <table id="categoryTable"> <!-- Keeping the same ID as requested -->
+          <tbody id="activeAccountsTableBody">
+            <!-- Rows will be dynamically added here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- "Next" Button to Switch to Inactive Accounts -->
+  <button class="next-button" onclick="loadNextModule3()">Next</button>
+
+  <!-- Inactive Accounts Section -->
+  <div class="module-box" id="page8Content" style="display: none;">
+    <div class="form-container">
+      <h2 class="form-title">Inactive Accounts</h2>
+    </div>
+    <div class="table-container">
+      <!-- Table Header -->
+      <table id="categoryTable" class="table-header">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Gender</th>
+            <th>Birthday</th>
+            <th>Date Created</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+      </table>
+      <!-- Scrollable Table Body -->
+      <div class="scrollable-body">
+        <table id="categoryTable"> <!-- Keeping the same ID as requested -->
+          <tbody id="inactiveAccountsTableBody">
+            <!-- Rows will be dynamically added here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Confirmation Modal -->
+<div id="deleteConfirmationOverlay" class="overlay">
+  <div class="overlay-content">
+    <div class="warning-icon">⚠️</div>
+    <p>Are you sure? This action cannot be undone.</p>
+    <p>All values associated with this field will be lost.</p>
+    <button id="confirmDeleteBtn">Delete</button>
+    <button id="cancelDeleteBtn">Cancel</button>
+  </div>
+</div>
+
+
+<!-- Overlay Form -->
+<div id="editAccountOverlay" class="overlay" style="display: none;">
+  <div class="overlay-content-edit ">
+    <!-- Close Button (X) -->
+    <button type="button" class="close-btn" onclick="closeEditOverlay()">X</button>
+    
+    <h2>Edit Account</h2>
+    <form id="editAccountOverlayForm">
+      <div class="form-group">
+        <label for="editOverlayName">Name:</label>
+        <input type="text" id="editOverlayName" name="editName" required placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label for="editOverlayUsername">Username:</label>
+        <input type="text" id="editOverlayUsername" name="editUsername" required placeholder="Enter your username">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="editOverlayPassword">Password:</label>
+          <input type="password" id="editOverlayPassword" name="editPassword" required placeholder="Enter your password">
+        </div>
+        <div class="form-group">
+          <label for="editOverlayConfirmPassword">Confirm Password:</label>
+          <input type="password" id="editOverlayConfirmPassword" name="editConfirmPassword" required placeholder="Confirm your password">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editOverlayRole">Role:</label>
+        <select id="editOverlayRole" name="editRole" required>
+          <option value="Teacher">Teacher</option>
+          <option value="Student">Student</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="button" onclick="saveEditedAccount()" class="save-btn">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js"></script>
+  <script type="module" src="Admin.js"></script> 
+</body>
+</html>

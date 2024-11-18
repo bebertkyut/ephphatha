@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "express": "^4.19.2",
+    "firebase": "^10.10.0"
+  },
+  "name": "ephphathathesisproject-main",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/input.css -o ./profile/output.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

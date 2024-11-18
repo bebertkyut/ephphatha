@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://kit.fontawesome.com/de8bfbb512.js" crossorigin="anonymous"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profile</title>
+        <link rel="stylesheet" href="../UserDashboard/dashboard.css"> 
+        <link rel="stylesheet" href="profile.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    </head>
+    <body>
+        <!--sidebar nav-->
+        <div class="container">
+            <input type="checkbox" id="click">
+            <div class="sidenav">
+                <div class="logo"></div>
+                <div class="icon_items">
+                    <label for="click">
+                        <i class='menu-btn bx bx-menu'></i>
+                        <i class='close-btn bx bx-x-circle'></i>
+                    </label>
+                    <ul>
+                        <li id="dashboard"> 
+                            <i class='bx bxs-home'></i>
+                            <a href="../UserDashboard/dashboard.html" id="dashboard">Dashboard</a>
+                        </li>
+                        <li id="translator-item">
+                            <i class="fas fa-sign-language"></i>
+                            <a href="../UserDashboard/translator.html" id="translator">Translator</a>
+                        </li>
+                        <li class="active">
+                            <i class='bx bxs-message-dots'></i>
+                            <a href="profile/profile.html" id="profile">Profile</a>
+                        </li>
+                        <li id="content-item">
+                            <i class='bx bxs-folder'></i>
+                            <a href="../UserDashboard/content.html" id="content">Content</a>
+                        </li>
+                        <li>
+                            <i class='bx bx-log-in'></i>
+                            <a href="../index.html">Logout</a> 
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="divider">
+                <button id="editButton" class="edit-btn">Edit</button>
+                <h1 class="profile-h1"> Information </h1>
+            </div>
+
+            <div class="info-container">
+                <h2 class="profile-h2"> About: </h2> 
+                <h3 class="h3"><span id="userAbout"></span></h3>
+
+                <h2 class="profile-h2"> Gender: </h2> 
+                <h3 class="h3"><span id="userGender"></span></h3>
+
+                <h2 class="profile-h2"> Birthday: </h2>
+                <h3 class="h3"><span id="userBirthday"></span></h3>
+            </div>
+
+            <!--profile image and name-->
+            <div class="user-img">
+                <img src="../img/default-user.jpg" id="photo">
+                <input type="file" class="input" id="file">
+                <label for="file" id="upload_btn"><i class="fas fa-camera"></i></label>
+            </div>
+            
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <span id="closeModalBtn" class="close-btn">&times;</span>
+                    <h2>Edit Information</h2>
+            
+                    <div class="form-group">
+                        <h3>About:</h3>
+                        <input type="text" id="editAbout" placeholder="Enter about" />
+                    </div>
+            
+                    <div class="form-group">
+                        <h3>Gender:</h3>
+                        <select id="editGender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+            
+                    <div class="form-group">
+                        <h3>Birthday:</h3>
+                        <input type="date" id="editBirthday" />
+                    </div>
+            
+                    <div class="form-group">
+                        <h3>Password:</h3>
+                        <input type="password" id="editPassword" placeholder="Enter new password" />
+                        <label id="passwordStrengthLabel" style="display: none;">Password Security: Weak</label>
+                    </div>
+            
+                    <div class="form-group1">
+                        <h3>Confirm Password:</h3>
+                        <input type="password" id="editConfirmPassword" placeholder="Confirm new password" />
+                    </div>
+            
+                    <button id="saveButton">Save</button>
+                </div>
+            </div>
+            
+            <div>
+                <h1><span id="userName"></span> </h1>
+                <h2><span id="userRole"></span></h2>
+            </div>
+        
+            <!--container for information-->
+            <script type="module" src="profile.js"></script>
+            <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
+            <script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js"></script>
+        </div>
+    </body>
+</html>
