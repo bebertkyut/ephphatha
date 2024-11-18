@@ -1,11 +1,9 @@
 import { db } from '../firebaseConfig.js';
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-console.log(redirectTo);  // Should log the function definition
-
-
-// Function that navigates to different content categories
+// Define the redirectTo function in the global scope
 window.redirectTo = function(category) {
+    console.log(redirectTo);  // Log to ensure the function is defined
     if (category === 'Single Character') {
         fetchSingleCharacter();
     } else if (category === 'Emotion') {
