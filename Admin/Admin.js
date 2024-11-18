@@ -1181,12 +1181,12 @@ function activateAccount(id) {
 
  // Create the confirmation buttons with matching classes
  const confirmBtn = document.createElement('button');
- confirmBtn.textContent = 'Deactivate';
+ confirmBtn.textContent = 'Activate';
  confirmBtn.id = 'confirmDeleteBtn';  // Apply the same ID as your static button
  confirmBtn.classList.add('confirmDeleteBtn'); // Ensure same class for styling
  
  const cancelBtn = document.createElement('button');
- cancelBtn.textContent = 'Activate';
+ cancelBtn.textContent = 'Cancel';
  cancelBtn.id = 'cancelDeleteBtn';  // Apply the same ID as your static button
  cancelBtn.classList.add('cancelDeleteBtn'); // Ensure same class for styling
 
