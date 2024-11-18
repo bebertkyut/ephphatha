@@ -37,12 +37,15 @@ window.redirectTo = function(category) {
 
 // Fetch the 'SingleCharacter' document from Firestore
 async function fetchSingleCharacter() {
+    console.log("Fetching document from SignAsset/Single Character");
     const singleCharacterRef = doc(db, 'SignAsset', 'Single Character');
+    console.log("Document reference:", singleCharacterRef);
 
     try {
         const docSnap = await getDoc(singleCharacterRef);
         if (docSnap.exists()) {
             const data = docSnap.data();
+            console.log("Fetched data:", docSnap.data());
             displaySingleCharacterList(data);
         } else {
             console.log("No such document!");
