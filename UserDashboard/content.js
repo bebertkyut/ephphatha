@@ -1,15 +1,6 @@
 import { db } from '../firebaseConfig.js';
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-enableIndexedDbPersistence(db)
-  .catch((err) => {
-    if (err.code === 'failed-precondition') {
-      console.log('Persistence failed due to multiple tabs open.');
-    } else if (err.code === 'unimplemented') {
-      console.log('Persistence is not available in this environment.');
-    }
-  });
-
 // Function that navigates to different content categories
 window.redirectTo = function(category) {
     if (category === 'Single Character') {
