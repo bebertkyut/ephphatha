@@ -1179,14 +1179,16 @@ function activateAccount(id) {
   subHeading.textContent = "This action will reactivate the account.";
   modalContent.appendChild(subHeading);
 
-  // Create the confirmation buttons
-  const confirmBtn = document.createElement('button');
-  confirmBtn.textContent = 'Activate';
-  confirmBtn.classList.add('confirm-btn'); // Add confirm-btn class for styling
-
-  const cancelBtn = document.createElement('button');
-  cancelBtn.textContent = 'Cancel';
-  cancelBtn.classList.add('cancel-btn'); // Add cancel-btn class for styling
+ // Create the confirmation buttons with matching classes
+ const confirmBtn = document.createElement('button');
+ confirmBtn.textContent = 'Activate';
+ confirmBtn.id = 'confirmDeleteBtn';  // Apply the same ID as your static button
+ confirmBtn.classList.add('confirmDeleteBtn'); // Ensure same class for styling
+ 
+ const cancelBtn = document.createElement('button');
+ cancelBtn.textContent = 'Cancel';
+ cancelBtn.id = 'cancelDeleteBtn';  // Apply the same ID as your static button
+ cancelBtn.classList.add('cancelDeleteBtn'); // Ensure same class for styling
 
   modalContent.appendChild(confirmBtn);
   modalContent.appendChild(cancelBtn);
