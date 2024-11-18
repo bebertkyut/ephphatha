@@ -1,5 +1,5 @@
 import { db } from '../firebaseConfig.js';
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
 enableIndexedDbPersistence(db)
   .catch((err) => {
@@ -9,7 +9,7 @@ enableIndexedDbPersistence(db)
       console.log('Persistence is not available in this environment.');
     }
   });
-  
+
 // Function that navigates to different content categories
 window.redirectTo = function(category) {
     if (category === 'Single Character') {
