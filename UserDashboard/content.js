@@ -1,20 +1,8 @@
 // Import Firebase modules
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import { getFirestore, doc, getDoc, collection } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-
-// Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyAW65C2w8uxxDw9Va_GFOoCYQUVgm21cM4",
-    authDomain: "ephphathadb.firebaseapp.com",
-    projectId: "ephphathadb",
-    storageBucket: "ephphathadb.appspot.com",
-    messagingSenderId: "408778244868",
-    appId: "1:408778244868:web:43bb14d52f45c4c5424651",
-};
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getFirestore();
 
 // Function that navigates to different content categories
 window.redirectTo = function(category) {
