@@ -1,8 +1,6 @@
-// Import Firebase modules
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+import { db } from './firebaseConfig.js';
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-// Initialize Firebase
-const db = getFirestore();
 
 // Function that navigates to different content categories
 window.redirectTo = function(category) {

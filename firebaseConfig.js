@@ -1,3 +1,7 @@
+// Import Firebase SDKs
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
 // Injected Firebase Config
 const firebaseConfig = {
     apiKey: '${{ secrets.FIREBASE_API_KEY }}',
@@ -8,8 +12,6 @@ const firebaseConfig = {
     appId: '${{ secrets.FIREBASE_APP_ID }}'
 };
 
-// Import the necessary Firebase SDKs for modular use
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
