@@ -574,6 +574,11 @@ async function populateHeaderImages() {
           imgElement.alt = 'Header Image';
           imgElement.classList.add('header-image'); // Add header-image class
           headerImagesContainer.appendChild(imgElement);
+
+          const removeButton = document.createElement('button');
+          removeButton.textContent = 'Remove';
+          removeButton.classList.add('remove-button');
+          headerSliderContainer.appendChild(removeButton);
         });
 
         // Initialize carousel functionality for header images
@@ -607,6 +612,11 @@ async function loadImagesFromFirestore() {
         img.alt = "Bulletin Image";
         img.classList.add('dashboard-image'); // Add dashboard-image class
         sliderContainer.appendChild(img);
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.classList.add('remove-button');
+        userDashboardSliderContainer.appendChild(removeButton);
       });
 
       // Initialize carousel functionality for dashboard images
