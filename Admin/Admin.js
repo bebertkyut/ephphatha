@@ -1342,22 +1342,30 @@ async function fetchPage11Content() {
       aboutImage.alt = "About Section Image";
       aboutImage.style.width = "100%";         // Ensure the image covers the full width of the container
       aboutImage.style.maxHeight = "50vh";
+      // Create the contact info container div
+      const contactInfoContainer = document.createElement('div');
+      contactInfoContainer.classList.add('contact-info-container'); // Add the class for styling
 
+      // Create the contact details paragraphs with icons
       const contactAddress = document.createElement('p');
-      contactAddress.textContent = `Address: ${data.ContactAddress || 'N/A'}`;
+      contactAddress.innerHTML = `<i class="fas fa-map-marker-alt"></i><span>Address:</span> ${data.ContactAddress || 'N/A'}`;
 
       const contactEmail = document.createElement('p');
-      contactEmail.textContent = `Email: ${data.ContactEmail || 'N/A'}`;
+      contactEmail.innerHTML = `<i class="fas fa-envelope"></i><span>Email:</span> ${data.ContactEmail || 'N/A'}`;
 
       const contactPhone = document.createElement('p');
-      contactPhone.textContent = `Phone: ${data.ContactPhone || 'N/A'}`;
+      contactPhone.innerHTML = `<i class="fas fa-phone-alt"></i><span>Phone:</span> ${data.ContactPhone || 'N/A'}`;
+
 
       // Clear existing content and append new content
       page11Div.innerHTML = '';
       page11Div.appendChild(aboutImage);
-      page11Div.appendChild(contactAddress);
-      page11Div.appendChild(contactEmail);
-      page11Div.appendChild(contactPhone);
+      page11Div.appendChild(contactInfoContainer);
+
+      // Append the contact details to the contact info container
+      contactInfoContainer.appendChild(contactAddress);
+      contactInfoContainer.appendChild(contactEmail);
+      contactInfoContainer.appendChild(contactPhone);
 
       // Add the Remove button below the content
       const removeButton = document.createElement('button');
