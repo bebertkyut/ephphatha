@@ -43,12 +43,13 @@ async function fetchSingleCharacter() {
 
     try {
         const docSnap = await getDoc(singleCharacterRef);
+        
         if (docSnap.exists()) {
             const data = docSnap.data();
-            console.log("Fetched data:", docSnap.data());
+            console.log("Fetched data:", data); // Log the actual data
             displaySingleCharacterList(data);
         } else {
-            console.log("No such document!");
+            console.log("No such document found!");
         }
     } catch (error) {
         console.error("Error fetching document: ", error);
