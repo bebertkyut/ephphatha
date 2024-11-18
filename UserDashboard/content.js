@@ -42,7 +42,7 @@ async function fetchSingleCharacter() {
         const docSnap = await getDoc(singleCharacterRef);
         if (docSnap.exists()) {
             const data = docSnap.data();
-            console.log("Fetched data:", data);
+            displaySingleCharacterList(data);
         } else {
             console.log("No such document!");
         }
@@ -50,6 +50,7 @@ async function fetchSingleCharacter() {
         console.error("Error fetching document: ", error);
     }
 }
+
 
 
 // Displays the list of field names from the fetched data in an overlay
