@@ -1,5 +1,5 @@
 import { db } from '../firebaseConfig.js';
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
 // Function that navigates to different content categories
 window.redirectTo = function(category) {
