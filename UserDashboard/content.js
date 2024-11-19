@@ -16,83 +16,80 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-document.addEventListener('DOMContentLoaded', () => {
-    window.redirectTo = function(category) {
-        console.log(redirectTo);  // Log to ensure the function is defined
-        if (category === 'Single Character') {
-            fetchSingleCharacter();
-        } else if (category === 'Emotion') {
-            fetchEmotion();
-        } else if (category === 'Date') {
-            fetchDate();
-        } else if (category === 'Home') {
-            fetchHome();
-        } else if (category === 'Animal') {
-            fetchAnimal();
-        } else if (category === 'Family') {
-            fetchFamily();
-        } else if (category === 'Body Part') {
-            fetchBodyPart();
-        } else if (category === 'Food and Drink') {
-            fetchFoodAndDrink();
-        } else if (category === 'Color') {
-            fetchColor();
-        } else if (category === 'Fruit and Vegetable') {
-            fetchFruitAndVegetable();
-        } else if (category === 'Medical') {
-            fetchMedical();
-        } else if (category === 'Religion') {
-            fetchReligion();
+window.redirectTo = function(category) {
+    if (category === 'Single Character') {
+        fetchSingleCharacter();
+    } else if (category === 'Emotion') {
+        fetchEmotion();
+    } else if (category === 'Date') {
+        fetchDate();
+    } else if (category === 'Home') {
+        fetchHome();
+    } else if (category === 'Animal') {
+        fetchAnimal();
+    } else if (category === 'Family') {
+        fetchFamily();
+    } else if (category === 'Body Part') {
+        fetchBodyPart();
+    } else if (category === 'Food and Drink') {
+        fetchFoodAndDrink();
+    } else if (category === 'Color') {
+        fetchColor();
+    } else if (category === 'Fruit and Vegetable') {
+        fetchFruitAndVegetable();
+    } else if (category === 'Medical') {
+        fetchMedical();
+    } else if (category === 'Religion') {
+        fetchReligion();
+    } else {
+        // Otherwise, display the category name in the overlay
+        document.getElementById('selected-category').innerText = category;
+        document.getElementById('overlay').style.display = 'block';
+    }
+};
+
+// Fetch the 'SingleCharacter' document from Firestore
+async function fetchSingleCharacter() {
+    try {
+        const singleCharacterRef = doc(db, 'SignAsset', 'Single Character');
+        const docSnap = await getDoc(singleCharacterRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            displaySingleCharacterList(data);
         } else {
-            // Otherwise, display the category name in the overlay
-            document.getElementById('selected-category').innerText = category;
-            document.getElementById('overlay').style.display = 'block';
+            console.log("No such document!");
         }
-    };
-
-    // Fetch the 'SingleCharacter' document from Firestore
-    async function fetchSingleCharacter() {
-        try {
-            const singleCharacterRef = doc(db, 'SignAsset', 'Single Character');
-            const docSnap = await getDoc(singleCharacterRef);
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                displaySingleCharacterList(data);
-            } else {
-                console.log("No such document!");
-            }
-        } catch (error) {
-            console.error("Error fetching document: ", error);
-        }
+    } catch (error) {
+        console.error("Error fetching document: ", error);
     }
+}
 
-    // Displays the list of field names from the fetched data in an overlay
-    function displaySingleCharacterList(data) {
-        const overlayContent = document.getElementById('selected-category');
-        overlayContent.innerHTML = '';  
+// Displays the list of field names from the fetched data in an overlay
+function displaySingleCharacterList(data) {
+    const overlayContent = document.getElementById('selected-category');
+    overlayContent.innerHTML = '';  
 
-        const listElement = document.createElement('ul');
+    const listElement = document.createElement('ul');
 
-        // Sort the keys alphabetically
-        const sortedKeys = Object.keys(data).sort();
+    // Sort the keys alphabetically
+    const sortedKeys = Object.keys(data).sort();
 
-        // Iterate over the sorted keys and display them in a list
-        sortedKeys.forEach(key => {
-            const listItem = document.createElement('li');
-            listItem.textContent = key; 
-            listItem.style.marginBottom = "10px"; 
+    // Iterate over the sorted keys and display them in a list
+    sortedKeys.forEach(key => {
+        const listItem = document.createElement('li');
+        listItem.textContent = key; 
+        listItem.style.marginBottom = "10px"; 
 
-            listItem.dataset.videoUrl = data[key];
+        listItem.dataset.videoUrl = data[key];
 
-            listItem.onclick = () => displayVideo(data[key]);
+        listItem.onclick = () => displayVideo(data[key]);
 
-            listElement.appendChild(listItem);
-        });
+        listElement.appendChild(listItem);
+    });
 
-        overlayContent.appendChild(listElement);
-        document.getElementById('overlay').style.display = 'block'; 
-    }
-});
+    overlayContent.appendChild(listElement);
+    document.getElementById('overlay').style.display = 'block'; 
+}
 
 
 // Fetch the 'Emotion' document from Firestore
