@@ -250,17 +250,11 @@ async function saveContactInfo() {
   if (headerFile) {
       try {
           const headerImageRef = ref(storage, `DynamicPagesPictures/${headerFile.name}`);
-          
-          // Upload the file to Firebase Storage
           await uploadBytes(headerImageRef, headerFile);
-
-          // Get the download URL of the uploaded file
           const headerDownloadURL = await getDownloadURL(headerImageRef);
-
-          // Save the URL in the Firestore `HeaderImages` array field
           const headerFirestoreRef = doc(db, 'DynamicPages', 'LoginPage');
           await setDoc(headerFirestoreRef, {
-              HeaderImages: arrayUnion(headerDownloadURL) // Append the URL to the array
+              HeaderImages: arrayUnion(headerDownloadURL) 
           }, { merge: true });
 
           console.log("Header image URL saved to Firestore successfully:", headerDownloadURL);
@@ -272,7 +266,6 @@ async function saveContactInfo() {
       console.warn("No header image file selected to upload.");
   }
 
-  // Handle Contact Information
   const phone = document.getElementById('contactPhone').value;
   const email = document.getElementById('contactEmail').value;
   const address = document.getElementById('contactAddress').value;
@@ -324,18 +317,15 @@ async function saveContactInfo() {
       console.warn("No about image file selected to upload.");
   }
 
-  // Reset the upload input fields after saving information
   resetUploadContainer('uploadBox', 'Upload Header Image');
   resetAboutImageUpload();
 
-  // Reset other form fields
   document.getElementById('fileInput').value = "";
   document.getElementById('aboutFileInput').value = "";
   document.getElementById('contactPhone').value = "";
   document.getElementById('contactEmail').value = "";
   document.getElementById('contactAddress').value = "";
 
-  // Display success message
   alert("Information saved successfully!");
 }
 
@@ -367,28 +357,18 @@ window.saveBulletinImage = function() {
 
   if (bulletinFile) {
     try {
-      // Create a reference to Firebase Storage
       const bulletinImageRef = ref(storage, `DynamicPagesPictures/${bulletinFile.name}`);
 
-      // Upload the file to Firebase Storage
       uploadBytes(bulletinImageRef, bulletinFile).then(async () => {
-        
-        // Get the download URL of the uploaded file
         const bulletinDownloadURL = await getDownloadURL(bulletinImageRef);
-
-        // Save the URL in the Firestore `Bulletin` array field
         const bulletinFirestoreRef = doc(db, 'DynamicPages', 'DashboardPage');
         await setDoc(bulletinFirestoreRef, {
-          Bulletin: arrayUnion(bulletinDownloadURL) // Append the URL to the array
+          Bulletin: arrayUnion(bulletinDownloadURL) 
         }, { merge: true });
 
         console.log("Bulletin image URL saved to Firestore successfully:", bulletinDownloadURL);
-
-        // Reset File Input and Upload Box
         bulletinFileInput.value = "";
         resetUploadDashboardContainer('bulletinBoardUploadBox', 'Upload Bulletin Board Header Image');
-
-        // Show Success Alert
         alert("Bulletin image saved successfully!");
       });
       
