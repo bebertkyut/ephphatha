@@ -1,0 +1,1368 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.dashboard {
+  max-width: 1400px;
+  width: 100%;
+}
+
+.header {
+  text-align: left;
+  margin-bottom: 10px;
+}
+/* Header container to align logo and h1 */
+.header {
+  display: flex; /* Enables flexbox layout */
+  align-items: center; /* Vertically aligns logo and h1 */
+  text-align: left; /* Aligns content to the left */
+  gap: 10px; /* Adds space between logo and h1 */
+}
+
+/* Header container to align logo and h1 */
+.header {
+  display: flex; /* Aligns logo and h1 horizontally */
+  align-items: center; /* Vertically aligns items */
+  width: 100%; /* Ensure the header spans full width */
+  gap: 30px; /* Space between logo and h1 */
+}
+/* Styling the logo container */
+.logo {
+  width: 120px; /* Adjust width as needed */
+  height: 80px; /* Ensure height scales proportionally */
+}
+
+/* Styling the logo image */
+.logo img {
+  max-width: 100%; /* Ensures the image scales within the container */
+  height: auto; /* Maintains aspect ratio */
+}
+
+.header h1 {
+  font-size: 2rem; /* Adjust font size */
+  color: #333; /* Adjust color */
+  margin: 0; /* Removes default margin */
+  margin-left: 125px; /* Adds extra space to push the h1 further right */
+  position: relative; /* Allows precise positioning */
+  top: -80px; /* Moves the h1 upwards */
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+.header p {
+  font-size: 30px;
+  text-align: left;
+  color: #888;
+}
+
+.welcome-section {
+  display: flex;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.welcome-text h2 {
+  font-size: 30px;
+  color: #0073e6;
+  margin-bottom: 10px;
+}
+
+.welcome-text p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.get-started {
+  background: #0073e6;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.welcome-image img {
+  width: 250px;
+  height: auto;
+}
+
+/* New Button Section */
+.button-section {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; 
+  margin-bottom: 20px;
+}
+
+.interface-button {
+  background-color: #0073e6;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.interface-button:hover {
+  background-color: #005bb5;
+}
+
+.stats-section {
+  display: flex;
+  gap: 40px;
+}
+
+.stat-card {
+  flex: 1;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.stat-card p {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.stat-card h3 {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.container {
+  display: flex;
+}
+
+.main {
+  position: relative;
+  padding: 20px;
+  width: 100%;
+}
+
+.main-top {
+  display: flex;
+  width: 100%;
+}
+
+.main-top i {
+  position: absolute;
+  right: 0;
+  margin: 10px 30px;
+  color: rgb(110, 109, 109);
+  cursor: pointer;
+}
+
+.main-containers {
+  display: grid;
+  place-items: center; /* Center horizontally and vertically */
+  grid-gap: 20px;      /* Add spacing between cards */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+}
+
+.main-containers .card {
+  width: 100%; /* Width will be determined by the grid */
+  height: 60px;
+  background: #fff;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+
+
+.main-containers .card h3 {
+  margin: 10px;
+  text-transform: capitalize;
+}
+
+.main-containers .card p {
+  font-size: 12px;
+}
+
+.main-containers .card button {
+  background: orangered;
+  color: #fff;
+  padding: 7px 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.main-containers .card button:hover {
+  background: rgba(223, 70, 15, 0.856);
+}
+
+.main-containers .card i {
+  font-size: 22px;
+  padding: 10px;
+}
+
+/* Module */
+.main-admin-module {
+  display: none;
+}
+
+.module-box {
+  width: 100%;
+  height: 590px;
+  padding: 10px 10px 30px 10px;
+  margin-top: 10px;
+  background: #fff;
+  border-radius: 10px;
+  position: relative;
+}
+
+.upload-container {
+  display: flex;
+  gap: 5px; 
+  margin-bottom: 20px;
+}
+
+
+.next-button {
+  position: fixed; 
+  bottom: 80px;
+  right: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 280px;
+  z-index: 10;
+}
+
+.page-indicator {
+  position: fixed;
+  margin-right: 280px;
+  bottom: 100px;
+  right: 10px;
+  margin-left: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.next-button:hover {
+  background-color: #0056b3;
+}
+
+.module-box-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 5px;
+}
+
+.upload-header-container,
+.upload-about-container,
+.upload-learn-more-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #000000;
+  margin-left: 50px;
+  border-radius: 8px;
+  width: 550px;
+  height: 200px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  margin-right: 50px;
+}
+.animation-video-container{
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #000000;
+  border-radius: 8px;
+  height: 220px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  margin-right: 3px;
+}
+.bulletin-board-container {
+  width: 1300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #000000;
+  border-radius: 8px;
+  height: 420px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+  margin-right: 3px;
+}
+
+.upload-header-container:hover,
+.upload-about-container:hover,
+.upload-learn-more-container:hover,
+.bulletin-board-container:hover,
+.animation-video-container :hover {
+  border-color: #ff0000;
+}
+
+.upload-header-container img,
+.upload-about-container img,
+.upload-learn-more-container img,
+.bulletin-board-container img,
+.animation-video-container img {
+  display: block;
+  margin: 0 auto;
+  width: 80px;
+}
+
+.upload-header-container p,
+.upload-about-container p,
+.upload-learn-more-container p,
+.bulletin-board-container p,
+.animation-video-container p {
+  margin: 0;
+  text-align: center;
+  color: #666666;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.center-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.contact-info-container {
+  display: flex;
+  flex-direction: row; /* Arrange items in a row */
+  gap: 15px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 10px;
+  width: 1200px;
+}
+
+.contact-item {
+  flex: 1; /* Allow items to take up equal space */
+  min-width: 200px;
+  display: flex;
+  flex-direction: column; /* Align label and input vertically */
+}
+
+.contact-item label {
+  margin-bottom: 5px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.contact-item input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  text-align: center;
+}
+
+.save-button-container {
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.save-button-container button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button-container button:hover {
+  background-color: #0056b3;
+}
+
+
+
+/* Page 2 Content */
+
+
+#page2Content h2 {
+  font-size: 24px;
+  color: #333333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#page2Content p {
+  font-size: 16px;
+  color: #666666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Container for the entire table */
+.table-container {
+  height: 380px; /* Adjust height as needed */
+  width: 100%; /* Ensure it takes the full width of the container */
+  border: 1px solid #ddd; /* Optional border for visual separation */
+  padding: 0; /* Removed unnecessary padding */
+  box-sizing: border-box;
+  display: block;
+  overflow: hidden; /* Ensure no unwanted overflow around the container */
+}
+
+/* Table Header Styling */
+#categoryTable thead th {
+  padding: 10px;
+  background-color: #0073e6; /* Ensures header background is visible */
+  color: white;
+  border: 1px solid #ddd;
+  text-align: left;
+  position: sticky;
+  top: 0; /* Keeps the header at the top */
+  z-index: 2; /* Keeps the header on top of the table rows */
+}
+
+/* Scrollable Body Container */
+.scrollable-body {
+  max-height: 350px; /* Adjust height as needed */
+  overflow-y: auto; /* Enables vertical scrolling */
+}
+
+/* Table Styling */
+#categoryTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Ensures column widths are uniform */
+}
+
+/* Table Cells Styling */
+#categoryTable th, #categoryTable td {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+  word-wrap: break-word; /* Ensure long text doesn't overflow */
+}
+
+/* Optional Styling for Cells for better consistency */
+#categoryTable td {
+  white-space: nowrap; /* Prevents text from wrapping, keeping alignment consistent */
+}
+
+/* Action Buttons Styles */
+
+.actions button {
+  padding: 6px 10px;  
+  background-color: #0056b3;
+  color: white;
+  font-size: 12px;  
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;  
+}
+
+.actions button:hover {
+  background-color: #004085;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.actions button:active {
+  background-color: #003366;
+  transform: scale(0.98);
+}
+
+.actions button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5);
+}
+
+.actions button span {
+  margin-right: 4px;  
+}
+
+.actions button .icon {
+  font-size: 16px;  
+  margin-right: 6px;  
+}
+
+
+.animation-addition input, 
+.animation-addition select,
+.animation-addition button{
+  padding: 8px;
+  width: 280px;
+  font-size: 16px;
+  height: 38px;
+  margin-bottom: 40px;
+}
+/* Center the entire form container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Style the title */
+/* Form Title Container */
+.form-title {
+  margin-bottom: 50px;
+  width: 100%;
+  background-color: #f0f0f0; /* Light gray background */
+  padding: 10px 35px; /* Adds padding around the title */
+  color: #333; /* Dark text color for contrast */
+  text-align: center; /* Center-aligns the text */
+  margin-bottom: 10px;
+  border-radius: 4px; /* Optional: adds rounded corners */
+}
+
+
+/* Style the form container */
+.animation-addition {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Style for the pair of fields (Category + Animation Name) */
+.field-pair {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Style for individual select and input fields */
+.select-container, .input-container {
+  width: 48%;  /* Ensure they take up less space so they sit side by side */
+}
+
+select, input {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Upload and Save buttons pair */
+.button-pair {
+  display: flex;
+  flex-direction: column;
+  margin-top: -35px;
+  align-items: center;
+  width: 100%;
+}
+
+
+/* Save Button Styles */
+
+
+.add-animation {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-animation:hover {
+  background-color: #218838;
+}
+
+label {
+  margin: 10px 0;
+  margin-bottom: 130px;
+  font-size: 15px;
+  width: 100%;
+}
+
+.animation-addition button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  height: 38px;
+  border-radius: 5px;
+}
+
+.animation-addition button:hover {
+  background-color: #0056b3;
+}
+
+.filterCategory select {
+  padding: 6px 12px;
+  width: 100px;
+  border: 1px solid #0073e6;
+  border-radius: 5px;
+  background-color: #f0f8ff;
+  color: #333;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.filterCategory select:hover {
+  background-color: #e0f0ff;
+  cursor: pointer;
+}
+
+
+
+/* Basic styling for card */
+.card {
+  position: relative;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect */
+.card:hover {
+  color: #007bff; /* Optional: Change color on hover */
+}
+
+/* Underline effect */
+.card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  bottom: 0;
+  height: 2px;
+  background-color: #007bff; /* Color of the underline */
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.card:hover::after,
+.card.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+/* General Overlay Style */
+.overlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Show the modal */
+.overlay.show {
+  display: flex; /* Use flex to center the content */
+}
+
+/* Modal Content Box */
+.overlay-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border: 2px solid #1c1c1c;
+}
+
+/* Warning Icon */
+.warning-icon {
+  font-size: 40px;
+  color: #961102;
+  margin-bottom: 10px;
+}
+
+/* Text Styles */
+.overlay-content p {
+  margin: 15px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.overlay-content p:first-of-type {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.overlay-content p:last-of-type {
+  color: #666;
+}
+
+/* Confirm Button */
+#confirmDeleteBtn {
+  background-color: #961102;
+  color: #fff;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+/* Cancel Button */
+#cancelDeleteBtn {
+  background-color: gray;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Hover Effects */
+#confirmDeleteBtn:hover {
+  background-color: darkred;
+}
+
+#cancelDeleteBtn:hover {
+  background-color: darkgray;
+}
+
+.delete-icon {
+  font-size: 18px;  /* Adjust icon size */
+  color: red;  /* Icon color */
+  cursor: pointer;  /* Make it clickable */
+  padding: 5px;  /* Add some padding for better hit area */
+  transition: color 0.3s ease;  /* Smooth color transition on hover */
+}
+
+.delete-icon:hover {
+  color: darkred;  /* Change color on hover */
+}
+
+
+
+/* Slider Container */
+.slider-container {
+  display: flex;
+  transition: transform 0.5s ease-in-out; /* Smooth transition */
+  width: 100%; /* Full width of the parent container */
+  height: 100%; /* Ensure container is 100% height of its parent */
+}
+
+
+/* Styling for images in the Header slider */
+.header-image {
+  width: 100%; /* Make the image take up the full width of the container */
+  height: 808px; /* Make the image take up the full height of the container */
+  object-fit: cover; /* Ensures the image covers the container completely */
+  object-position: center; /* Ensures the image is centered within the container */
+  flex-shrink: 0; /* Prevent the image from shrinking */
+}
+
+/* Styling for images in the Dashboard slider */
+.dashboard-image {
+  width: 100%; /* Ensures the image takes full width of the container */
+  height: 100%; /* Ensures the image fills the height of the container */
+  object-fit: cover; /* Ensures the image covers the container without distortion */
+  object-position: center; /* Centers the image within the container */
+  flex-shrink: 0; /* Prevent images from shrinking */
+}
+
+/* Additional container styles to ensure proper slider sizing */
+.image-slider-container {
+  position: relative;
+  width: 100%; /* Full width of the parent container */
+  height: 50vh; /* Or a similar value */
+  overflow: hidden; /* Ensures the container doesn't show images outside its bounds */
+  background-color: #ff0000; /* Optional background color */
+}
+
+/* Styling for navigation buttons */
+.slider-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 24px;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.slider-button.left {
+  left: 10px;
+}
+
+.slider-button.right {
+  right: 10px;
+}
+
+.remove-button {
+  position: absolute;
+  top: 20px;                /* Space from top */
+  right: 10px;              /* Space from right */
+  margin-right: 15px;        /* Added margin-left to push the button to the left */
+  padding: 10px 10px;       /* Reduced horizontal padding for shorter width */
+  cursor: pointer;
+  font-size: 12px;          /* Adjusted font size for balance */
+  border-radius: 20px;      /* Rounded corners for a softer look */
+  background-color: #f44336;  /* Red background color */
+  color: white;             /* White text for good contrast */
+  border: none;             /* No border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+  transition: background-color 0.3s, transform 0.2s ease-in-out;  /* Smooth transition effects */
+  max-width: 150px;         /* Optionally limit width for a smaller button */
+}
+
+/* Hover and active states for interactivity */
+.remove-button:hover {
+  background-color: #d32f2f;  /* Darker red on hover */
+  transform: scale(1.1);       /* Slightly enlarge the button */
+}
+
+.remove-button:active {
+  background-color: #c62828;  /* Even darker red on click */
+  transform: scale(1);         /* Reset size when clicked */
+}
+
+
+.key-features {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+.key-features h2 {
+  font-size: 24px;
+  text-align: center;
+  padding-top: 30px;
+  margin-top: 50;
+  margin-bottom: 40px;
+}
+
+.feature-cards {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.feature-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: -20px;
+}
+
+.feature-icon.first { background-color: #007bff; }
+.feature-icon.second { background-color: #007bff; }
+.feature-icon.third { background-color: #007bff; }
+
+.feature-title {
+  text-align: center;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.feature-description {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+/* Container for action buttons */
+.a-buttons {
+  display: flex;
+  gap: 8px; /* Space between buttons */
+  justify-content: center;
+  align-items: center;
+}
+
+/* General action button styling */
+.a-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 16%;
+  width: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.b-button {
+  background-color: #ff1e00;
+  color: #fff;
+  border: none;
+  border-radius: 16%;
+  width: 50px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+
+.a-button i {
+  pointer-events: none; /* Prevent icon from blocking click events */
+}
+
+.a-button:hover {
+  background-color: #0056b3;
+}
+
+.a-button:active {
+  background-color: #003f7f;
+}
+
+/* Edit action button (icon styling) */
+.edit-action {
+  background-color: #28a745; /* Green for edit */
+}
+
+.edit-action:hover {
+  background-color: #dc3545;
+}
+
+/* Delete action button (icon styling) */
+.delete-action {
+  background-color: #dc3545; /* Red for delete */
+}
+
+.delete-action:hover {
+  background-color: #c82333;
+}
+
+/* Deactivate action button (icon styling) */
+.deactivate-action {
+  background-color: #ffc107; /* Yellow for deactivate */
+}
+
+.deactivate-action:hover {
+  background-color: #e0a800;
+}
+
+/* Add tooltips for icons */
+.action-button[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  bottom: 120%; /* Position above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+  /* Make the table container relatively positioned for any layout control */
+  .table-container {
+    width: 100%;
+}
+
+/* Scrollable Table Body */
+.scrollable-body {
+    max-height: 300px;  /* Adjust the max height */
+    overflow-y: auto;   /* Enable vertical scrolling */
+    display: block;
+    width: 100%;        /* Full width of the parent container */
+}
+
+/* Styling for table */
+#categoryTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#categoryTable th, #categoryTable td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table-container th {
+    background-color: #f4f4f4;
+}
+
+
+/* Form Container */
+.overlay-content-edit  {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: left;
+  width: 500px;  /* Increased width for a wider form */
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  position: relative; /* Needed for positioning the close button */
+}
+
+/* Close Button (X) */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;  /* Positioning it to the top-right */
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+/* Form Title */
+.overlay-content-edit h2 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Form Group Styles */
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Form Row for 2-Column Layout */
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  width: 48%; /* 50% width for each item in the row */
+}
+
+/* Form Actions (Save Button) */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.save-btn {
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Adjustments for Small Screens */
+@media screen and (max-width: 480px) {
+  .overlay-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .form-row {
+    flex-direction: column; /* Stack form elements on small screens */
+  }
+
+  .form-row .form-group {
+    width: 100%; /* Full width on small screens */
+  }
+
+  .save-btn {
+    width: 100%; /* Save button takes full width on mobile */
+  }
+}
+
+/* Style for the modal container */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Style for the overlay background */
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+  z-index: 1;
+}
+
+/* Style for the video container */
+.modal-video-container {
+  position: relative;
+  z-index: 2;
+  background-color: #fff; /* White background for the container */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style for the video element */
+.modal-video {
+  max-width: 100%;
+  max-height: 80vh; /* Ensures video fits within the viewport height */
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+/* Style for the close button */
+.modal-close-button {
+  background-color: #ff4d4f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close-button:hover {
+  background-color: #d9363e;
+}
+/* Form row for Name and Username */
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px; /* Space between the inputs */
+  width: 100%;
+}
+
+/* Form group styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Space between label and input */
+  width: 100%; /* Ensure inputs take up 48% of the space, allowing a gap */
+}
+
+/* Input and select field styling */
+input[type="text"],
+input[type="password"],
+select {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9fafc; /* Light background */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%; /* Full width of the parent form group */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+/* Adjust width for the Role dropdown to match other inputs */
+select {
+  width: 100%; /* Match the width of input fields */
+}
+
+/* Input focus effect */
+input:focus,
+select:focus {
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Glow effect */
+  outline: none;
+}
+
+/* Label styling */
+label {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Submit button styling */
+button {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: center; /* Center the button */
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Space below the form elements */
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+ /* Container for contact details */
+.contact-info-container {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  width: 100%;
+  max-width: 600px;
+  height: 60px;  /* Reduced height */
+  margin: 20px auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  text-align: left;
+}
+
+
+/* Style for each contact detail paragraph */
+.contact-info-container p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+/* Style for the label (Address, Email, Phone) */
+.contact-info-container p span {
+  font-weight: bold;
+  color: #007BFF; /* Blue color for labels */
+  margin-right: 8px; /* Space between the label and value */
+}
+
+/* Optional icon style for contact details */
+.contact-info-container i {
+  margin-right: 12px; /* Space between the icon and text */
+  color: #007BFF; /* Blue color for icons */
+  font-size: 20px;
+}
+
+/* Image (optional, if included in the contact details) */
+.contact-info-container img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  .contact-info-container {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .contact-info-container p {
+    font-size: 14px; /* Slightly smaller text on mobile */
+  }
+}

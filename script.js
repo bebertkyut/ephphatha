@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const adminData = adminDoc.data();
                 if (adminData.Username === username && adminData.Password === password) {
                   adminFound = true;
-                  window.location.href = "Admin/AdminDashboard.html";
+                  window.location.href = "Admin/Admin.html";
                 }
               });
 

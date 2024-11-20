@@ -95,7 +95,15 @@ document.getElementById('editButton').addEventListener('click', () => {
     document.getElementById('editBirthday').value = formattedDate;
 });
 
-// Password strength check
+// Password strength check function
+function isPasswordStrong(password) {
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    return hasUppercase && hasLowercase && hasNumber && password.length >= 8;
+}
+
+// Event listener for password strength
 document.getElementById('editPassword').addEventListener('input', () => {
     const password = document.getElementById('editPassword').value;
     const passwordStrengthLabel = document.getElementById('passwordStrengthLabel');
@@ -106,11 +114,7 @@ document.getElementById('editPassword').addEventListener('input', () => {
         passwordStrengthLabel.style.display = 'none';
     }
 
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasNumber = /\d/.test(password);
-
-    if (hasUppercase && hasLowercase && hasNumber && password.length >= 8) {
+    if (isPasswordStrong(password)) {
         passwordStrengthLabel.textContent = 'Password Security: Strong';
         passwordStrengthLabel.classList.remove('weak');
         passwordStrengthLabel.classList.add('strong');
@@ -121,17 +125,15 @@ document.getElementById('editPassword').addEventListener('input', () => {
     }
 });
 
-
 // Event listener for Save button
 document.getElementById('saveButton').addEventListener('click', async () => {
     const updatedAbout = document.getElementById('editAbout').value;
     const updatedGender = document.getElementById('editGender').value;
-
     const birthdayInput = document.getElementById('editBirthday').value;
 
     if (!birthdayInput) {
         alert("Please select a valid birthday.");
-        return; 
+        return;
     }
 
     const formattedBirthday = new Date(birthdayInput).toLocaleDateString('en-US');
@@ -140,9 +142,17 @@ document.getElementById('saveButton').addEventListener('click', async () => {
     const password = document.getElementById('editPassword').value;
     const confirmPassword = document.getElementById('editConfirmPassword').value;
 
-    if (password !== confirmPassword) {
-        alert("Passwords do not match!");
-        return;
+    // Validate passwords
+    if (password || confirmPassword) {
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        if (!isPasswordStrong(password)) {
+            alert("Password is too weak! Please provide a stronger password.");
+            return;
+        }
     }
 
     const username = localStorage.getItem('userName');
@@ -152,25 +162,34 @@ document.getElementById('saveButton').addEventListener('click', async () => {
     if (!querySnapshot.empty) {
         const userDocRef = doc(db, 'UserAccount', querySnapshot.docs[0].id);
 
+        // Prepare update data
         const updateData = {
             About: updatedAbout,
             Gender: updatedGender,
             Birthday: formattedBirthday,
         };
 
-        if (password) {
+        // Only add password if it passes the strength check
+        if (password && isPasswordStrong(password)) {
             updateData.Password = password;
         }
 
-        await updateDoc(userDocRef, updateData);
+        try {
+            await updateDoc(userDocRef, updateData);
 
-        document.getElementById('userAbout').innerText = updatedAbout;
-        document.getElementById('userGender').innerText = updatedGender;
-        document.getElementById('userBirthday').innerText = formattedBirthday;
+            // Update the UI with new values
+            document.getElementById('userAbout').innerText = updatedAbout;
+            document.getElementById('userGender').innerText = updatedGender;
+            document.getElementById('userBirthday').innerText = formattedBirthday;
 
-        closeModal();
+            closeModal();
+        } catch (error) {
+            console.error("Error updating Firestore:", error);
+            alert("Failed to save changes. Please try again.");
+        }
     } else {
         console.error('No such document!');
+        alert("User not found.");
     }
 });
 
