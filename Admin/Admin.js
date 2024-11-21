@@ -554,7 +554,6 @@ document.addEventListener('DOMContentLoaded', () => {
 let currentIndexHeader = 0;
 let currentIndexDashboard = 0;
 
-// Function to populate header images
 // Function to populate header images with the 'header-image' class
 async function populateHeaderImages() {
   const headerImagesContainer = document.querySelector('#headerSliderContainer');
@@ -578,6 +577,7 @@ async function populateHeaderImages() {
           const removeButton = document.createElement('button');
           removeButton.textContent = 'Remove';
           removeButton.classList.add('remove-button');
+          removeButton.onclick = () => showRemoveConfirmation(loginPageDocRef)
           headerSliderContainer.appendChild(removeButton);
         });
 
@@ -593,6 +593,7 @@ async function populateHeaderImages() {
     console.error('Error fetching HeaderImages:', error);
   }
 }
+
 
 // Function to load dashboard images with the 'dashboard-image' class
 async function loadImagesFromFirestore() {
@@ -616,6 +617,7 @@ async function loadImagesFromFirestore() {
         const removeButton = document.createElement('button');
         removeButton.textContent = 'Remove';
         removeButton.classList.add('remove-button');
+        removeButton.onclick = () => showRemoveConfirmation(docRef)
         userDashboardSliderContainer.appendChild(removeButton);
       });
 
@@ -1399,7 +1401,7 @@ function showRemoveConfirmation(docRef) {
   modal.style.display = 'flex';
 
   const modalContent = document.createElement('div');
-  modalContent.classList.add('modal-content');
+  modalContent.classList.add('overlay-content');
 
   const modalText = document.createElement('p');
   modalText.textContent = 'Are you sure you want to remove the About Image?';
@@ -1408,11 +1410,13 @@ function showRemoveConfirmation(docRef) {
   const confirmButton = document.createElement('button');
   confirmButton.textContent = 'Confirm';
   confirmButton.onclick = () => removeAboutImage(docRef, modal);
+  confirmButton.id = 'confirmDeleteBtn'
   modalContent.appendChild(confirmButton);
 
   const cancelButton = document.createElement('button');
   cancelButton.textContent = 'Cancel';
   cancelButton.onclick = () => closeConfirmationModal(modal);
+  confirmButton.id = 'confirmDeleteBtn'
   modalContent.appendChild(cancelButton);
 
   modal.appendChild(modalContent);

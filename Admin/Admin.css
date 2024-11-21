@@ -823,8 +823,7 @@ label {
 /* Styling for navigation buttons */
 .slider-button {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 40%;
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   font-size: 24px;
@@ -841,6 +840,7 @@ label {
 .slider-button.right {
   right: 10px;
 }
+
 
 .remove-button {
   position: absolute;
