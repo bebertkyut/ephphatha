@@ -1366,3 +1366,65 @@ button:hover {
     font-size: 14px; /* Slightly smaller text on mobile */
   }
 }
+.logout {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.logout i {
+  font-size: 20px;
+}
+
+.logout:hover {
+  background-color: #f0f0f0;
+}
+
+.logout:focus {
+  outline: none;
+}
+
+.logout span {
+  font-size: 16px;
+}
+.logout {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #007BFF;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.logout i {
+  font-size: 20px;
+}
+
+.logout:hover {
+  background-color: #007BFF;
+}
+
+.logout:focus {
+  outline: none;
+}
+
+.logout span {
+  font-size: 16px;
+}
