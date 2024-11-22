@@ -376,7 +376,7 @@ p {
 /* Header */
 /* Login page */
 .login-form {
-    display: flex; /* Center the content */
+    display: flex; /* Change from 'none' to 'flex' to center the content */
     position: fixed;
     left: 0;
     top: 0;
@@ -387,139 +387,113 @@ p {
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
 }
-
 .login-container {
     background-color: white;
-    max-width: 500px; /* Slightly smaller width */
-    width: 95%; /* Take up most of the screen width */
+    max-width: 600px; /* Adjusted width */
+    width: 100%;
     margin: 0 auto;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
     position: relative;
     display: flex;
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    height: 450px; /* Increased height */
+    justify-content: center; /* Centering content */
+    align-items: center; /* Vertically centering content */
+    height: 400px; /* Adjusted height */
     overflow: hidden;
-    border-radius: 10px; /* Add rounded corners */
 }
-
 .form-half {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 40px; /* Increased padding for a spacious look */
+    padding: 30px; /* Increased padding */
     font-family: 'Times New Roman', Times, serif;
 }
 
 .login-container h2 {
-    font-size: 42px; /* Increased font size */
-    margin-bottom: 25px;
-    letter-spacing: 2px;
+    font-size: 40px; /* Increased font size */
+    margin-bottom: 20px;
+    letter-spacing: 3px;
     width: 100%;
     text-align: center;
 }
-
 .input-container {
-    margin-bottom: 25px; /* Increased margin for better spacing */
+    margin-bottom: 20px;
     width: 100%;
     box-sizing: border-box;
 }
-
 .input-container label {
     display: block;
-    font-size: 20px; /* Larger label text */
+    font-size: 18px; /* Increased font size */
     font-family: 'Times New Roman', Times, serif;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-weight: bold;
-    padding-left: 5px;
+    padding-left: 5px; 
 }
-
 .input-container input {
     width: 100%;
-    padding: 14px; /* Increased padding */
-    font-size: 1.3rem; /* Larger input text */
-    border-radius: 6px;
+    padding: 12px; /* Increased padding */
+    font-size: 1.2rem; /* Increased font size */
+    border-radius: 5px;
     border: 1px solid #ccc;
     transition: border-color 0.3s ease;
     box-sizing: border-box;
 }
-
 .input-container input:focus {
     border-color: red;
-    box-shadow: 0 0 6px rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
 }
-
 .cta.login-btn {
     display: block;
     background-color: red;
     color: white;
-    padding: 16px; /* Larger button padding */
-    font-size: 1.4rem; /* Larger button text */
+    padding: 14px; /* Increased padding */
+    font-size: 1.3rem; /* Increased font size */
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 60%; /* Slightly smaller button width */
+    transition: background-color 0.3s ease;
+    width: 50%; 
     text-align: center;
-    margin: auto;
-    margin-top: 20px; /* Added spacing above */
+    margin: auto; 
+    margin-top: auto; 
 }
-
 .cta.login-btn:hover {
     background-color: maroon;
-    transform: scale(1.08); /* Slightly larger hover effect */
+    transform: scale(1.05);
 }
-
 .close-btn {
     position: absolute;
-    top: 15px; /* Adjusted spacing from the top */
-    right: 15px; /* Adjusted spacing from the right */
+    top: 10px;
+    right: 10px;
     background-color: transparent;
     border: none;
     color: black;
     font-size: 1.5rem;
     cursor: pointer;
-    transition: transform 0.2s ease, color 0.2s ease;
 }
-
-.close-btn:hover {
-    color: red; /* Add hover effect */
-    transform: scale(1.1); /* Slightly larger on hover */
-}
-
 form button {
     color: #fff;
     border: none;
     outline: none;
-    padding: 16px 30px; /* Larger button padding */
-    font-size: 1.2rem; /* Larger button text */
+    padding: 14px 30px;
+    font-size: 1rem;
     font-weight: 500;
     width: 100%;
-    border-radius: 8px; /* Rounded button */
+    border-radius: 5px;
     cursor: pointer;
     background: #00bcd4;
     transition: 0.2s ease;
 }
-
 form button:hover {
     background: #0097a7;
 }
-
 @media (max-width: 768px) {
     .login-container {
         flex-direction: column;
-        width: 90%; /* Take up most of the screen width */
-        height: auto; /* Allow dynamic height */
-        padding: 20px; /* Add padding for smaller screens */
+        width: 90%;
     }
-
     .form-half {
-        padding: 20px; /* Reduced padding for smaller screens */
-    }
-
-    .login-container h2 {
-        font-size: 36px; /* Slightly smaller heading for smaller screens */
+        width: 100%;
     }
 }
 
@@ -647,13 +621,18 @@ body{
     background: red;
     border-radius: 50%;
 }
-.text{
-	padding-top: 10px;
-	color: white !important;
-    font-weight: 300;
-    text-align: center;
-    opacity: 100%;
-}
+.text {
+    text-align: justify; /* Aligns the text to be justified */
+    font-size: 1.7rem; /* Adjusts the font size */
+    line-height: 1.5; /* Sets the line height for better readability */
+    margin: 20px; /* Adds margin around the text */
+    width: 100%; /* Ensures the text takes up the full width */
+    max-width: 100%; /* Ensures it won't be limited on large screens */
+    color: white !important; /* Forces the text color to be white */
+  }
+  
+  
+  
 .text1 { 
     padding-top: 10px; 
     color: black !important; 

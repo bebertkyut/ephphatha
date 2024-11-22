@@ -10,6 +10,7 @@
 
 body {
     margin: 0; 
+    background-color: #ffffff;
 }
 
 /* Start of Dashboard Page */
@@ -25,8 +26,9 @@ body {
     overflow: hidden;
     position: fixed;
     padding: 32px 16px;
-    border: 1px solid;
-    background-color: #ad5b5e;
+    border-radius: 10px;
+    border: 2px solid #000;
+    background-color: #388087;
     transition: width 0.6s;
     z-index: 15; 
 }
@@ -52,6 +54,7 @@ label .close-btn {
     margin-top: 32px;
     padding: 0;
 }
+
 
 .sidenav .icon_items ul li {
     cursor: pointer;
@@ -139,20 +142,22 @@ label .close-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f9f4f4;
+    background-color: #fff6ef;
     height: 100vh;
-    padding-top: 20px;
     margin-left: 80px; 
     
 }
 
+
+
+
 .slider {
-    width: 100vw; 
+    width: 100%;
     height: 800px;
     position: relative;
     overflow: hidden;
-    z-index: 10; 
-    border: 2px solid #fff; 
+    border: 2px solid #000000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Adds shadow effect */
 }
 
 .slider .list {
@@ -261,7 +266,7 @@ label .close-btn {
     display: flex; /* Flexbox for centering icon */
     justify-content: center; /* Center icon horizontally */
     align-items: center; /* Center icon vertically */
-    background-color: #ad5b5e; /* Light background */
+    background-color: #4ca2cd; /* Light background */
     border: 2px solid #130a0a; /* Blue border */
     color: #130a0a; /* Blue text */
     border-radius: 8px; /* Rounded corners */
@@ -278,6 +283,7 @@ label .close-btn {
 .box-play-btn i {
     margin: 0;
     padding: 0;
+    color: #ffffff;
     font-size: 25px; /* Adjust icon size here */
 }
 
@@ -311,7 +317,7 @@ label .close-btn {
     height: 120%;
     border: 1px solid #9eceb1;
     border-radius: 12px;
-    background-color: #130a0a; /* Light gray background */
+    background-color: #388087; /* Light gray background */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for a floating effect */
     display: flex;
     flex-direction: column;
@@ -365,7 +371,7 @@ video {
 
 /* Styling for buttons */
 #playbackButtons button {
-    background-color: #ad5b5e;
+    background-color: #4ca2cd;
     color: white;
     border: 2px solid #130a0a; /* Add solid border style */
     padding: 12px 24px;
@@ -465,13 +471,7 @@ video {
 
 /* Start of Content Page */
 /* Album Section Styling */
-.album-section {
-    padding: 10px;
-    background-color: #f7f8fa; /* Subtle background color for better contrast */
-    width: 90%; /* Makes the section span the entire page width */
-    max-width: none; /* Removes the width limit */
-    margin: 0 auto; /* Centers the section horizontally */
-}
+
 
 
 .album-section h2 {
@@ -488,21 +488,23 @@ video {
     gap: 20px; /* Adds more spacing between items */
     justify-items: center;
     align-items: center;
+    
 }
-
 .album {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #ffffff;
+    background-color: #fff;
+    border-color: #badfe7 !important; /* Updated border color with !important */
+    border: 2px solid;
     border-radius: 12px; /* Slightly rounded corners for modern look */
     width: 500px; /* Longer width */
     height: 200px; /* Balanced height */
     padding: 20px;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Slightly deeper shadow for emphasis */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
+
 
 .album img {
     width: 120px; /* Larger image size */
@@ -586,7 +588,7 @@ a {
     right: 20px;         /* Right-aligned */
     top: 20px;           /* Top-aligned */
     color: #ffffff;      /* White color for better contrast */
-    background-color: #007bff; /* Blue background for visibility */
+    background-color: #4ca2cd; /* Blue background for visibility */
     padding: 10px;       /* Some padding for a larger clickable area */
     border-radius: 10px;  /* Make the button circular */
     transition: color 0.3s, background-color 0.3s; /* Smooth transition for color change */
@@ -622,7 +624,7 @@ a {
     width: 80%;
     max-width: 1400px;
     height: 70%;
-    background-color: white;
+    background-color: #388087;
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
@@ -643,7 +645,7 @@ a {
     padding: 15px;
     margin: 8px 0;
     cursor: pointer;
-    background-color: #f9f9f9;
+    background-color: #fff6ef;
     border: 1px solid #ddd;
     border-radius: 6px;
     transition: background-color 0.3s;
@@ -665,14 +667,14 @@ a {
     padding: 12px 30px;
     cursor: pointer;
     border: none;
-    background-color: #007bff;
+    background-color: #4ca2cd;
     color: white;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
 
 .overlay-content button:hover {
-    background-color: #0056b3;
+    background-color: #4ca2cd;
 }
 
 /* Scrollable list container */
@@ -695,7 +697,7 @@ a {
 .scrollable-list li {
     padding: 15px;
     border-bottom: 1px solid #ddd;
-    background-color: #f9f9f9;
+    background-color: black;
     border-radius: 6px;
     transition: background-color 0.3s;
 }
@@ -718,4 +720,295 @@ h2 {
     font-weight: 600;
     font-size: 1rem;
     color: #777;
+}
+
+/*profile*/
+/* General Styles */
+
+/* Adjusted Profile Container */
+.profile-container {
+    width: 100%;
+    max-width: 900px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    position: sticky; /* Sticks it while scrolling */
+    top: 0;
+    z-index: 1000; /* Keeps it above other elements */
+    position: relative; /* For child positioning */
+}
+
+
+/* Divider Section (Edit Button and Title) */
+.divider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.edit-btn {
+    padding: 12px 20px;
+    background-color: #4ca2cd;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    position: absolute; /* Position it absolutely */
+    top: 20px; /* Distance from the top of the container */
+    right: 20px; /* Distance from the right of the container */
+}
+
+
+.edit-btn:hover {
+    background-color: #338db5;
+}
+
+/* Info Container Below Profile */
+.info-container {
+    margin-top: 250px; /* Ensure it starts below the profile image */
+    padding: 0 20px; /* Simple horizontal padding */
+    display: flex;
+    flex-direction: column; /* Stack sections vertically */
+    align-items: center; /* Center horizontally */
+    width: 100%;
+}
+
+/* Info Item Styling */
+.info-item {
+    margin-bottom: 10px; /* Space between each info item */
+    display: flex; /* Keep label and content in one line */
+    align-items: center; /* Vertically align items */
+    width: 100%; /* Ensure all info items take up the same width */
+    max-width: 600px; /* Max width for large screens */
+    padding: 10px; /* Padding inside each info item */
+    background-color: #f9f9f9; /* Light background */
+    border-radius: 8px; /* Rounded corners */
+}
+
+/* Styling for each label (h2) */
+.profile-h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-right: 10px; /* Space between the label and content */
+    margin-bottom: 0; /* Remove margin between h2 and h3 */
+}
+
+/* Styling for the content (span inside h3) */
+.h3 {
+    font-size: 16px;
+    color: #777;
+    margin-top: 0; /* Remove space between h3 and profile-h2 */
+}
+
+/* Optional: Hover effect */
+.info-item:hover {
+    background-color: #eaf4f4; /* Light blue background on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+
+
+/* Adjust Profile Image Section */
+/* Center Profile Image Section */
+/* Center Profile Image Section at the top */
+.user-img-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    position: absolute; /* Position it at the top of the container */
+    top: 60px; /* Distance from the top of the container */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact horizontal center */
+    margin-bottom: 30px; /* Optional spacing below the profile image */
+}
+
+/* Profile Image Styling */
+/* Profile Image Styling */
+.user-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #4ca2cd, #67b26f);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Center Profile Image Section */
+.user-img-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    position: absolute; /* Position it at the top of the container */
+    top: 60px; /* Distance from the top of the container */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact horizontal center */
+    margin-bottom: 30px; /* Optional spacing below the profile image */
+}
+
+/* User Info Styling */
+.user-info {
+    text-align: center;
+    position: relative; /* Allow absolute positioning of child elements */
+}
+
+/* Position h1 at the top of the container */
+.user-info h1 {
+    font-size: 24px;
+    color: #333;
+    position: absolute; /* Positioning it relative to the .user-info container */
+    bottom: 200px; /* Space from h1 */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for perfect centering */
+    margin: 0; /* Remove any default margin */
+}
+
+/* Position h2 under h1 */
+.user-info h2 {
+    font-size: 18px;
+    color: #777;
+    position: absolute; /* Positioning it relative to the .user-info container */
+    bottom: 170px; /* Space from h1 */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for perfect centering */
+    margin: 0; /* Remove any default margin */
+}
+
+
+.input {
+    display: none;
+}
+
+#upload_btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+#upload_btn:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+#upload_btn i {
+    color: #333;
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Initially hide the modal */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    width: 450px;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute; /* Use absolute positioning */
+    top: 50%; /* Position from the top 50% */
+    left: 50%; /* Position from the left 50% */
+    transform: translate(-50%, -50%); /* Shift it back by half its width and height */
+}
+
+
+
+.close-btn {
+    font-size: 30px;
+    color: #333;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #ff3b3f;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #4ca2cd;
+    outline: none;
+}
+
+button#saveButton {
+    width: 100%;
+    padding: 12px;
+    background-color: #4ca2cd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button#saveButton:hover {
+    background-color: #4ca2cd;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 20px;
+    }
+
+    .user-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
 }
