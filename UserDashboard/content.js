@@ -422,6 +422,168 @@ async function fetchColor() {
     }
 }
 
+// Displays the list of field names from the fetched data in an overlay
+function displayColorList(data) {
+    const overlayContent = document.getElementById('selected-category');
+    overlayContent.innerHTML = '';  
+
+    const listElement = document.createElement('ul');
+
+    // Sort the keys alphabetically
+    const sortedKeys = Object.keys(data).sort();
+
+    // Iterate over the sorted keys and display them in a list
+    sortedKeys.forEach(key => {
+        const listItem = document.createElement('li');
+        listItem.textContent = key; 
+        listItem.style.marginBottom = "10px"; 
+
+        listItem.dataset.videoUrl = data[key];
+
+        listItem.onclick = () => displayVideo(data[key]);
+
+        listElement.appendChild(listItem);
+    });
+
+    overlayContent.appendChild(listElement);
+    document.getElementById('overlay').style.display = 'block'; 
+}
+
+// Fetch the 'Fruit and Vegetable' document from Firestore
+async function fetchFruitAndVegetable() {
+    const colorRef = doc(db, 'SignAsset', 'Fruit and Vegetable');
+    
+    try {
+        const docSnap = await getDoc(colorRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            displayFruitAndVegetable(data);
+        } else {
+            console.log("No such document, check the document path in Firestore.");
+        }
+    } catch (error) {
+        console.error("Error fetching document:", error);
+        alert("Error fetching data. Check console for details.");
+    }
+}
+
+// Displays the list of field names from the fetched data in an overlay
+function displayFruitAndVegetable(data) {
+    const overlayContent = document.getElementById('selected-category');
+    overlayContent.innerHTML = '';  
+
+    const listElement = document.createElement('ul');
+
+    // Sort the keys alphabetically
+    const sortedKeys = Object.keys(data).sort();
+
+    // Iterate over the sorted keys and display them in a list
+    sortedKeys.forEach(key => {
+        const listItem = document.createElement('li');
+        listItem.textContent = key; 
+        listItem.style.marginBottom = "10px"; 
+
+        listItem.dataset.videoUrl = data[key];
+
+        listItem.onclick = () => displayVideo(data[key]);
+
+        listElement.appendChild(listItem);
+    });
+
+    overlayContent.appendChild(listElement);
+    document.getElementById('overlay').style.display = 'block'; 
+}
+
+// Fetch the 'Medical' document from Firestore
+async function fetchMedical() {
+    const colorRef = doc(db, 'SignAsset', 'Medical');
+    
+    try {
+        const docSnap = await getDoc(colorRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            displayMedical(data);
+        } else {
+            console.log("No such document, check the document path in Firestore.");
+        }
+    } catch (error) {
+        console.error("Error fetching document:", error);
+        alert("Error fetching data. Check console for details.");
+    }
+}
+
+// Displays the list of field names from the fetched data in an overlay
+function displayMedical(data) {
+    const overlayContent = document.getElementById('selected-category');
+    overlayContent.innerHTML = '';  
+
+    const listElement = document.createElement('ul');
+
+    // Sort the keys alphabetically
+    const sortedKeys = Object.keys(data).sort();
+
+    // Iterate over the sorted keys and display them in a list
+    sortedKeys.forEach(key => {
+        const listItem = document.createElement('li');
+        listItem.textContent = key; 
+        listItem.style.marginBottom = "10px"; 
+
+        listItem.dataset.videoUrl = data[key];
+
+        listItem.onclick = () => displayVideo(data[key]);
+
+        listElement.appendChild(listItem);
+    });
+
+    overlayContent.appendChild(listElement);
+    document.getElementById('overlay').style.display = 'block'; 
+}
+
+// Fetch the 'Religion' document from Firestore
+async function fetchReligion() {
+    const colorRef = doc(db, 'SignAsset', 'Religion');
+    
+    try {
+        const docSnap = await getDoc(colorRef);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            displayReligion(data);
+        } else {
+            console.log("No such document, check the document path in Firestore.");
+        }
+    } catch (error) {
+        console.error("Error fetching document:", error);
+        alert("Error fetching data. Check console for details.");
+    }
+}
+
+// Displays the list of field names from the fetched data in an overlay
+function displayReligion(data) {
+    const overlayContent = document.getElementById('selected-category');
+    overlayContent.innerHTML = '';  
+
+    const listElement = document.createElement('ul');
+
+    // Sort the keys alphabetically
+    const sortedKeys = Object.keys(data).sort();
+
+    // Iterate over the sorted keys and display them in a list
+    sortedKeys.forEach(key => {
+        const listItem = document.createElement('li');
+        listItem.textContent = key; 
+        listItem.style.marginBottom = "10px"; 
+
+        listItem.dataset.videoUrl = data[key];
+
+        listItem.onclick = () => displayVideo(data[key]);
+
+        listElement.appendChild(listItem);
+    });
+
+    overlayContent.appendChild(listElement);
+    document.getElementById('overlay').style.display = 'block'; 
+}
+
 // Displays the video in a full-screen overlay
 function displayVideo(videoUrl) {
     // Create the video container if it doesn't already exist
@@ -495,13 +657,4 @@ function displayVideo(videoUrl) {
 // Close the overlay
 window.closeOverlay = function() {
     document.getElementById('overlay').style.display = 'none';
-}
-// Show overlay
-function showOverlay() {
-    document.getElementById("overlay").classList.add("show");
-}
-
-// Close overlay
-function closeOverlay() {
-    document.getElementById("overlay").classList.remove("show");
 }
