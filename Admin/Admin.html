@@ -6,6 +6,8 @@
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="Admin.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+
   <script src="Admin.js" defer></script> 
 </head>
 <body>
@@ -19,7 +21,7 @@
     <div class="button-section">
       <button class="interface-button" onclick="showDashboard()">Dashboard</button>
       <button class="interface-button" onclick="showControlManagement()">Control Management</button>
-      <button class="interface-button" onclick="showLatestInterface()">Latest Interface</button>
+      <button class="interface-button" onclick="showLatestInterface()">Recent Updates</button>
     </div>
     <div id="dashboard-content" class="dashboard-content">
       <div class="welcome-section">
@@ -48,26 +50,6 @@
         </div>
       </div>
     </div>
-    <div id="keyfeatures-content" class="key-features">
-      <h2>Features</h2>
-      <div id="keyfeatures-content" class="feature-cards">
-          <div class="feature-card">
-              <div class="feature-icon first"></div>
-              <div class="feature-title">Dynamic Card Interface</div>
-              <div class="feature-description">Interactive cards that provide a responsive and engaging way to manage content, highlighting the active section with a visual indicator.</div>
-          </div>
-          <div id="keyfeatures-content" class="feature-card">
-              <div class="feature-icon second"></div>
-              <div class="feature-title">Effortless Content Updates</div>
-              <div class="feature-description">Quickly edit key information such as contact details and page content to keep your site current.</div>
-          </div>
-          <div id="keyfeatures-content" class="feature-card">
-              <div class="feature-icon third"></div>
-              <div class="feature-title">Streamlined Media Management</div>
-              <div class="feature-description">Easily upload and organize images for announcements and other sections, ensuring your site remains visually engaging.</div>
-          </div>
-      </div>
-  </div>
     <div id="userdashboard-content" class="userdashboard-content" style="display: none;">
       <div class="container">
         <section class="main">
@@ -145,8 +127,11 @@
           </div>
           <input type="file" id="bulletinBoardFileInput" accept=".png, .jpg, .jpeg, .gif" style="display: none;" onchange="replaceWithImage('bulletinBoardFileInput', 'bulletinBoardUploadBox')">
         </div>
+        <div class="save-button-container">
+          <button type="button" onclick="saveBulletinImage()">Save</button>
+        </div>
       </div>
-    </div>
+    </div>      
     <!-- Page 2 Content - Add Animation -->
     <div class="module-box" id="page2Content" style="display: none;">
       <div class="form-container">
@@ -239,9 +224,9 @@
     <div id="latest-content" class="latest-content" style="display: none;">
       <section class="main">
         <div class="main-containers">
-          <div class="card" onclick="toggleMainModule('LTLogin')"><h3>Latest Login</h3></div>
-          <div class="card" onclick="toggleMainModule('LTUserdashboard')"><h3>Latest User Dashboard</h3></div>
-          <div class="card" onclick="toggleMainModule('LTAccounts')"><h3>Latest Accounts</h3></div>
+          <div class="card" onclick="toggleMainModule('LTLogin')"><h3>Login Page Overview</h3></div>
+          <div class="card" onclick="toggleMainModule('LTUserdashboard')"><h3>User Dashboard Overview</h3></div>
+          <div class="card" onclick="toggleMainModule('LTAccounts')"><h3>Account Records</h3></div>
         </div>
 <!-- Latest Login Contents -->
 <section class="main-admin-module" id="LTLogin" style="position: relative;">
@@ -255,6 +240,7 @@
           <!-- Images will be dynamically loaded here with 'header-image' class -->
         </div>
       </div>
+      <button class="remove-button" onclick="removeHeaderImages()">Remove</button>
       <!-- Slider controls for header (Prev and Next) -->
       <button class="slider-button left" id="prevButtonHeader">←</button>
       <button class="slider-button right" id="nextButtonHeader">→</button>
@@ -278,6 +264,7 @@
         <div class="slider-container" id="userDashboardSliderContainer">
           <!-- Images will be dynamically loaded here with 'dashboard-image' class -->
         </div>
+        <button class="remove-button" onclick="removeUserDashboardImage()">Remove</button>
       </div>
       <!-- Navigation buttons for User Dashboard (Prev and Next) -->
       <button class="slider-button left" id="prevBtn">←</button>
@@ -428,10 +415,11 @@
       </div>
       <div class="form-actions">
         <button type="button" onclick="saveEditedAccount()" class="save-btn">Save</button>
-      </div>
+    </div>      
     </form>
   </div>
 </div>
+
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js"></script>

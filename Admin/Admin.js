@@ -1,6 +1,6 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc,addDoc, deleteField } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc,addDoc, deleteField, arrayUnion  } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
@@ -80,6 +80,11 @@ function toggleMainModule(moduleId) {
   // Add 'active' class to the clicked card to show underline
   const clickedCard = document.querySelector(`[onclick="toggleMainModule('${moduleId}')"]`);
   clickedCard.classList.add("active");
+  populateHeaderImages();
+  fetchActiveAccountsCount();
+  fetchSignAssets();
+  fetchPage11Content();
+  loadImagesFromFirestore();
 }
 
 // Function to upload video and save data to Firestore
@@ -97,34 +102,47 @@ async function addAnimation() {
     return;
   }
 
-  // Create a storage reference for the video in Firebase Storage
-  const videoRef = ref(storage, `Animations/${videoFile.name}`);
+  try {
+    // Create a storage reference for the video in Firebase Storage
+    const videoRef = ref(storage, `Animations/${videoFile.name}`);
 
-  // Upload the video to Firebase Storage
-  const uploadTask = uploadBytesResumable(videoRef, videoFile);
+    // Upload the video to Firebase Storage
+    const uploadTask = uploadBytesResumable(videoRef, videoFile);
 
-  uploadTask.on('state_changed', 
-    (snapshot) => {
-      // Handle progress if needed
-    }, 
-    (error) => {
-      // Handle upload errors
-      console.error("Error uploading video:", error);
-    }, 
-    async () => {
-      // Get the video download URL after successful upload
-      const videoURL = await getDownloadURL(uploadTask.snapshot.ref);
+    // Wait for the upload to complete
+    await uploadTask;
 
-      // Save the URL to Firestore under the corresponding category document
-      const categoryDocRef = doc(db, "SignAsset", selectedCategory);
-      await setDoc(categoryDocRef, {
-        [animationName]: videoURL
-      }, { merge: true });
+    // After upload completes, get the download URL of the uploaded video
+    const videoURL = await getDownloadURL(uploadTask.snapshot.ref);
 
-      alert("Animation video uploaded and saved successfully!");
-    }
-  );
+    // Save the URL to Firestore under the corresponding category document
+    const categoryDocRef = doc(db, "SignAsset", selectedCategory);
+    await setDoc(categoryDocRef, {
+      [animationName]: videoURL
+    }, { merge: true });
+
+    alert("Animation video uploaded and saved successfully!");
+
+    // Reset form fields and upload container
+    categorySelect.value = "";
+    animationNameInput.value = "";
+    videoInput.value = "";
+
+    // Reset the upload container to its default state
+    const uploadContainer = document.getElementById("animationVideoUploadBox");
+    uploadContainer.innerHTML = `
+      <div>
+        <img src="../img/upload-icon.png" alt="Upload Icon">
+        <p>Upload Animation Video</p>
+      </div>
+    `;
+  } catch (error) {
+    console.error("Error during the animation upload process:", error);
+    alert("There was an error uploading the animation. Please try again.");
+  }
 }
+
+
 
 function loadNextModule() {
     const page1 = document.getElementById("page1Content");
@@ -225,50 +243,153 @@ function replaceWithImage(inputId, containerId) {
 
 // Function to save contact info and upload image to Firebase
 async function saveContactInfo() {
-  const fileInput = document.getElementById('aboutFileInput');
-  const file = fileInput.files[0];
+  // Handle Header Image Upload (Optional)
+  const headerFileInput = document.getElementById('fileInput');
+  const headerFile = headerFileInput.files[0];
 
-  if (file) {
+  if (headerFile) {
       try {
-          const aboutImageRef = ref(storage, `DynamicPagesPictures/${file.name}`);
-          
-          await uploadBytes(aboutImageRef, file);
-
-          const downloadURL = await getDownloadURL(aboutImageRef);
-          const firestoreRef = doc(db, 'DynamicPages', 'LoginPage');
-          
-          await setDoc(firestoreRef, {
-              AboutImage: downloadURL
+          const headerImageRef = ref(storage, `DynamicPagesPictures/${headerFile.name}`);
+          await uploadBytes(headerImageRef, headerFile);
+          const headerDownloadURL = await getDownloadURL(headerImageRef);
+          const headerFirestoreRef = doc(db, 'DynamicPages', 'LoginPage');
+          await setDoc(headerFirestoreRef, {
+              HeaderImages: arrayUnion(headerDownloadURL) 
           }, { merge: true });
 
-          console.log("Image URL saved to Firestore successfully:", downloadURL);
+          console.log("Header image URL saved to Firestore successfully:", headerDownloadURL);
+
       } catch (error) {
-          console.error("Error uploading image or saving URL to Firestore:", error);
+          console.error("Error uploading header image or saving URL to Firestore:", error);
       }
   } else {
-      console.warn("No file selected to upload.");
+      console.warn("No header image file selected to upload.");
   }
 
-  // Collect contact information
   const phone = document.getElementById('contactPhone').value;
   const email = document.getElementById('contactEmail').value;
   const address = document.getElementById('contactAddress').value;
 
-  // Prepare an object with only non-empty values
   const contactData = {};
   if (phone) contactData.ContactPhone = phone;
   if (email) contactData.ContactEmail = email;
   if (address) contactData.ContactAddress = address;
 
-  // Update Firestore only if there are fields to update
   if (Object.keys(contactData).length > 0) {
-      const contactRef = doc(db, 'DynamicPages', 'LoginPage');
-      await setDoc(contactRef, contactData, { merge: true });
+      try {
+          const contactRef = doc(db, 'DynamicPages', 'LoginPage');
+          await setDoc(contactRef, contactData, { merge: true });
 
-      console.log("Contact information saved to Firestore successfully.");
+          console.log("Contact information saved to Firestore successfully.");
+      } catch (error) {
+          console.error("Error saving contact information:", error);
+      }
   } else {
       console.log("No contact information to update.");
   }
+
+  // Handle About Image Upload (This is independent of the header image upload)
+  const aboutFileInput = document.getElementById('aboutFileInput');
+  const aboutFile = aboutFileInput.files[0];
+
+  if (aboutFile) {
+      try {
+          const aboutImageRef = ref(storage, `DynamicPagesPictures/${aboutFile.name}`);
+
+          // Upload the file to Firebase Storage
+          await uploadBytes(aboutImageRef, aboutFile);
+
+          // Get the download URL of the uploaded file
+          const aboutDownloadURL = await getDownloadURL(aboutImageRef);
+
+          // Save the URL in the Firestore `AboutImage` field
+          const aboutFirestoreRef = doc(db, 'DynamicPages', 'LoginPage');
+          await setDoc(aboutFirestoreRef, {
+              AboutImage: aboutDownloadURL // Save the About image URL
+          }, { merge: true });
+
+          console.log("About image URL saved to Firestore successfully:", aboutDownloadURL);
+
+      } catch (error) {
+          console.error("Error uploading about image or saving URL to Firestore:", error);
+      }
+  } else {
+      console.warn("No about image file selected to upload.");
+  }
+
+  resetUploadContainer('uploadBox', 'Upload Header Image');
+  resetAboutImageUpload();
+
+  document.getElementById('fileInput').value = "";
+  document.getElementById('aboutFileInput').value = "";
+  document.getElementById('contactPhone').value = "";
+  document.getElementById('contactEmail').value = "";
+  document.getElementById('contactAddress').value = "";
+
+  alert("Information saved successfully!");
+}
+
+// Function to Reset Header Upload Container to Default State
+function resetUploadContainer(containerId, placeholderText) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = `
+    <div>
+      <img src="../img/upload-icon.png" alt="Upload Icon">
+      <p>${placeholderText}</p>
+    </div>
+  `;
+}
+
+// Function to Reset About Image Upload Field to Default
+function resetAboutImageUpload() {
+  const aboutBox = document.getElementById('aboutBox');
+  aboutBox.innerHTML = `
+    <div>
+      <img src="../img/upload-icon.png" alt="Upload Icon">
+      <p>Upload About Images</p>
+    </div>
+  `;
+}
+
+window.saveBulletinImage = function() {
+  const bulletinFileInput = document.getElementById('bulletinBoardFileInput');
+  const bulletinFile = bulletinFileInput.files[0];
+
+  if (bulletinFile) {
+    try {
+      const bulletinImageRef = ref(storage, `DynamicPagesPictures/${bulletinFile.name}`);
+
+      uploadBytes(bulletinImageRef, bulletinFile).then(async () => {
+        const bulletinDownloadURL = await getDownloadURL(bulletinImageRef);
+        const bulletinFirestoreRef = doc(db, 'DynamicPages', 'DashboardPage');
+        await setDoc(bulletinFirestoreRef, {
+          Bulletin: arrayUnion(bulletinDownloadURL) 
+        }, { merge: true });
+
+        console.log("Bulletin image URL saved to Firestore successfully:", bulletinDownloadURL);
+        bulletinFileInput.value = "";
+        resetUploadDashboardContainer('bulletinBoardUploadBox', 'Upload Bulletin Board Header Image');
+        alert("Bulletin image saved successfully!");
+      });
+      
+    } catch (error) {
+      console.error("Error uploading bulletin image or saving URL to Firestore:", error);
+      alert("Failed to save bulletin image. Please try again.");
+    }
+  } else {
+    alert("No file selected. Please upload an image before saving.");
+  }
+}
+
+// Function to Reset Upload Container to Default State
+function resetUploadDashboardContainer(containerId, placeholderText) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = `
+    <div>
+      <img src="../img/upload-icon.png" alt="Upload Icon">
+      <p>${placeholderText}</p>
+    </div>
+  `;
 }
 
 // Function to count animations in Firebase Storage
@@ -554,7 +675,6 @@ document.addEventListener('DOMContentLoaded', () => {
 let currentIndexHeader = 0;
 let currentIndexDashboard = 0;
 
-// Function to populate header images
 // Function to populate header images with the 'header-image' class
 async function populateHeaderImages() {
   const headerImagesContainer = document.querySelector('#headerSliderContainer');
@@ -575,10 +695,6 @@ async function populateHeaderImages() {
           imgElement.classList.add('header-image'); // Add header-image class
           headerImagesContainer.appendChild(imgElement);
 
-          const removeButton = document.createElement('button');
-          removeButton.textContent = 'Remove';
-          removeButton.classList.add('remove-button');
-          headerSliderContainer.appendChild(removeButton);
         });
 
         // Initialize carousel functionality for header images
@@ -593,6 +709,7 @@ async function populateHeaderImages() {
     console.error('Error fetching HeaderImages:', error);
   }
 }
+
 
 // Function to load dashboard images with the 'dashboard-image' class
 async function loadImagesFromFirestore() {
@@ -613,10 +730,7 @@ async function loadImagesFromFirestore() {
         img.classList.add('dashboard-image'); // Add dashboard-image class
         sliderContainer.appendChild(img);
 
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
-        removeButton.classList.add('remove-button');
-        userDashboardSliderContainer.appendChild(removeButton);
+       
       });
 
       // Initialize carousel functionality for dashboard images
@@ -627,39 +741,6 @@ async function loadImagesFromFirestore() {
   } else {
     console.log('Document not found!');
   }
-}
-
-
-// Initialize carousel functionality
-function initializeCarousel(sliderContainer, type) {
-  const images = sliderContainer.querySelectorAll('img');
-  const totalImages = images.length;
-
-  let currentIndex = type === 'header' ? currentIndexHeader : currentIndexDashboard;
-
-  function updateSlide() {
-    const offset = -100 * currentIndex;
-    sliderContainer.style.transform = `translateX(${offset}%)`;
-  }
-
-  const nextButton = document.getElementById(type === 'header' ? 'nextButtonHeader' : 'nextBtn');
-  const prevButton = document.getElementById(type === 'header' ? 'prevButtonHeader' : 'prevBtn');
-
-  nextButton.addEventListener('click', () => {
-    currentIndex = (currentIndex < totalImages - 1) ? currentIndex + 1 : 0;
-    updateSlide();
-    if (type === 'header') currentIndexHeader = currentIndex;
-    else currentIndexDashboard = currentIndex;
-  });
-
-  prevButton.addEventListener('click', () => {
-    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalImages - 1;
-    updateSlide();
-    if (type === 'header') currentIndexHeader = currentIndex;
-    else currentIndexDashboard = currentIndex;
-  });
-
-  updateSlide();
 }
 
 // Initialize both sliders on DOMContentLoaded
@@ -1399,20 +1480,22 @@ function showRemoveConfirmation(docRef) {
   modal.style.display = 'flex';
 
   const modalContent = document.createElement('div');
-  modalContent.classList.add('modal-content');
+  modalContent.classList.add('overlay-content');
 
   const modalText = document.createElement('p');
-  modalText.textContent = 'Are you sure you want to remove the About Image?';
+  modalText.textContent = 'Are you sure you want to remove the about Image?';
   modalContent.appendChild(modalText);
 
   const confirmButton = document.createElement('button');
   confirmButton.textContent = 'Confirm';
   confirmButton.onclick = () => removeAboutImage(docRef, modal);
+  confirmButton.id = 'confirmDeleteBtn'
   modalContent.appendChild(confirmButton);
 
   const cancelButton = document.createElement('button');
   cancelButton.textContent = 'Cancel';
   cancelButton.onclick = () => closeConfirmationModal(modal);
+  confirmButton.id = 'confirmDeleteBtn'
   modalContent.appendChild(cancelButton);
 
   modal.appendChild(modalContent);
@@ -1420,10 +1503,215 @@ function showRemoveConfirmation(docRef) {
   document.body.appendChild(modal);
 }
 
+function initializeCarousel(sliderContainer, type) {
+  const images = sliderContainer.querySelectorAll('img');
+  const totalImages = images.length;
+
+  let currentIndex = type === 'header' ? currentIndexHeader : currentIndexDashboard;
+
+  function updateSlide() {
+    const offset = -100 * currentIndex;
+    sliderContainer.style.transform = `translateX(${offset}%)`;
+
+    // Log the current image's src and alt attributes
+    const currentImage = images[currentIndex];
+    if (currentImage) {
+      console.log(`Currently displayed image: src=${currentImage.src}, alt=${currentImage.alt}`);
+    } else {
+      console.log('No image to display.');
+    }
+  }
+
+  const nextButton = document.getElementById(type === 'header' ? 'nextButtonHeader' : 'nextBtn');
+  const prevButton = document.getElementById(type === 'header' ? 'prevButtonHeader' : 'prevBtn');
+
+  nextButton.addEventListener('click', () => {
+    currentIndex = (currentIndex < totalImages - 1) ? currentIndex + 1 : 0;
+    updateSlide();
+    if (type === 'header') currentIndexHeader = currentIndex;
+    else currentIndexDashboard = currentIndex;
+  });
+
+  prevButton.addEventListener('click', () => {
+    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalImages - 1;
+    updateSlide();
+    if (type === 'header') currentIndexHeader = currentIndex;
+    else currentIndexDashboard = currentIndex;
+  });
+
+  updateSlide();
+}
+
+window.removeHeaderImages = async function(type = 'header') {
+  // Get the correct slider container based on the type
+  const sliderContainerId = type === 'header' ? 'headerSliderContainer' : 'dashboardSliderContainer';
+  const sliderContainer = document.getElementById(sliderContainerId);
+
+  if (!sliderContainer) {
+    console.error(`Slider container with ID "${sliderContainerId}" not found.`);
+    return;
+  }
+
+  // Identify the currently displayed image in the slider
+  const images = sliderContainer.querySelectorAll('img');
+  const currentIndex = type === 'header' ? currentIndexHeader : currentIndexDashboard;
+  const currentImage = images[currentIndex];
+
+  if (!currentImage) {
+    console.error('No image is currently displayed.');
+    return;
+  }
+
+  // Get the image URL to be removed
+  const imageUrl = currentImage.src;
+
+  // Create and display the confirmation modal
+  const modal = document.createElement('div');
+  modal.classList.add('modal');
+  modal.style.display = 'flex';
+
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('overlay-content');
+
+  const modalText = document.createElement('p');
+  modalText.textContent = 'Are you sure you want to remove this header image?';
+  modalContent.appendChild(modalText);
+
+  const confirmButton = document.createElement('button');
+  confirmButton.textContent = 'Confirm';
+  confirmButton.id = 'confirmDeleteBtn'
+  confirmButton.onclick = async () => {
+    // Proceed with the image removal if confirmed
+    try {
+      const loginPageDocRef = doc(db, 'DynamicPages', 'LoginPage');
+      const loginPageDoc = await getDoc(loginPageDocRef); // Await the getDoc result
+
+      if (loginPageDoc.exists()) {
+        const headerImages = loginPageDoc.data().HeaderImages;
+
+        if (Array.isArray(headerImages)) {
+          // Filter out the current image
+          const updatedImages = headerImages.filter((url) => url !== imageUrl);
+
+          // Update Firestore
+          await updateDoc(loginPageDocRef, { HeaderImages: updatedImages });
+
+          console.log(`Image removed: ${imageUrl}`);
+          populateHeaderImages(); // Refresh slider after removal
+        } else {
+          console.warn('No HeaderImages array found in LoginPage document.');
+        }
+      } else {
+        console.warn('LoginPage document does not exist in DynamicPages collection.');
+      }
+    } catch (error) {
+      console.error('Error removing image:', error);
+    }
+
+    // Close the modal after the action
+    closeModal(modal);
+  };
+  modalContent.appendChild(confirmButton);
+
+  const cancelButton = document.createElement('button');
+  cancelButton.textContent = 'Cancel';
+  cancelButton.onclick = () => closeModal(modal); // Close modal if canceled
+  modalContent.appendChild(cancelButton);
+
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+
+  // Function to close the modal
+  function closeModal(modal) {
+    modal.style.display = 'none'; // Hide the modal
+    setTimeout(() => modal.remove(), 300); // Remove the modal after it's hidden (for smooth transition)
+  }
+};
+
+
+window.removeUserDashboardImage = async function() {
+  try {
+    // Create and display the confirmation modal
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.style.display = 'flex';
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('overlay-content');
+
+    const modalText = document.createElement('p');
+    modalText.textContent = 'Are you sure you want to remove this image from the dashboard?';
+    modalContent.appendChild(modalText);
+
+    const confirmButton = document.createElement('button');
+    confirmButton.textContent = 'Confirm';
+    confirmButton.id = 'confirmDeleteBtn'
+    confirmButton.onclick = async () => {
+      // Proceed with image removal if confirmed
+      const sliderContainer = document.querySelector('#userDashboardSliderContainer');
+      const images = sliderContainer.querySelectorAll('img');
+
+      // Get the currently displayed image by checking the active index
+      const currentIndex = currentIndexDashboard;
+      const currentImage = images[currentIndex];
+
+      if (!currentImage) {
+        console.error('No image is currently displayed.');
+        closeModal(modal);
+        return;
+      }
+
+      const imageUrl = currentImage.src; // Get the URL of the current image
+
+      const docRef = doc(db, "DynamicPages", "DashboardPage");
+      const docSnap = await getDoc(docRef); // Use await to properly handle the async call
+
+      if (docSnap.exists()) {
+        let bulletinImages = docSnap.data().Bulletin;
+
+        // Remove the image URL from the array
+        bulletinImages = bulletinImages.filter(url => url !== imageUrl);
+
+        // Update Firestore with the new array of images
+        await updateDoc(docRef, { Bulletin: bulletinImages }); // Await the update operation
+
+        console.log(`Image removed: ${imageUrl}`);
+
+        // Refresh the images on the page after removal
+        loadImagesFromFirestore();
+      } else {
+        console.log('Document not found!');
+      }
+
+      // Close the modal after the action
+      closeModal(modal);
+    };
+    modalContent.appendChild(confirmButton);
+
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Cancel';
+    cancelButton.onclick = () => closeModal(modal); // Close modal if canceled
+    modalContent.appendChild(cancelButton);
+
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+
+    // Function to close the modal
+    function closeModal(modal) {
+      modal.style.display = 'none'; // Hide the modal
+      setTimeout(() => modal.remove(), 300); // Remove the modal after it's hidden (for smooth transition)
+    }
+  } catch (error) {
+    console.error('Error removing image:', error);
+  }
+};
+
+
+
 // Function to remove the About Image when confirmed
 async function removeAboutImage(docRef, modal) {
   try {
-    await updateDoc(docRef, {
+    updateDoc(docRef, {
       AboutImage: ""
     });
 
@@ -1449,6 +1737,44 @@ document.addEventListener('DOMContentLoaded', function() {
   showPage11Content();
 });
 
+function addLogoutButtonToDashboard() {
+  // Check if the logout button already exists
+  if (!document.querySelector('.logout')) {
+      console.log('Creating logout button');  // Debugging line
+
+      // Create the logout container (as a button)
+      const logoutButton = document.createElement('button');
+      logoutButton.classList.add('logout');  // Add the logout class for styling
+
+      // Create the icon
+      const logoutIcon = document.createElement('i');
+      logoutIcon.classList.add('bx', 'bx-log-in');  // Requires Boxicons library
+
+      // Append the icon inside the button
+      logoutButton.appendChild(logoutIcon);
+      logoutButton.appendChild(document.createTextNode(' Logout'));  // Add text next to the icon
+
+      // Add an event listener for logout action
+      logoutButton.addEventListener('click', () => {
+          window.location.href = '../index.html';  // Redirect to the login page or homepage
+      });
+
+      // Append the logout button to the body (or to a specific section like the header)
+      document.body.appendChild(logoutButton);
+
+      // Log to confirm it's being added
+      console.log('Logout button added to the DOM');
+  } else {
+      console.log('Logout button already exists');
+  }
+}
+
+// Call the function during initialization
+document.addEventListener('DOMContentLoaded', () => {
+  addLogoutButtonToDashboard();
+});
+
+
 window.displayUploadedVideo = displayUploadedVideo;
 window.showControlManagemen = showDashboard;
 window.showDashboard = showDashboard;
@@ -1472,3 +1798,4 @@ window.populateActiveAccountsTable = populateActiveAccountsTable;
 window.activateAccount = activateAccount;
 window.saveEditedAccount = saveEditedAccount;
 window.closeEditOverlay = closeEditOverlay;
+window.addLogoutButtonToDashboard = addLogoutButtonToDashboard

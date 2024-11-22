@@ -5,80 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translator Page</title>
     <link rel="stylesheet" href="dashboard.css"> 
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <input type="checkbox" id="click">
-        <div class="sidenav">
-            <div class="logo"></div>
-            <div class="icon_items">
-                <label for="click">
-                    <i class='menu-btn bx bx-menu'></i>
-                    <i class='close-btn bx bx-x-circle'></i>
-                </label>
-                <ul>
-                    <li id="dashboard">
-                        <i class='bx bxs-home'></i>
-                        <a href="dashboard.html" id="dashboard">Dashboard</a>
-                    </li>
-                    <li class="active">
-                        <i class="fas fa-sign-language"></i>
-                        <a href="translator.html" id="translator">Translator</a>
-                    </li>
-                    <li id="profile-item">
-                        <i class='bx bxs-message-dots'></i>
-                        <a href="../profile/profile.html" id="profile">Profile</a>
-                    </li>
-                    <li id="content-item"> 
-                        <i class='bx bxs-folder'></i>
-                        <a href="content.html" id="content">Content</a>
-                    </li>
-                    <li>
-                        <i class='bx bx-log-in'></i>
-                        <a href="../index.html">Logout</a> 
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="main-content">
-            <div class="panel-container">
-                <div class="left-panel">
+    <!-- Sidebar will be dynamically loaded here -->
+    <div id="sidebar-container"></div>
+    <div class="main-content">
+        <div class="panel-container">
+            <div class="left-panel">
+                <aside class="input-with-button">
                     <input type="text" id="videoNames" class="inputs" placeholder="Type something...">
+                    <button class="box-play-btn" onclick="playVideos()">
+                        <i class="fas fa-play"></i> <!-- Play Icon -->
+                    </button>
+                    <button class="box-play-btn" onclick="record()">
+                        <i class="fas fa-microphone"></i> <!-- Mic Icon -->
+                    </button>
+                </aside>
+            </div>
+            <div class="right-panel">
+                <div id="videoPlayer">
+                    <img id="initialImage" src="../Assets/still.png" width="900" height="500" alt="Initial Image">
                 </div>
-                <div class="right-panel">
-                    <div id="videoPlayer">
-                        <img id="initialImage" src="../Assets/still.png" width="640" height="360" alt="Initial Image">
-                    </div>
-                    <div id="playbackButtons">
-                        <button id="btnSlow" onclick="setPlaybackSpeed(0.5)">x0.5</button>
-                        <button id="btnNormal" onclick="setPlaybackSpeed(1)">x1</button>
-                        <button id="btnFast" onclick="setPlaybackSpeed(2)">x2</button>
-                    </div>
+                <!-- Video Title Inside the Container -->
+                <div id="videoTitleContainer">
+                    <h2 id="videoTitle"></h2>
                 </div>
-                <div class="bottom-controls">
-                    <div class="left-controls">
-                        <button class="btn mic-btn" onclick="record()">
-                            <img src="../M1.png" alt="Microphone">
-                        </button>        
-                        <button class="btn play-btn" onclick="playVideos()">
-                            <img src="../P1.png" alt="Play">
-                        </button>
-                    </div>
-                    <div class="right-controls">
-                        <div class="right-subtitle">
-                            <div id="videoTitle"></div>
-                        </div>
+                <div id="playbackButtons">
+                    <button id="btnSlow" onclick="setPlaybackSpeed(0.5)">x0.5</button>
+                    <button id="btnNormal" onclick="setPlaybackSpeed(1)">x1</button>
+                    <button id="btnFast" onclick="setPlaybackSpeed(2)">x2</button>
+                </div>
+            </div>
+                <div class="right-controls">
+                    <div class="right-subtitle">
+                        <div id="videoTitle"></div>
                     </div>
                 </div>
             </div>
         </div>
-
         <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
         <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
         <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js"></script>
         <script type="module" src="main.js"></script>
+        <script src="sidebar.js"></script>
     </div>
 </body>
 </html>
