@@ -1,6 +1,6 @@
 // Import Firebase modules
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
-import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc,addDoc, deleteField } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+import { getFirestore, doc, setDoc, collection, getDocs, updateDoc, getDoc, query, where, deleteDoc,addDoc, deleteField, arrayUnion  } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js';
 
 
@@ -80,6 +80,11 @@ function toggleMainModule(moduleId) {
   // Add 'active' class to the clicked card to show underline
   const clickedCard = document.querySelector(`[onclick="toggleMainModule('${moduleId}')"]`);
   clickedCard.classList.add("active");
+  populateHeaderImages();
+  fetchActiveAccountsCount();
+  fetchSignAssets();
+  fetchPage11Content();
+  loadImagesFromFirestore();
 }
 
 // Function to upload video and save data to Firestore
@@ -97,34 +102,47 @@ async function addAnimation() {
     return;
   }
 
-  // Create a storage reference for the video in Firebase Storage
-  const videoRef = ref(storage, `Animations/${videoFile.name}`);
+  try {
+    // Create a storage reference for the video in Firebase Storage
+    const videoRef = ref(storage, `Animations/${videoFile.name}`);
 
-  // Upload the video to Firebase Storage
-  const uploadTask = uploadBytesResumable(videoRef, videoFile);
+    // Upload the video to Firebase Storage
+    const uploadTask = uploadBytesResumable(videoRef, videoFile);
 
-  uploadTask.on('state_changed', 
-    (snapshot) => {
-      // Handle progress if needed
-    }, 
-    (error) => {
-      // Handle upload errors
-      console.error("Error uploading video:", error);
-    }, 
-    async () => {
-      // Get the video download URL after successful upload
-      const videoURL = await getDownloadURL(uploadTask.snapshot.ref);
+    // Wait for the upload to complete
+    await uploadTask;
 
-      // Save the URL to Firestore under the corresponding category document
-      const categoryDocRef = doc(db, "SignAsset", selectedCategory);
-      await setDoc(categoryDocRef, {
-        [animationName]: videoURL
-      }, { merge: true });
+    // After upload completes, get the download URL of the uploaded video
+    const videoURL = await getDownloadURL(uploadTask.snapshot.ref);
 
-      alert("Animation video uploaded and saved successfully!");
-    }
-  );
+    // Save the URL to Firestore under the corresponding category document
+    const categoryDocRef = doc(db, "SignAsset", selectedCategory);
+    await setDoc(categoryDocRef, {
+      [animationName]: videoURL
+    }, { merge: true });
+
+    alert("Animation video uploaded and saved successfully!");
+
+    // Reset form fields and upload container
+    categorySelect.value = "";
+    animationNameInput.value = "";
+    videoInput.value = "";
+
+    // Reset the upload container to its default state
+    const uploadContainer = document.getElementById("animationVideoUploadBox");
+    uploadContainer.innerHTML = `
+      <div>
+        <img src="../img/upload-icon.png" alt="Upload Icon">
+        <p>Upload Animation Video</p>
+      </div>
+    `;
+  } catch (error) {
+    console.error("Error during the animation upload process:", error);
+    alert("There was an error uploading the animation. Please try again.");
+  }
 }
+
+
 
 function loadNextModule() {
     const page1 = document.getElementById("page1Content");
@@ -225,50 +243,153 @@ function replaceWithImage(inputId, containerId) {
 
 // Function to save contact info and upload image to Firebase
 async function saveContactInfo() {
-  const fileInput = document.getElementById('aboutFileInput');
-  const file = fileInput.files[0];
+  // Handle Header Image Upload (Optional)
+  const headerFileInput = document.getElementById('fileInput');
+  const headerFile = headerFileInput.files[0];
 
-  if (file) {
+  if (headerFile) {
       try {
-          const aboutImageRef = ref(storage, `DynamicPagesPictures/${file.name}`);
-          
-          await uploadBytes(aboutImageRef, file);
-
-          const downloadURL = await getDownloadURL(aboutImageRef);
-          const firestoreRef = doc(db, 'DynamicPages', 'LoginPage');
-          
-          await setDoc(firestoreRef, {
-              AboutImage: downloadURL
+          const headerImageRef = ref(storage, `DynamicPagesPictures/${headerFile.name}`);
+          await uploadBytes(headerImageRef, headerFile);
+          const headerDownloadURL = await getDownloadURL(headerImageRef);
+          const headerFirestoreRef = doc(db, 'DynamicPages', 'LoginPage');
+          await setDoc(headerFirestoreRef, {
+              HeaderImages: arrayUnion(headerDownloadURL) 
           }, { merge: true });
 
-          console.log("Image URL saved to Firestore successfully:", downloadURL);
+          console.log("Header image URL saved to Firestore successfully:", headerDownloadURL);
+
       } catch (error) {
-          console.error("Error uploading image or saving URL to Firestore:", error);
+          console.error("Error uploading header image or saving URL to Firestore:", error);
       }
   } else {
-      console.warn("No file selected to upload.");
+      console.warn("No header image file selected to upload.");
   }
 
-  // Collect contact information
   const phone = document.getElementById('contactPhone').value;
   const email = document.getElementById('contactEmail').value;
   const address = document.getElementById('contactAddress').value;
 
-  // Prepare an object with only non-empty values
   const contactData = {};
   if (phone) contactData.ContactPhone = phone;
   if (email) contactData.ContactEmail = email;
   if (address) contactData.ContactAddress = address;
 
-  // Update Firestore only if there are fields to update
   if (Object.keys(contactData).length > 0) {
-      const contactRef = doc(db, 'DynamicPages', 'LoginPage');
-      await setDoc(contactRef, contactData, { merge: true });
+      try {
+          const contactRef = doc(db, 'DynamicPages', 'LoginPage');
+          await setDoc(contactRef, contactData, { merge: true });
 
-      console.log("Contact information saved to Firestore successfully.");
+          console.log("Contact information saved to Firestore successfully.");
+      } catch (error) {
+          console.error("Error saving contact information:", error);
+      }
   } else {
       console.log("No contact information to update.");
   }
+
+  // Handle About Image Upload (This is independent of the header image upload)
+  const aboutFileInput = document.getElementById('aboutFileInput');
+  const aboutFile = aboutFileInput.files[0];
+
+  if (aboutFile) {
+      try {
+          const aboutImageRef = ref(storage, `DynamicPagesPictures/${aboutFile.name}`);
+
+          // Upload the file to Firebase Storage
+          await uploadBytes(aboutImageRef, aboutFile);
+
+          // Get the download URL of the uploaded file
+          const aboutDownloadURL = await getDownloadURL(aboutImageRef);
+
+          // Save the URL in the Firestore `AboutImage` field
+          const aboutFirestoreRef = doc(db, 'DynamicPages', 'LoginPage');
+          await setDoc(aboutFirestoreRef, {
+              AboutImage: aboutDownloadURL // Save the About image URL
+          }, { merge: true });
+
+          console.log("About image URL saved to Firestore successfully:", aboutDownloadURL);
+
+      } catch (error) {
+          console.error("Error uploading about image or saving URL to Firestore:", error);
+      }
+  } else {
+      console.warn("No about image file selected to upload.");
+  }
+
+  resetUploadContainer('uploadBox', 'Upload Header Image');
+  resetAboutImageUpload();
+
+  document.getElementById('fileInput').value = "";
+  document.getElementById('aboutFileInput').value = "";
+  document.getElementById('contactPhone').value = "";
+  document.getElementById('contactEmail').value = "";
+  document.getElementById('contactAddress').value = "";
+
+  alert("Information saved successfully!");
+}
+
+// Function to Reset Header Upload Container to Default State
+function resetUploadContainer(containerId, placeholderText) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = `
+    <div>
+      <img src="../img/upload-icon.png" alt="Upload Icon">
+      <p>${placeholderText}</p>
+    </div>
+  `;
+}
+
+// Function to Reset About Image Upload Field to Default
+function resetAboutImageUpload() {
+  const aboutBox = document.getElementById('aboutBox');
+  aboutBox.innerHTML = `
+    <div>
+      <img src="../img/upload-icon.png" alt="Upload Icon">
+      <p>Upload About Images</p>
+    </div>
+  `;
+}
+
+window.saveBulletinImage = function() {
+  const bulletinFileInput = document.getElementById('bulletinBoardFileInput');
+  const bulletinFile = bulletinFileInput.files[0];
+
+  if (bulletinFile) {
+    try {
+      const bulletinImageRef = ref(storage, `DynamicPagesPictures/${bulletinFile.name}`);
+
+      uploadBytes(bulletinImageRef, bulletinFile).then(async () => {
+        const bulletinDownloadURL = await getDownloadURL(bulletinImageRef);
+        const bulletinFirestoreRef = doc(db, 'DynamicPages', 'DashboardPage');
+        await setDoc(bulletinFirestoreRef, {
+          Bulletin: arrayUnion(bulletinDownloadURL) 
+        }, { merge: true });
+
+        console.log("Bulletin image URL saved to Firestore successfully:", bulletinDownloadURL);
+        bulletinFileInput.value = "";
+        resetUploadDashboardContainer('bulletinBoardUploadBox', 'Upload Bulletin Board Header Image');
+        alert("Bulletin image saved successfully!");
+      });
+      
+    } catch (error) {
+      console.error("Error uploading bulletin image or saving URL to Firestore:", error);
+      alert("Failed to save bulletin image. Please try again.");
+    }
+  } else {
+    alert("No file selected. Please upload an image before saving.");
+  }
+}
+
+// Function to Reset Upload Container to Default State
+function resetUploadDashboardContainer(containerId, placeholderText) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = `
+    <div>
+      <img src="../img/upload-icon.png" alt="Upload Icon">
+      <p>${placeholderText}</p>
+    </div>
+  `;
 }
 
 // Function to count animations in Firebase Storage

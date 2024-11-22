@@ -4,47 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Page</title>
-    <link rel="stylesheet" href="dashboard.css"> 
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-
-    
-    <!-- Sidebar will be dynamically loaded here -->
+    <!-- Sidebar Container -->
     <div id="sidebar-container"></div>
-    
-        <!--slider part-->
-        <div class="gray-container">
-            <div class="slider">
-                <button class="play-pause-btn">
-                    <i class='bx bx-play play-icon'></i>
-                    <i class='bx bx-pause pause-icon' style="display:none;"></i> 
-                </button>
-                <div class="list">
-                    <div class="item">
-                        <img src="SLIDER1.jpg" alt="Image 1">
-                    </div>
-                    <div class="item">
-                        <img src="SLIDER2.jpg" alt="Image 2">
-                    </div>
-                    <div class="item">
-                        <img src="SLIDER1.jpg" alt="Image 1">
-                    </div>
-                </div>
-                <ul class="dots">
-                    <li class="active"></li>
-                    <li></li>
-                    <li></li>
-                </ul>
+
+   <div class="main-content">
+    <!-- Slider Section -->
+    <div class="slider">
+        <!-- Play/Pause Button -->
+        <button class="play-pause-btn">
+            <i class="bx bx-play play-icon"></i>
+            <i class="bx bx-pause pause-icon" style="display: none;"></i>
+        </button>
+
+        <!-- Slider Items -->
+        <div class="list">
+            <!-- Add as many images as you want here -->
+            <div class="item">
+                <img src="SLIDER1.jpg" alt="Image 1">
             </div>
+            <div class="item">
+                <img src="SLIDER2.jpg" alt="Image 2">
+            </div>
+            <div class="item">
+                <img src="SLIDER3.jpg" alt="Image 3">
+            </div>
+            <!-- Additional images can be added -->
         </div>
 
+        <!-- Navigation Dots -->
+        <ul class="dots">
+            <!-- JavaScript will dynamically generate these -->
+        </ul>
+    </div>
+</div>
 
-        <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
-        <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
-        <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js"></script>        
-        <script type="module" src="dashboard.js"></script>   
-        <script src="sidebar.js"></script> 
+
+    <!-- Firebase Scripts -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js"></script>
+
+    <!-- Custom Scripts -->
+    <script type="module" src="dashboard.js"></script>
+    <script src="sidebar.js"></script>
 </body>
 </html>

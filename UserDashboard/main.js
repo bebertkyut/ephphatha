@@ -35,8 +35,8 @@ window.playVideo = function(word) {
 
     getDownloadURL(videoRef).then(function(url) {
         var video = document.createElement('video');
-        video.setAttribute('width', '640');
-        video.setAttribute('height', '360');
+        video.setAttribute('width', '940');
+        video.setAttribute('height', '500');
         video.playbackRate = currentPlaybackSpeed;
 
         var source = document.createElement('source');
@@ -85,8 +85,8 @@ function displayPicture() {
 
     var img = document.createElement('img');
     img.setAttribute('src', picturePath);
-    img.setAttribute('width', '640');
-    img.setAttribute('height', '360');
+    img.setAttribute('width', '900');
+    img.setAttribute('height', '500');
 
     videoPlayer.innerHTML = '';
     videoPlayer.appendChild(img);
@@ -105,8 +105,8 @@ window.record = function() {
     var picturePath = '../Assets/hear.png';
     var img = document.createElement('img');
     img.setAttribute('src', picturePath);
-    img.setAttribute('width', '640');
-    img.setAttribute('height', '360');
+    img.setAttribute('width', '900');
+    img.setAttribute('height', '500');
 
     videoPlayer.innerHTML = '';
     videoPlayer.appendChild(img);
@@ -133,7 +133,7 @@ window.record = function() {
         playNextVideo(mappedWords, 0, videoPlayer, function () {
             displayPicture();
             videoTitle.textContent = ' ';
-            document.getElementById('playbackButtons').style.display = 'none';
+            document.getElementById('playbackButtons').style.display = 'block';
         });
     };
 
@@ -145,8 +145,8 @@ window.record = function() {
         var stillPicturePath = '../Assets/still.png';
         var stillImg = document.createElement('img');
         stillImg.setAttribute('src', stillPicturePath);
-        stillImg.setAttribute('width', '640');
-        stillImg.setAttribute('height', '360');
+        stillImg.setAttribute('width', '900');
+        stillImg.setAttribute('height', '500');
 
         videoPlayer.innerHTML = '';
         videoPlayer.appendChild(stillImg);
@@ -178,7 +178,7 @@ window.playVideos = function() {
     playNextVideo(dissectedVideoNames, 0, videoPlayer, function () {
         displayPicture();
         document.getElementById('videoTitle').textContent = ' ';
-        document.getElementById('playbackButtons').style.display = 'none';
+        document.getElementById('playbackButtons').style.display = 'block';
     });
 };
 
@@ -208,8 +208,8 @@ function playNextVideo(videoNames, index, videoPlayer, callback) {
     getDownloadURL(videoRef).then(function (url) {
         // If the video exists in Firebase Storage, play it
         var video = document.createElement('video');
-        video.setAttribute('width', '640');
-        video.setAttribute('height', '360');
+        video.setAttribute('width', '900');
+        video.setAttribute('height', '500');
         video.playbackRate = currentPlaybackSpeed;
 
         var source = document.createElement('source');
@@ -278,8 +278,8 @@ window.playNextLetter = function(letters, index, videoPlayer, videoNames, wordIn
     getDownloadURL(videoRef)
         .then(function(url) {
             var video = document.createElement('video');
-            video.setAttribute('width', '640');
-            video.setAttribute('height', '360');
+            video.setAttribute('width', '900');
+            video.setAttribute('height', '500');
             video.playbackRate = currentPlaybackSpeed;
 
             var source = document.createElement('source');
@@ -338,8 +338,4 @@ function highlightButton(buttonId) {
     });
 
     document.getElementById(buttonId).classList.add('highlighted');
-}
-
-function hidePlaybackButtons() {
-    document.getElementById('playbackButtons').style.display = 'none';
 }

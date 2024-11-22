@@ -19,7 +19,7 @@
     <div class="button-section">
       <button class="interface-button" onclick="showDashboard()">Dashboard</button>
       <button class="interface-button" onclick="showControlManagement()">Control Management</button>
-      <button class="interface-button" onclick="showLatestInterface()">Latest Interface</button>
+      <button class="interface-button" onclick="showLatestInterface()">Recent Updates</button>
     </div>
     <div id="dashboard-content" class="dashboard-content">
       <div class="welcome-section">
@@ -145,8 +145,11 @@
           </div>
           <input type="file" id="bulletinBoardFileInput" accept=".png, .jpg, .jpeg, .gif" style="display: none;" onchange="replaceWithImage('bulletinBoardFileInput', 'bulletinBoardUploadBox')">
         </div>
+        <div class="save-button-container">
+          <button type="button" onclick="saveBulletinImage()">Save</button>
+        </div>
       </div>
-    </div>
+    </div>      
     <!-- Page 2 Content - Add Animation -->
     <div class="module-box" id="page2Content" style="display: none;">
       <div class="form-container">
@@ -239,9 +242,9 @@
     <div id="latest-content" class="latest-content" style="display: none;">
       <section class="main">
         <div class="main-containers">
-          <div class="card" onclick="toggleMainModule('LTLogin')"><h3>Latest Login</h3></div>
-          <div class="card" onclick="toggleMainModule('LTUserdashboard')"><h3>Latest User Dashboard</h3></div>
-          <div class="card" onclick="toggleMainModule('LTAccounts')"><h3>Latest Accounts</h3></div>
+          <div class="card" onclick="toggleMainModule('LTLogin')"><h3>Login Page Overview</h3></div>
+          <div class="card" onclick="toggleMainModule('LTUserdashboard')"><h3>User Dashboard Overview</h3></div>
+          <div class="card" onclick="toggleMainModule('LTAccounts')"><h3>Account Records</h3></div>
         </div>
 <!-- Latest Login Contents -->
 <section class="main-admin-module" id="LTLogin" style="position: relative;">
