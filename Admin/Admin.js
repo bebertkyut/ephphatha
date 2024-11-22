@@ -675,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let currentIndexHeader = 0;
 let currentIndexDashboard = 0;
 
-// Function to populate header images
+// Function to populate header images with the 'header-image' class
 async function populateHeaderImages() {
   const headerImagesContainer = document.querySelector('#headerSliderContainer');
   headerImagesContainer.innerHTML = ''; // Clear previous content
@@ -694,11 +694,6 @@ async function populateHeaderImages() {
           imgElement.alt = 'Header Image';
           imgElement.classList.add('header-image'); // Add header-image class
           headerImagesContainer.appendChild(imgElement);
-
-          const removeButton = document.createElement('button');
-          removeButton.textContent = 'Remove';
-          removeButton.classList.add('remove-button');
-          headerSliderContainer.appendChild(removeButton);
         });
 
         // Initialize carousel functionality for header images
@@ -732,11 +727,6 @@ async function loadImagesFromFirestore() {
         img.alt = "Bulletin Image";
         img.classList.add('dashboard-image'); // Add dashboard-image class
         sliderContainer.appendChild(img);
-
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
-        removeButton.classList.add('remove-button');
-        userDashboardSliderContainer.appendChild(removeButton);
       });
 
       // Initialize carousel functionality for dashboard images
@@ -747,39 +737,6 @@ async function loadImagesFromFirestore() {
   } else {
     console.log('Document not found!');
   }
-}
-
-
-// Initialize carousel functionality
-function initializeCarousel(sliderContainer, type) {
-  const images = sliderContainer.querySelectorAll('img');
-  const totalImages = images.length;
-
-  let currentIndex = type === 'header' ? currentIndexHeader : currentIndexDashboard;
-
-  function updateSlide() {
-    const offset = -100 * currentIndex;
-    sliderContainer.style.transform = `translateX(${offset}%)`;
-  }
-
-  const nextButton = document.getElementById(type === 'header' ? 'nextButtonHeader' : 'nextBtn');
-  const prevButton = document.getElementById(type === 'header' ? 'prevButtonHeader' : 'prevBtn');
-
-  nextButton.addEventListener('click', () => {
-    currentIndex = (currentIndex < totalImages - 1) ? currentIndex + 1 : 0;
-    updateSlide();
-    if (type === 'header') currentIndexHeader = currentIndex;
-    else currentIndexDashboard = currentIndex;
-  });
-
-  prevButton.addEventListener('click', () => {
-    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalImages - 1;
-    updateSlide();
-    if (type === 'header') currentIndexHeader = currentIndex;
-    else currentIndexDashboard = currentIndex;
-  });
-
-  updateSlide();
 }
 
 // Initialize both sliders on DOMContentLoaded
@@ -1519,20 +1476,22 @@ function showRemoveConfirmation(docRef) {
   modal.style.display = 'flex';
 
   const modalContent = document.createElement('div');
-  modalContent.classList.add('modal-content');
+  modalContent.classList.add('overlay-content');
 
   const modalText = document.createElement('p');
-  modalText.textContent = 'Are you sure you want to remove the About Image?';
+  modalText.textContent = 'Are you sure you want to remove the about Image?';
   modalContent.appendChild(modalText);
 
   const confirmButton = document.createElement('button');
   confirmButton.textContent = 'Confirm';
   confirmButton.onclick = () => removeAboutImage(docRef, modal);
+  confirmButton.id = 'confirmDeleteBtn'
   modalContent.appendChild(confirmButton);
 
   const cancelButton = document.createElement('button');
   cancelButton.textContent = 'Cancel';
   cancelButton.onclick = () => closeConfirmationModal(modal);
+  confirmButton.id = 'confirmDeleteBtn'
   modalContent.appendChild(cancelButton);
 
   modal.appendChild(modalContent);
@@ -1540,10 +1499,215 @@ function showRemoveConfirmation(docRef) {
   document.body.appendChild(modal);
 }
 
+function initializeCarousel(sliderContainer, type) {
+  const images = sliderContainer.querySelectorAll('img');
+  const totalImages = images.length;
+
+  let currentIndex = type === 'header' ? currentIndexHeader : currentIndexDashboard;
+
+  function updateSlide() {
+    const offset = -100 * currentIndex;
+    sliderContainer.style.transform = `translateX(${offset}%)`;
+
+    // Log the current image's src and alt attributes
+    const currentImage = images[currentIndex];
+    if (currentImage) {
+      console.log(`Currently displayed image: src=${currentImage.src}, alt=${currentImage.alt}`);
+    } else {
+      console.log('No image to display.');
+    }
+  }
+
+  const nextButton = document.getElementById(type === 'header' ? 'nextButtonHeader' : 'nextBtn');
+  const prevButton = document.getElementById(type === 'header' ? 'prevButtonHeader' : 'prevBtn');
+
+  nextButton.addEventListener('click', () => {
+    currentIndex = (currentIndex < totalImages - 1) ? currentIndex + 1 : 0;
+    updateSlide();
+    if (type === 'header') currentIndexHeader = currentIndex;
+    else currentIndexDashboard = currentIndex;
+  });
+
+  prevButton.addEventListener('click', () => {
+    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalImages - 1;
+    updateSlide();
+    if (type === 'header') currentIndexHeader = currentIndex;
+    else currentIndexDashboard = currentIndex;
+  });
+
+  updateSlide();
+}
+
+window.removeHeaderImages = async function(type = 'header') {
+  // Get the correct slider container based on the type
+  const sliderContainerId = type === 'header' ? 'headerSliderContainer' : 'dashboardSliderContainer';
+  const sliderContainer = document.getElementById(sliderContainerId);
+
+  if (!sliderContainer) {
+    console.error(`Slider container with ID "${sliderContainerId}" not found.`);
+    return;
+  }
+
+  // Identify the currently displayed image in the slider
+  const images = sliderContainer.querySelectorAll('img');
+  const currentIndex = type === 'header' ? currentIndexHeader : currentIndexDashboard;
+  const currentImage = images[currentIndex];
+
+  if (!currentImage) {
+    console.error('No image is currently displayed.');
+    return;
+  }
+
+  // Get the image URL to be removed
+  const imageUrl = currentImage.src;
+
+  // Create and display the confirmation modal
+  const modal = document.createElement('div');
+  modal.classList.add('modal');
+  modal.style.display = 'flex';
+
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('overlay-content');
+
+  const modalText = document.createElement('p');
+  modalText.textContent = 'Are you sure you want to remove this header image?';
+  modalContent.appendChild(modalText);
+
+  const confirmButton = document.createElement('button');
+  confirmButton.textContent = 'Confirm';
+  confirmButton.id = 'confirmDeleteBtn'
+  confirmButton.onclick = async () => {
+    // Proceed with the image removal if confirmed
+    try {
+      const loginPageDocRef = doc(db, 'DynamicPages', 'LoginPage');
+      const loginPageDoc = await getDoc(loginPageDocRef); // Await the getDoc result
+
+      if (loginPageDoc.exists()) {
+        const headerImages = loginPageDoc.data().HeaderImages;
+
+        if (Array.isArray(headerImages)) {
+          // Filter out the current image
+          const updatedImages = headerImages.filter((url) => url !== imageUrl);
+
+          // Update Firestore
+          await updateDoc(loginPageDocRef, { HeaderImages: updatedImages });
+
+          console.log(`Image removed: ${imageUrl}`);
+          populateHeaderImages(); // Refresh slider after removal
+        } else {
+          console.warn('No HeaderImages array found in LoginPage document.');
+        }
+      } else {
+        console.warn('LoginPage document does not exist in DynamicPages collection.');
+      }
+    } catch (error) {
+      console.error('Error removing image:', error);
+    }
+
+    // Close the modal after the action
+    closeModal(modal);
+  };
+  modalContent.appendChild(confirmButton);
+
+  const cancelButton = document.createElement('button');
+  cancelButton.textContent = 'Cancel';
+  cancelButton.onclick = () => closeModal(modal); // Close modal if canceled
+  modalContent.appendChild(cancelButton);
+
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+
+  // Function to close the modal
+  function closeModal(modal) {
+    modal.style.display = 'none'; // Hide the modal
+    setTimeout(() => modal.remove(), 300); // Remove the modal after it's hidden (for smooth transition)
+  }
+};
+
+
+window.removeUserDashboardImage = async function() {
+  try {
+    // Create and display the confirmation modal
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.style.display = 'flex';
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('overlay-content');
+
+    const modalText = document.createElement('p');
+    modalText.textContent = 'Are you sure you want to remove this image from the dashboard?';
+    modalContent.appendChild(modalText);
+
+    const confirmButton = document.createElement('button');
+    confirmButton.textContent = 'Confirm';
+    confirmButton.id = 'confirmDeleteBtn'
+    confirmButton.onclick = async () => {
+      // Proceed with image removal if confirmed
+      const sliderContainer = document.querySelector('#userDashboardSliderContainer');
+      const images = sliderContainer.querySelectorAll('img');
+
+      // Get the currently displayed image by checking the active index
+      const currentIndex = currentIndexDashboard;
+      const currentImage = images[currentIndex];
+
+      if (!currentImage) {
+        console.error('No image is currently displayed.');
+        closeModal(modal);
+        return;
+      }
+
+      const imageUrl = currentImage.src; // Get the URL of the current image
+
+      const docRef = doc(db, "DynamicPages", "DashboardPage");
+      const docSnap = await getDoc(docRef); // Use await to properly handle the async call
+
+      if (docSnap.exists()) {
+        let bulletinImages = docSnap.data().Bulletin;
+
+        // Remove the image URL from the array
+        bulletinImages = bulletinImages.filter(url => url !== imageUrl);
+
+        // Update Firestore with the new array of images
+        await updateDoc(docRef, { Bulletin: bulletinImages }); // Await the update operation
+
+        console.log(`Image removed: ${imageUrl}`);
+
+        // Refresh the images on the page after removal
+        loadImagesFromFirestore();
+      } else {
+        console.log('Document not found!');
+      }
+
+      // Close the modal after the action
+      closeModal(modal);
+    };
+    modalContent.appendChild(confirmButton);
+
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Cancel';
+    cancelButton.onclick = () => closeModal(modal); // Close modal if canceled
+    modalContent.appendChild(cancelButton);
+
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+
+    // Function to close the modal
+    function closeModal(modal) {
+      modal.style.display = 'none'; // Hide the modal
+      setTimeout(() => modal.remove(), 300); // Remove the modal after it's hidden (for smooth transition)
+    }
+  } catch (error) {
+    console.error('Error removing image:', error);
+  }
+};
+
+
+
 // Function to remove the About Image when confirmed
 async function removeAboutImage(docRef, modal) {
   try {
-    await updateDoc(docRef, {
+    updateDoc(docRef, {
       AboutImage: ""
     });
 
