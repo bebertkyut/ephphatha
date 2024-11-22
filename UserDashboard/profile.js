@@ -31,28 +31,42 @@ document.getElementById('userRole').innerText = userRole;
 
 // Function to load user information from Firestore
 async function loadUserInfo() {
-    const username = localStorage.getItem('userName');
+    const name = localStorage.getItem('userName'); // Retrieves the Name from localStorage
 
-    if (username) {
-        const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', username));
-        const querySnapshot = await getDocs(userQuery);
+    if (name) {
+        console.log('Name from localStorage:', name); // Debug the value of name
 
-        if (!querySnapshot.empty) {
-            const userDoc = querySnapshot.docs[0];
-            const userData = userDoc.data();
+        try {
+            const userQuery = query(
+                collection(db, 'UserAccount'),
+                where('Name', '==', name) // Query using the Name field
+            );
+            const querySnapshot = await getDocs(userQuery);
 
-            // Set profile picture
-            const pictureURL = userData.PictureURL;
-            img.setAttribute('src', pictureURL || '');
+            console.log('Query result:', querySnapshot.docs); // Debug query result
 
-            // Display About, Gender, Birthday, and Role fields from Firestore
-            document.getElementById('userAbout').innerText = userData.About || "N/A";
-            document.getElementById('userGender').innerText = userData.Gender || "N/A";
-            document.getElementById('userBirthday').innerText = userData.Birthday || "N/A";
-            document.getElementById('userRole').innerText = userData.Role || "N/A";
-        } else {
-            console.error('No such document!');
+            if (!querySnapshot.empty) {
+                const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+
+                // Set profile picture
+                const pictureURL = userData.PictureURL;
+                const img = document.getElementById('photo');
+                img.setAttribute('src', pictureURL || '../img/default-user.jpg');
+
+                // Display About, Gender, Birthday, and Role fields
+                document.getElementById('userAbout').innerText = userData.About || "N/A";
+                document.getElementById('userGender').innerText = userData.Gender || "N/A";
+                document.getElementById('userBirthday').innerText = userData.Birthday || "N/A";
+                document.getElementById('userRole').innerText = userData.Role || "N/A";
+            } else {
+                console.error('No such document!'); // No document found
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error); // Log errors
         }
+    } else {
+        console.error('Name not found in localStorage!');
     }
 }
 
@@ -89,10 +103,14 @@ document.getElementById('editButton').addEventListener('click', () => {
 
     const birthdayString = document.getElementById('userBirthday').innerText;
 
-    const [month, day, year] = birthdayString.split('/');
-    const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-
-    document.getElementById('editBirthday').value = formattedDate;
+    if (birthdayString && birthdayString.includes('/')) {
+        const [month, day, year] = birthdayString.split('/');
+        const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        document.getElementById('editBirthday').value = formattedDate;
+    } else {
+        console.warn("Invalid birthday format or empty value");
+        document.getElementById('editBirthday').value = ''; // Clear input if invalid
+    }
 });
 
 // Password strength check function
@@ -155,8 +173,8 @@ document.getElementById('saveButton').addEventListener('click', async () => {
         }
     }
 
-    const username = localStorage.getItem('userName');
-    const userQuery = query(collection(db, 'UserAccount'), where('Username', '==', username));
+    const name = localStorage.getItem('userName'); // Get Name from localStorage
+    const userQuery = query(collection(db, 'UserAccount'), where('Name', '==', name)); // Query by Name
     const querySnapshot = await getDocs(userQuery);
 
     if (!querySnapshot.empty) {
@@ -182,7 +200,7 @@ document.getElementById('saveButton').addEventListener('click', async () => {
             document.getElementById('userGender').innerText = updatedGender;
             document.getElementById('userBirthday').innerText = formattedBirthday;
 
-            closeModal();
+            closeModal(); // Assuming closeModal() closes the modal
         } catch (error) {
             console.error("Error updating Firestore:", error);
             alert("Failed to save changes. Please try again.");
@@ -192,6 +210,7 @@ document.getElementById('saveButton').addEventListener('click', async () => {
         alert("User not found.");
     }
 });
+
 
 // Event listener for file input change to update profile picture
 fileInput.addEventListener('change', async function () {
