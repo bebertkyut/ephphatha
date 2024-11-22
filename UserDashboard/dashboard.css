@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 
 * {
     padding: 0;
@@ -9,35 +10,25 @@
 
 body {
     margin: 0; 
+    background-color: #ffffff;
 }
 
+/* Start of Dashboard Page */
 .container {
-    width: 100%;
-    height: 100vh;
-    background-image: url("../Assets/Background.png"); 
-    color: #fff;
-    position: relative;
-}
-
-.gray-container {
-    background-color: #F6F6F6; 
-    border-radius: 5px;
-    text-align: center; 
-    width: 100%; 
-    max-width: none; 
-    height: 400px; 
-    margin: 0;
+    width: 100%;      
+    height: 100%;      
+    color: #fff;      
     position: relative; 
-    z-index: 1; 
 }
-
 .container .sidenav {
     width: 80px;
     height: 100vh;
     overflow: hidden;
     position: fixed;
     padding: 32px 16px;
-    background-color: #000;
+    border-radius: 10px;
+    border: 2px solid #000;
+    background-color: #388087;
     transition: width 0.6s;
     z-index: 15; 
 }
@@ -63,6 +54,7 @@ label .close-btn {
     margin-top: 32px;
     padding: 0;
 }
+
 
 .sidenav .icon_items ul li {
     cursor: pointer;
@@ -100,7 +92,7 @@ label .close-btn {
 }
 
 .sidenav .icon_items ul li:hover {
-    background: #af1111; 
+    background: #680d0d; 
 }
 
 #click {
@@ -150,33 +142,35 @@ label .close-btn {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #fff6ef;
     height: 100vh;
-    padding-top: 20px;
     margin-left: 80px; 
+    
 }
 
+
+
+
 .slider {
-    width: 100vw; 
+    width: 100%;
     height: 800px;
     position: relative;
     overflow: hidden;
-    z-index: 10; 
-    border: 2px solid #fff; 
-
+    border: 2px solid #000000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Adds shadow effect */
 }
 
 .slider .list {
     position: absolute;
-    width: 300%; 
     height: 100%;
     left: 0;
     top: 0;
     display: flex;
-    transition: 2s;
+    transition: transform 2s ease-in-out; /* Smooth transition */
 }
 
 .slider .list .item {
-    width: 100%; 
+    flex: 0 0 100%; /* Each item takes full width */
 }
 
 .slider .list img {
@@ -219,94 +213,349 @@ label .close-btn {
 
 .play-pause-btn {
     position: absolute;
-    bottom: 9px; 
-    left: calc(54%);
-    transform: translate(-50%, 0); 
-    background-color: transparent;
+    top: 10px; /* Align to the top */
+    right: 10px; /* Align to the right */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for better visibility */
     color: #fff; 
     border: none;
+    border-radius: 50%; /* Circular button */
     cursor: pointer;
     z-index: 20; 
-    font-size: 30px; 
+    font-size: 20px; /* Adjust size as needed */
+    width: 40px; /* Fixed size for the circular button */
+    height: 40px; 
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: background-color 0.3s ease;
 }
 
-.album-section {
-    padding: 20px;
-    background-color: #000000c8;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.665); 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+.play-pause-btn:hover {
+    background-color: rgba(255, 255, 255, 0.7); /* Lighter background on hover */
+    color: #000; /* Change text color for better contrast */
 }
+
+/* Start of Translator Page */
+
+/* Wrapper for input and buttons */
+.input-with-button {
+    display: flex; /* Arrange input and buttons in a row */
+    justify-content: flex-start; /* Align items to the start */
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Add space between the input and buttons */
+    margin: 10px 0; /* Optional: Add margin to the wrapper */
+    margin-top: -30px; /* Slightly raise the buttons */
+}
+
+
+/* Input field styles */
+.inputs {
+    padding: 0 12px; /* Inner padding for the input */
+    border: 1px solid #007bff; /* Blue border */
+    border-radius: 8px; /* Rounded corners */
+    font-size: 16px; /* Font size for consistency */
+    height: 45px; /* Fixed height to match buttons */
+    line-height: 45px; /* Center text vertically inside */
+    box-sizing: border-box; /* Include border/padding in dimensions */
+    outline: none; /* Remove default outline */
+    flex-grow: 1; /* Allow input to stretch in the container */
+}
+
+/* Button styles */
+.box-play-btn {
+    display: flex; /* Flexbox for centering icon */
+    justify-content: center; /* Center icon horizontally */
+    align-items: center; /* Center icon vertically */
+    background-color: #4ca2cd; /* Light background */
+    border: 2px solid #130a0a; /* Blue border */
+    color: #130a0a; /* Blue text */
+    border-radius: 8px; /* Rounded corners */
+    height: 45px; /* Match input height */
+    width: 120px; /* Square buttons for alignment */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size for icons */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-sizing: border-box; /* Include padding/border in dimensions */
+    margin-top: -17px; /* Slightly raise the buttons */
+}
+
+/* Optional: Reset margins and paddings for icons inside buttons */
+.box-play-btn i {
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    font-size: 25px; /* Adjust icon size here */
+}
+
+/* Hover effect for buttons */
+.box-play-btn:hover {
+    background-color: #0056b3; /* Slightly lighter background */
+    border-color: #0056b3; /* Darker blue border */
+    transform: scale(1.05); /* Slight zoom */
+}
+
+/* Button active state */
+.box-play-btn:active {
+    background-color: #0056b3; /* Slightly darker background */
+    border-color: #003f7f; /* Darker blue */
+    transform: scale(0.95); /* Slight shrink */
+}
+
+/* Focus effect for the input */
+.inputs:focus {
+    border-color: #0056b3; /* Darker blue */
+    outline: none;
+}
+
+
+/* Right panel styling */
+.right-panel {
+    width: 100%; /* Full width on all screens */
+    max-width: 1000px; /* Max width for larger screens */
+    height: auto; /* Auto height for flexibility */
+    padding: 30px;
+    height: 120%;
+    border: 1px solid #9eceb1;
+    border-radius: 12px;
+    background-color: #388087; /* Light gray background */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for a floating effect */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Added for positioning children inside */
+}
+
+/* Video Image (same size as the video player) */
+#initialImage {
+    width: 100%; /* Fill the width of the parent */
+    max-width: 900px; /* Limit the maximum width */
+    height: 500px;
+    object-fit: cover; /* Ensure the image covers the container without distortion */
+    border-radius: 10px; /* Rounded corners for the image */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+/* If using a <video> element instead of an image */
+video {
+    width: 100%;
+    max-width: 900px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Video Title Styling below the video player/image */
+#videoTitleContainer {
+    font-size: 24px;
+    color: black; /* Changed text color to black */
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px; /* Space above title */
+    margin-bottom: 20px; /* Space between title and other content */
+}
+
+
+/* Playback buttons outside the right panel */
+#playbackButtons {
+    display: block; /* Always keep the buttons visible */
+    display: flex;
+    justify-content: center;
+    position: fixed;  /* Fixed position, always visible on the screen */
+    bottom: 50px;     /* Distance from the bottom of the screen */
+    left: 50%;        /* Center the buttons horizontally */
+    transform: translateX(-50%); /* Align perfectly center */
+    z-index: 1000;    /* Ensure it's above other elements */
+}
+
+/* Styling for buttons */
+#playbackButtons button {
+    background-color: #4ca2cd;
+    color: white;
+    border: 2px solid #130a0a; /* Add solid border style */
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 18px;
+    margin: 0 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Button Hover Effect */
+#playbackButtons button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Highlighted button (active state) */
+#playbackButtons button.highlighted {
+    background-color: #0056b3;
+    border: 2px solid #003f7f;
+}
+
+
+/* Adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+    .right-panel {
+        padding: 15px;
+        width: 100%;
+    }
+
+    .box-play-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 26px;
+    }
+
+    .inputs {
+        width: 100%; /* Ensure full width of the input field */
+        margin-bottom: 10px;
+    }
+
+    #playbackButtons button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+/* Left Panel styling */
+.left-panel input {
+    padding: 12px;
+    border: 2px solid #130a0a;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 20px;
+    background-color: #cecece;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+/* Focused input field in left panel */
+.left-panel input:focus {
+    border-color: #0056b3;
+}
+
+/* Enhanced input field style */
+.inputs {
+    width: 100%;
+    text-align: center;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    padding: 12px;
+    box-sizing: border-box;
+    background-color: #e9ecef;
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.inputs:focus {
+    border-color: #0056b3;
+}
+
+#videoTitle {
+    color: white; /* Set the color of all text in the container */
+    font-size: 24px;
+}
+
+#videoTitle span {
+    color: red; /* Set the color of text inside span elements to red */
+}
+
+.right-subtitle, #videoTitle {
+    color: white !important; /* Ensures the text color is black and overrides other styles */
+}
+
+/* Start of Content Page */
+/* Album Section Styling */
+
+
 
 .album-section h2 {
-    margin-bottom: 20px;
-    font-size: 1.8rem;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    font-weight: bold;
     text-align: center;
+    color: #333;
 }
 
 .album-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    grid-template-rows: repeat(2, auto);   
-    gap: 20px;
-    width: 100%; 
-    height: 763px;
-    overflow-y: auto; 
-    overflow-x: hidden; 
-    padding: 10px;
-    border: 1px solid #ddd; 
-    border-radius: 8px; 
+    grid-template-columns: repeat(3, 1fr); /* Creates 3 columns with more room per card */
+    gap: 20px; /* Adds more spacing between items */
+    justify-items: center;
+    align-items: center;
+    
 }
-
 .album {
-    width: 320px; 
-    height: 320px; 
-    margin: 20px;
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #fff;
+    border-color: #badfe7 !important; /* Updated border color with !important */
+    border: 2px solid;
+    border-radius: 12px; /* Slightly rounded corners for modern look */
+    width: 500px; /* Longer width */
+    height: 200px; /* Balanced height */
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
+
 .album img {
-    width: 100%; 
-    height: 100%;
-    border-radius: 10px;
-    border: 2px solid #F6F6F6;
-    object-fit: cover; 
+    width: 120px; /* Larger image size */
+    height: 120px; /* Maintain square dimensions */
+    margin-bottom: 15px;
 }
 
 .album p {
-    margin-top: 5px; 
-    padding: 0;
-    color: #ffffff;
-    font-size: 1.2em;
-    line-height: 1.2;
+    font-size: 20px; /* Larger font for better readability */
+    font-weight: 600; /* Slightly bold for emphasis */
+    color: #555;
+    text-align: center;
+    margin-top: auto; /* Keeps text at the bottom of the card */
 }
 
+.album:hover {
+    transform: translateY(-8px); /* Subtle lift effect */
+    box-shadow: 0 12px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .album-container {
+        grid-template-columns: repeat(2, 1fr); /* Switch to 2 columns on medium screens */
+        gap: 20px;
+    }
+}
 
 @media (max-width: 768px) {
     .album-container {
-        justify-content: center;
+        grid-template-columns: 1fr; /* Single column on smaller screens */
     }
+
     .album {
-        margin: 5px;
+        width: 100%; /* Full width for mobile */
+        height: auto; /* Adjust height automatically */
     }
 }
 
 
-  a {
+
+/* Reset link styles */
+a {
     text-decoration: none;
 }
 
-
+/* Album link hover effect */
 .album-link {
     position: relative;
-    display: inline-block; 
-    transition: transform 0.3s ease-in-out; 
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
 }
 
 .album-link::after {
@@ -314,209 +563,126 @@ label .close-btn {
     position: absolute;
     width: 0;
     height: 2px;
-    background-color: blue;
+    background-color: #007bff;
     left: 0;
     bottom: -5px;
-    transition: width 0.3s ease-in-out; 
+    transition: width 0.3s ease-in-out;
 }
-
 
 .album-link:hover::after {
     width: 100%;
+    background-color: #ff5733; /* Changed to a warm red */
 }
-
-
-.album-link:hover::after {
-    background-color: red;
-}
-
 
 .album-link:hover {
-    transform: scale(1.1); 
+    transform: scale(1.05); /* Slightly smaller scale for a more subtle effect */
 }
+
+/* Close button styling */
+.close-button {
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;  /* Absolute positioning for top-right placement */
+    right: 20px;         /* Right-aligned */
+    top: 20px;           /* Top-aligned */
+    color: #ffffff;      /* White color for better contrast */
+    background-color: #4ca2cd; /* Blue background for visibility */
+    padding: 10px;       /* Some padding for a larger clickable area */
+    border-radius: 10px;  /* Make the button circular */
+    transition: color 0.3s, background-color 0.3s; /* Smooth transition for color change */
+    z-index: 1100;       /* Ensure it's above the overlay content */
+}
+
+.close-button:hover {
+    color: #ffffff;          /* Keep the text white on hover */
+    background-color: #ff5733; /* Change background to a warm red on hover */
+}
+
+
+/* Overlay styling */
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.9); 
+    background-color: rgba(0, 0, 0, 0.5); /* Darker overlay */
     z-index: 1000;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: center; /* Vertically center the content */
+    justify-content: center; /* Horizontally center the content */
 }
 
+/* Overlay content box */
 .overlay-content {
-    width: 1400px; /* Adjust the width */
-    height: 800px; /* Adjust the height */
+    position: absolute; /* Ensure it's positioned correctly */
+    top: 50%; /* Move to the vertical center */
+    left: 50%; /* Move to the horizontal center */
+    transform: translate(-50%, -50%); /* Offset by 50% of its own height and width */
+    width: 80%;
+    max-width: 1400px;
+    height: 70%;
+    background-color: #388087;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
     text-align: center;
-    padding: 20px;
-    border: 2px solid #8f8f8f;
-    border-radius: 10px;
-    background-color: white;
-    margin-top: 10vh;
-    margin-left: 28vh;
+    overflow-y: auto; /* Ensures the content is scrollable if it exceeds the box height */
 }
 
-.close-button {
-    font-size: 20px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    right: 280px;  /* Distance from the right */
-    top: 120px;     /* Distance from the top */
-}
-
+/* List styling inside overlay */
 #overlay .overlay-content ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     text-align: left;
-    margin-top: 10vh;
+    margin-top: 20px;
 }
 
 #overlay .overlay-content ul li {
-    padding: 10px;
-    margin: 5px 0;
+    padding: 15px;
+    margin: 8px 0;
     cursor: pointer;
-    background-color: #f9f9f9;
+    background-color: #fff6ef;
     border: 1px solid #ddd;
+    border-radius: 6px;
     transition: background-color 0.3s;
 }
 
 #overlay .overlay-content ul li:hover {
-    background-color: #e0e0e0;
+    background-color: #f2f2f2; /* Slightly lighter gray */
 }
 
+/* Title and button styling */
 .overlay-content h2 {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
 }
 
 .overlay-content button {
-    padding: 10px 20px;
+    padding: 12px 30px;
     cursor: pointer;
     border: none;
-    background-color: #007bff;
+    background-color: #4ca2cd;
     color: white;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
 
 .overlay-content button:hover {
-    background-color: #0056b3;
+    background-color: #4ca2cd;
 }
 
-
-.rectangle-box {
-    width: 80%; 
-    height: 450px; 
-    background-color: #cecece; 
-    margin: 0 auto; 
-    position: absolute; 
-    top: 150px; 
-    left: 50%;
-    transform: translateX(-50%); 
-    border: 1px solid #ccc; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-}
-
-.rectangle-box p {
-    font-size: 16px;
-    color: #333; 
-    text-align: center; 
-}
-.image-container {
-    display: flex;
-    justify-content: center; 
-    gap: 10px;
-    margin-top: 20px; 
-}
-
-.image {
-    max-width: 100px; 
-    max-height: 100px; 
-}
-.image-container {
-    display: flex;
-    justify-content: center; 
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.image {
-    max-width: 100px; 
-    max-height: 100px; 
-}
-
-h1 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: xx-large;
-    color: white;
-}
-
-h2 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 600;
-    font-size: small;
-    color: white;
-}
-
-
-.left-panel {
-    position: absolute;
-    max-width: 100px; 
-    top: 110px; 
-    text-align: center;
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
-}
-
-
-.right-panel {
-    width: 700px; /* Adjust width as needed */
-    padding: 20px;
-    border: 1px solid #888;
-    border-radius: 8px;
-    background-color: #cecece;
-    position: relative; /* Ensure it's positioned centrally */
-}
-
-.left-panel input {
-    padding: 10px;
-    border: 1px solid #000000;
-    border-radius: 5px;
-    width: 700px; 
-}
-
-.inputs {
-    width: 100%; 
-    text-align: center;
-    border: 2px solid #000000;
-    border-radius: 8px;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: #b4b4b4;
-    color: #000000;
-    margin-bottom: 20px;
-}
-.images-container {
-    display: flex; 
-    justify-content: center; 
-    margin-top: 20px; 
-}
-
+/* Scrollable list container */
 .scrollable-list {
     width: 90%;
     flex-grow: 1;
     overflow-y: scroll;
-    border: 2px solid #888;
+    border: 2px solid #ccc;
     border-radius: 8px;
     margin-bottom: 20px;
 }
@@ -525,107 +691,324 @@ h2 {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    width: 100%;
-    color: white;
+    color: #333;
 }
 
 .scrollable-list li {
-    padding: 10px;
-    border-bottom: 1px solid #888;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    background-color: black;
+    border-radius: 6px;
+    transition: background-color 0.3s;
 }
 
-.bottom-controls {
-    display: flex; 
-    justify-content: center; 
-    margin-top: 50px;
-    position: relative; 
+.scrollable-list li:hover {
+    background-color: #f2f2f2;
 }
 
-.left-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48%;
-    margin-right: 2%;
-    gap: 95px;
-    position: relative; 
-    padding-top: 50px; 
-}
-
-.right-controls {
-    display: flex; 
-    justify-content: center;
-    align-items: center; 
-    max-width: 100%; 
-    height: auto; 
-    margin: 0;
-    position: absolute; 
-    top: -40px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    padding-top: 20px; 
-}
-
-
-
-.left-controls {
-    margin-right: 10px;
-}
-
-.right-controls {
-    margin-left: 10px;
-}
-.btn {
-    background-color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0 10px;
-        outline: none;
-}
-
-.mic-btn {
-    color: red;
-}
-
-.play-btn {
-    color: red;
-}
-
-.right-subtitle {
-    text-align: center;
-    font-size: 1.5em;
+/* Headings */
+h1 {
+    font-family: 'Arial', Helvetica, sans-serif;
     font-weight: bold;
-    margin-top: 10px;
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-#playbackButtons {
-    display: none;
-    text-align: center;
-    margin-top: 10px;
+h2 {
+    font-family: 'Arial', Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #777;
 }
 
-#playbackButtons button {
-    margin: 0 5px;
-    padding: 10px 20px;
+/*profile*/
+/* General Styles */
+
+/* Adjusted Profile Container */
+.profile-container {
+    width: 100%;
+    max-width: 900px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    position: sticky; /* Sticks it while scrolling */
+    top: 0;
+    z-index: 1000; /* Keeps it above other elements */
+    position: relative; /* For child positioning */
+}
+
+
+/* Divider Section (Edit Button and Title) */
+.divider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.edit-btn {
+    padding: 12px 20px;
+    background-color: #4ca2cd;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     font-size: 16px;
-    border-radius: 8px;
-    background-color: white; 
-    color: red;  
+    transition: background-color 0.3s ease;
+    position: absolute; /* Position it absolutely */
+    top: 20px; /* Distance from the top of the container */
+    right: 20px; /* Distance from the right of the container */
+}
+
+
+.edit-btn:hover {
+    background-color: #338db5;
+}
+
+/* Info Container Below Profile */
+.info-container {
+    margin-top: 250px; /* Ensure it starts below the profile image */
+    padding: 0 20px; /* Simple horizontal padding */
+    display: flex;
+    flex-direction: column; /* Stack sections vertically */
+    align-items: center; /* Center horizontally */
+    width: 100%;
+}
+
+/* Info Item Styling */
+.info-item {
+    margin-bottom: 10px; /* Space between each info item */
+    display: flex; /* Keep label and content in one line */
+    align-items: center; /* Vertically align items */
+    width: 100%; /* Ensure all info items take up the same width */
+    max-width: 600px; /* Max width for large screens */
+    padding: 10px; /* Padding inside each info item */
+    background-color: #f9f9f9; /* Light background */
+    border-radius: 8px; /* Rounded corners */
+}
+
+/* Styling for each label (h2) */
+.profile-h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-right: 10px; /* Space between the label and content */
+    margin-bottom: 0; /* Remove margin between h2 and h3 */
+}
+
+/* Styling for the content (span inside h3) */
+.h3 {
+    font-size: 16px;
+    color: #777;
+    margin-top: 0; /* Remove space between h3 and profile-h2 */
+}
+
+/* Optional: Hover effect */
+.info-item:hover {
+    background-color: #eaf4f4; /* Light blue background on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+
+
+/* Adjust Profile Image Section */
+/* Center Profile Image Section */
+/* Center Profile Image Section at the top */
+.user-img-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    position: absolute; /* Position it at the top of the container */
+    top: 60px; /* Distance from the top of the container */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact horizontal center */
+    margin-bottom: 30px; /* Optional spacing below the profile image */
+}
+
+/* Profile Image Styling */
+/* Profile Image Styling */
+.user-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #4ca2cd, #67b26f);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Center Profile Image Section */
+.user-img-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    position: absolute; /* Position it at the top of the container */
+    top: 60px; /* Distance from the top of the container */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for exact horizontal center */
+    margin-bottom: 30px; /* Optional spacing below the profile image */
+}
+
+/* User Info Styling */
+.user-info {
+    text-align: center;
+    position: relative; /* Allow absolute positioning of child elements */
+}
+
+/* Position h1 at the top of the container */
+.user-info h1 {
+    font-size: 24px;
+    color: #333;
+    position: absolute; /* Positioning it relative to the .user-info container */
+    bottom: 200px; /* Space from h1 */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for perfect centering */
+    margin: 0; /* Remove any default margin */
+}
+
+/* Position h2 under h1 */
+.user-info h2 {
+    font-size: 18px;
+    color: #777;
+    position: absolute; /* Positioning it relative to the .user-info container */
+    bottom: 170px; /* Space from h1 */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for perfect centering */
+    margin: 0; /* Remove any default margin */
+}
+
+
+.input {
+    display: none;
+}
+
+#upload_btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+#upload_btn:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+#upload_btn i {
+    color: #333;
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Initially hide the modal */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    width: 450px;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute; /* Use absolute positioning */
+    top: 50%; /* Position from the top 50% */
+    left: 50%; /* Position from the left 50% */
+    transform: translate(-50%, -50%); /* Shift it back by half its width and height */
+}
+
+
+
+.close-btn {
+    font-size: 30px;
+    color: #333;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
 }
 
-#playbackButtons button:hover {
-    background-color: lightgray; 
+.close-btn:hover {
+    color: #ff3b3f;
 }
 
-#playbackButtons button.highlighted {
-    background-color: red;  
-    color: white;  
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #4ca2cd;
+    outline: none;
+}
+
+button#saveButton {
+    width: 100%;
+    padding: 12px;
+    background-color: #4ca2cd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button#saveButton:hover {
+    background-color: #4ca2cd;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 20px;
+    }
+
+    .user-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
 }

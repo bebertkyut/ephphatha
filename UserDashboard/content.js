@@ -422,168 +422,6 @@ async function fetchColor() {
     }
 }
 
-// Displays the list of field names from the fetched data in an overlay
-function displayColorList(data) {
-    const overlayContent = document.getElementById('selected-category');
-    overlayContent.innerHTML = '';  
-
-    const listElement = document.createElement('ul');
-
-    // Sort the keys alphabetically
-    const sortedKeys = Object.keys(data).sort();
-
-    // Iterate over the sorted keys and display them in a list
-    sortedKeys.forEach(key => {
-        const listItem = document.createElement('li');
-        listItem.textContent = key; 
-        listItem.style.marginBottom = "10px"; 
-
-        listItem.dataset.videoUrl = data[key];
-
-        listItem.onclick = () => displayVideo(data[key]);
-
-        listElement.appendChild(listItem);
-    });
-
-    overlayContent.appendChild(listElement);
-    document.getElementById('overlay').style.display = 'block'; 
-}
-
-// Fetch the 'Fruit and Vegetable' document from Firestore
-async function fetchFruitAndVegetable() {
-    const fruitAndVegetableRef = doc(db, 'SignAsset', 'Fruit and Vegetable');
-    
-    try {
-        const docSnap = await getDoc(fruitAndVegetableRef);
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            displayFruitAndVegetableList(data);
-        } else {
-            console.log("No such document, check the document path in Firestore.");
-        }
-    } catch (error) {
-        console.error("Error fetching document:", error);
-        alert("Error fetching data. Check console for details.");
-    }
-}
-
-// Displays the list of field names from the fetched data in an overlay
-function displayFruitAndVegetableList(data) {
-    const overlayContent = document.getElementById('selected-category');
-    overlayContent.innerHTML = '';  
-
-    const listElement = document.createElement('ul');
-
-    // Sort the keys alphabetically
-    const sortedKeys = Object.keys(data).sort();
-
-    // Iterate over the sorted keys and display them in a list
-    sortedKeys.forEach(key => {
-        const listItem = document.createElement('li');
-        listItem.textContent = key; 
-        listItem.style.marginBottom = "10px"; 
-
-        listItem.dataset.videoUrl = data[key];
-
-        listItem.onclick = () => displayVideo(data[key]);
-
-        listElement.appendChild(listItem);
-    });
-
-    overlayContent.appendChild(listElement);
-    document.getElementById('overlay').style.display = 'block'; 
-}
-
-// Fetch the 'Medical' document from Firestore
-async function fetchMedical() {
-    const medicalRef = doc(db, 'SignAsset', 'Medical');
-    
-    try {
-        const docSnap = await getDoc(medicalRef);
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            displayMedicalList(data);
-        } else {
-            console.log("No such document, check the document path in Firestore.");
-        }
-    } catch (error) {
-        console.error("Error fetching document:", error);
-        alert("Error fetching data. Check console for details.");
-    }
-}
-
-// Displays the list of field names from the fetched data in an overlay
-function displayMedicalList(data) {
-    const overlayContent = document.getElementById('selected-category');
-    overlayContent.innerHTML = '';  
-
-    const listElement = document.createElement('ul');
-
-    // Sort the keys alphabetically
-    const sortedKeys = Object.keys(data).sort();
-
-    // Iterate over the sorted keys and display them in a list
-    sortedKeys.forEach(key => {
-        const listItem = document.createElement('li');
-        listItem.textContent = key; 
-        listItem.style.marginBottom = "10px"; 
-
-        listItem.dataset.videoUrl = data[key];
-
-        listItem.onclick = () => displayVideo(data[key]);
-
-        listElement.appendChild(listItem);
-    });
-
-    overlayContent.appendChild(listElement);
-    document.getElementById('overlay').style.display = 'block'; 
-}
-
-// Fetch the 'Religion' document from Firestore
-async function fetchReligion() {
-    const religionRef = doc(db, 'SignAsset', 'Religion');
-    
-    try {
-        const docSnap = await getDoc(religionRef);
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            displayReligionList(data);
-        } else {
-            console.log("No such document, check the document path in Firestore.");
-        }
-    } catch (error) {
-        console.error("Error fetching document:", error);
-        alert("Error fetching data. Check console for details.");
-    }
-}
-
-// Displays the list of field names from the fetched data in an overlay
-function displayReligionList(data) {
-    const overlayContent = document.getElementById('selected-category');
-    overlayContent.innerHTML = '';  
-
-    const listElement = document.createElement('ul');
-
-    // Sort the keys alphabetically
-    const sortedKeys = Object.keys(data).sort();
-
-    // Iterate over the sorted keys and display them in a list
-    sortedKeys.forEach(key => {
-        const listItem = document.createElement('li');
-        listItem.textContent = key; 
-        listItem.style.marginBottom = "10px"; 
-
-        listItem.dataset.videoUrl = data[key];
-
-        listItem.onclick = () => displayVideo(data[key]);
-
-        listElement.appendChild(listItem);
-    });
-
-    overlayContent.appendChild(listElement);
-    document.getElementById('overlay').style.display = 'block'; 
-}
-
 // Displays the video in a full-screen overlay
 function displayVideo(videoUrl) {
     // Create the video container if it doesn't already exist
@@ -594,29 +432,46 @@ function displayVideo(videoUrl) {
         videoContainer.style.position = 'fixed';
         videoContainer.style.top = '0';
         videoContainer.style.left = '0';
-        videoContainer.style.width = '100%';
-        videoContainer.style.height = '100%';
-        videoContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'; 
-        videoContainer.style.zIndex = '9999'; 
+        videoContainer.style.width = '100%';  // Full width like the overlay
+        videoContainer.style.height = '100%'; // Full height like the overlay
+        videoContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.8)'; // Slightly darker overlay for video container
+        videoContainer.style.zIndex = '9999'; // Higher z-index than overlay
         videoContainer.style.display = 'flex';
-        videoContainer.style.justifyContent = 'center';
-        videoContainer.style.alignItems = 'center';
-        videoContainer.style.flexDirection = 'column';
-        videoContainer.style.padding = '20px';
-        videoContainer.style.boxSizing = 'border-box';
-        document.body.appendChild(videoContainer); 
+        videoContainer.style.justifyContent = 'center'; // Center content horizontally
+        videoContainer.style.alignItems = 'center'; // Center content vertically
+        videoContainer.style.flexDirection = 'column'; // Optional, depending on content structure
+        videoContainer.style.padding = '20px'; // Space around the content
+        videoContainer.style.boxSizing = 'border-box'; // Includes padding in the box size
+        document.body.appendChild(videoContainer);
     }
 
-    videoContainer.innerHTML = ''; 
+    videoContainer.innerHTML = ''; // Clear any previous content
 
     // Create video element and set its properties
     const videoElement = document.createElement('video');
-    videoElement.src = videoUrl;  
-    videoElement.controls = true;  
-    videoElement.style.maxWidth = '80%';  
-    videoElement.style.maxHeight = '80%';  
+    videoElement.src = videoUrl;
+    videoElement.controls = true;
+    videoElement.style.maxWidth = '80%'; // Adjust the video width as needed (this is the video size relative to the container)
+    videoElement.style.maxHeight = '80%'; // Adjust the video height as needed (this is the video size relative to the container)
 
-    videoContainer.appendChild(videoElement);
+    // Create overlay content and add the video element to it
+    const overlayContent = document.createElement('div');
+    overlayContent.style.position = 'relative'; // So that the close button can be positioned inside it
+    overlayContent.style.backgroundColor = 'white';
+    
+    // **Adjust box size of the container here**
+    overlayContent.style.width = '60%';  // Adjust the width of the container as needed
+    overlayContent.style.height = '70%'; // Adjust the height of the container as needed
+    overlayContent.style.padding = '20px'; // Adjust padding (space around the content)
+    overlayContent.style.borderRadius = '10px'; // Adjust the border radius for rounded corners
+    overlayContent.style.boxShadow = '0px 4px 10px rgba(0, 0, 0, 0.2)'; // Adjust shadow for visual effect
+    overlayContent.style.display = 'flex';
+    overlayContent.style.flexDirection = 'column';
+    overlayContent.style.justifyContent = 'center';
+    overlayContent.style.alignItems = 'center';
+
+    overlayContent.appendChild(videoElement);
+    videoContainer.appendChild(overlayContent);
 
     // Create a close button for the video overlay
     const closeButton = document.createElement('button');
@@ -625,18 +480,28 @@ function displayVideo(videoUrl) {
     closeButton.style.padding = '10px 20px';
     closeButton.style.fontSize = '16px';
     closeButton.style.cursor = 'pointer';
-    closeButton.style.backgroundColor = '#fff';
+    closeButton.style.backgroundColor = '#ff4d4f';
     closeButton.style.border = 'none';
     closeButton.style.borderRadius = '5px';
-    closeButton.style.color = '#000';
+    closeButton.style.color = 'White';
 
     closeButton.onclick = () => videoContainer.style.display = 'none';
 
     videoContainer.appendChild(closeButton);
-    videoContainer.style.display = 'flex'; 
+    videoContainer.style.display = 'flex'; // Show the video container
 }
+
 
 // Close the overlay
 window.closeOverlay = function() {
     document.getElementById('overlay').style.display = 'none';
+}
+// Show overlay
+function showOverlay() {
+    document.getElementById("overlay").classList.add("show");
+}
+
+// Close overlay
+function closeOverlay() {
+    document.getElementById("overlay").classList.remove("show");
 }

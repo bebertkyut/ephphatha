@@ -694,6 +694,7 @@ async function populateHeaderImages() {
           imgElement.alt = 'Header Image';
           imgElement.classList.add('header-image'); // Add header-image class
           headerImagesContainer.appendChild(imgElement);
+
         });
 
         // Initialize carousel functionality for header images
@@ -708,6 +709,7 @@ async function populateHeaderImages() {
     console.error('Error fetching HeaderImages:', error);
   }
 }
+
 
 // Function to load dashboard images with the 'dashboard-image' class
 async function loadImagesFromFirestore() {
@@ -727,6 +729,8 @@ async function loadImagesFromFirestore() {
         img.alt = "Bulletin Image";
         img.classList.add('dashboard-image'); // Add dashboard-image class
         sliderContainer.appendChild(img);
+
+       
       });
 
       // Initialize carousel functionality for dashboard images
