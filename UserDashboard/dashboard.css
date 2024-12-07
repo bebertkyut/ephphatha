@@ -462,7 +462,7 @@ video {
 }
 
 #videoTitle span {
-    color: red; /* Set the color of text inside span elements to red */
+    color: white; /* Set the color of text inside span elements to red */
 }
 
 .right-subtitle, #videoTitle {

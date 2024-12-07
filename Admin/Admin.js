@@ -962,7 +962,7 @@ document.getElementById('submitModuleButton').addEventListener('click', async fu
   const birthday = "Select Birthday";
 
   // Default profile picture URL from Firebase Storage. Do not touch.
-  const pictureURL = "https://firebasestorage.googleapis.com/v0/b/ephphathadb.appspot.com/o/profile_pictures%2Fdefault-user.png?alt=media";
+  const pictureURL = "https://firebasestorage.googleapis.com/v0/b/ephphathadb.appspot.com/o/profile_pictures%2Fdefault-user.png?alt=media&token=0855f608-d85e-4969-8911-b6f9c41e8723";
 
   try {
     // Add the document to Firestore
