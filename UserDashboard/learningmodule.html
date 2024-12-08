@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Module</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar Container (if needed) -->
+    <div id="sidebar-container">
+        <!-- Add sidebar content here -->
+    </div>
+
+    <div class="content">
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-button active" data-target="beginner-module">Beginner</button>
+            <button class="tab-button" data-target="learner-module">Learner</button>
+            <button class="tab-button" data-target="ready-module">Ready</button>
+        </div>
+
+        <!-- Beginner Section -->
+        <section class="module-section" id="beginner-module">
+            <h2>Beginner</h2>
+            <p>Learn the basics of communication with the ABC alphabet and numbers (1-2-3). This section introduces you to important topics like characters, colors, dates, and body parts to build your foundational vocabulary.</p>
+            <div class="cards">
+                <div class="card unlocked" onclick="redirectTo('Single Character')">
+                    <p>Single Character</p>
+                </div>
+                <div class="card unlocked" onclick="redirectTo('Color')">
+                    <p>Color</p>
+                </div>
+                <div class="card unlocked" onclick="redirectTo('Date')">
+                    <p>Date</p>
+                </div>
+                <div class="card unlocked" onclick="redirectTo('Body Part')">
+                    <p>Body Part</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learner Section -->
+        <section class="module-section" id="learner-module">
+            <h2>Learner</h2>
+            <p>Start using essential words to express yourself! In this section, you'll explore key vocabulary related to home, animals, family, and emotions to help you communicate more effectively in everyday situations.</p>
+            <div class="cards">
+                <div class="card unlocked" onclick="redirectTo('Home')">
+                    <p>Home</p>
+                </div>
+                <div class="card unlocked" onclick="redirectTo('Animal')">
+                    <p>Animal</p>
+                </div>
+                <div class="card unlocked" onclick="redirectTo('Family')">
+                    <p>Family</p>
+                </div>
+                <div class="card unlocked" onclick="redirectTo('Emotion')">
+                    <p>Emotion</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ready Section -->
+        <section class="module-section" id="ready-module">
+            <h2>Ready</h2>
+            <p>Enhance your vocabulary for simple conversations! This section covers food, fruits, medical terms, and religious words, allowing you to engage in more meaningful and practical dialogues with others.</p>
+            <div class="cards">
+                <div class="card unlocked" onclick="redirectTo('Food and Drink')">
+                    <p>Food and Drink</p>
+                </div>
+                <div class="card unlocked" onclick="redirectTo('Fruit and Vegetable')">
+                    <p>Fruit and Vegetable</p>
+                </div>
+                <div class="card unlocked" onclick="redirectTo('Medical')">
+                    <p>Medical</p>
+                </div>
+                <div class="card unlocked" onclick="redirectTo('Religion')">
+                    <p>Religion</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Overlay Section -->
+    <div id="overlay" class="overlay" style="display: none;">
+        <button class="close-button" onclick="closeOverlay()">&times;</button>
+        <div class="overlay-content" style="overflow: scroll; height: 800px;">
+            <p><span id="selected-category"></span></p>
+        </div>
+    </div>
+
+    <script src="learningmodule.js"></script>
+    <script type="module" src="content.js"></script>
+    <script src="sidebar.js"></script>
+</body>
+</html>

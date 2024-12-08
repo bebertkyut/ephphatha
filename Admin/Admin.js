@@ -962,7 +962,7 @@ document.getElementById('submitModuleButton').addEventListener('click', async fu
   const birthday = "Select Birthday";
 
   // Default profile picture URL from Firebase Storage. Do not touch.
-  const pictureURL = "https://firebasestorage.googleapis.com/v0/b/ephphathadb.appspot.com/o/profile_pictures%2Fdefault-user.png?alt=media";
+  const pictureURL = "https://firebasestorage.googleapis.com/v0/b/ephphathadb.appspot.com/o/profile_pictures%2Fdefault-user.png?alt=media&token=0855f608-d85e-4969-8911-b6f9c41e8723";
 
   try {
     // Add the document to Firestore
@@ -1737,6 +1737,44 @@ document.addEventListener('DOMContentLoaded', function() {
   showPage11Content();
 });
 
+function addLogoutButtonToDashboard() {
+  // Check if the logout button already exists
+  if (!document.querySelector('.logout')) {
+      console.log('Creating logout button');  // Debugging line
+
+      // Create the logout container (as a button)
+      const logoutButton = document.createElement('button');
+      logoutButton.classList.add('logout');  // Add the logout class for styling
+
+      // Create the icon
+      const logoutIcon = document.createElement('i');
+      logoutIcon.classList.add('bx', 'bx-log-in');  // Requires Boxicons library
+
+      // Append the icon inside the button
+      logoutButton.appendChild(logoutIcon);
+      logoutButton.appendChild(document.createTextNode(' Logout'));  // Add text next to the icon
+
+      // Add an event listener for logout action
+      logoutButton.addEventListener('click', () => {
+          window.location.href = '../index.html';  // Redirect to the login page or homepage
+      });
+
+      // Append the logout button to the body (or to a specific section like the header)
+      document.body.appendChild(logoutButton);
+
+      // Log to confirm it's being added
+      console.log('Logout button added to the DOM');
+  } else {
+      console.log('Logout button already exists');
+  }
+}
+
+// Call the function during initialization
+document.addEventListener('DOMContentLoaded', () => {
+  addLogoutButtonToDashboard();
+});
+
+
 window.displayUploadedVideo = displayUploadedVideo;
 window.showControlManagemen = showDashboard;
 window.showDashboard = showDashboard;
@@ -1760,3 +1798,4 @@ window.populateActiveAccountsTable = populateActiveAccountsTable;
 window.activateAccount = activateAccount;
 window.saveEditedAccount = saveEditedAccount;
 window.closeEditOverlay = closeEditOverlay;
+window.addLogoutButtonToDashboard = addLogoutButtonToDashboard
