@@ -48,7 +48,7 @@ async function displayUserLevel() {
                 const userDoc = querySnapshot.docs[0];
                 const userData = userDoc.data();
 
-                if (userData.Ready >= 1 && userData.Ready <= 4) {
+                if (userData.Ready >= 1 && userData.Ready <= 5) {
                     userLevelElement.innerText = 'Ready';
                 } else if (userData.Learner >= 1 && userData.Learner <= 4) {
                     userLevelElement.innerText = 'Learner';

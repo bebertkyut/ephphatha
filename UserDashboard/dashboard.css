@@ -840,6 +840,7 @@ h2 {
     align-items: center;
     background: linear-gradient(to right, #4ca2cd, #67b26f);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    
 }
 
 .user-img img {
@@ -847,6 +848,7 @@ h2 {
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
+    
 }
 
 /* Center Profile Image Section */
@@ -875,7 +877,8 @@ h2 {
     bottom: 200px; /* Space from h1 */
     left: 50%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust for perfect centering */
-    margin: 0; /* Remove any default margin */
+    margin-top: 50px;
+    margin-bottom: 10px; /* Remove any default margin */
 }
 
 /* Position h2 under h1 */
@@ -887,6 +890,17 @@ h2 {
     left: 50%; /* Center horizontally */
     transform: translateX(-50%); /* Adjust for perfect centering */
     margin: 0; /* Remove any default margin */
+}
+
+/* Position h2 under h1 */
+.user-info h3 {
+    font-size: 18px;
+    color: #777;
+    position: absolute; /* Positioning it relative to the .user-info container */
+    bottom: 190px; /* Space from h1 */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for perfect centering */
+    margin-bottom: 10; /* Remove any default margin */
 }
 
 
