@@ -29,49 +29,52 @@ const userRole = localStorage.getItem('userRole');
 document.getElementById('userName').innerText = userName;
 document.getElementById('userRole').innerText = userRole;
 
-// Function to load user information from Firestore
-async function loadUserInfo() {
-    const name = localStorage.getItem('userName'); // Retrieves the Name from localStorage
+// Function to determine and display the user's current level
+async function displayUserLevel() {
+    const userName = localStorage.getItem('userName');
+    const userLevelElement = document.getElementById('userlevel'); 
+    const userRoleElement = document.getElementById('userRole'); 
 
-    if (name) {
-        console.log('Name from localStorage:', name); // Debug the value of name
-
+    if (userName) {
         try {
             const userQuery = query(
                 collection(db, 'UserAccount'),
-                where('Name', '==', name) // Query using the Name field
+                where('Name', '==', userName)
             );
-            const querySnapshot = await getDocs(userQuery);
 
-            console.log('Query result:', querySnapshot.docs); // Debug query result
+            const querySnapshot = await getDocs(userQuery);
 
             if (!querySnapshot.empty) {
                 const userDoc = querySnapshot.docs[0];
                 const userData = userDoc.data();
 
-                // Set profile picture
-                const pictureURL = userData.PictureURL;
-                const img = document.getElementById('photo');
-                img.setAttribute('src', pictureURL || '../img/default-user.jpg');
+                if (userData.Ready >= 1 && userData.Ready <= 4) {
+                    userLevelElement.innerText = 'Ready';
+                } else if (userData.Learner >= 1 && userData.Learner <= 4) {
+                    userLevelElement.innerText = 'Learner';
+                } else if (userData.Beginner >= 1 && userData.Beginner <= 4) {
+                    userLevelElement.innerText = 'Beginner';
+                } else {
+                    userLevelElement.innerText = 'Unspecified';
+                }
 
-                // Display About, Gender, Birthday, and Role fields
-                document.getElementById('userAbout').innerText = userData.About || "N/A";
-                document.getElementById('userGender').innerText = userData.Gender || "N/A";
-                document.getElementById('userBirthday').innerText = userData.Birthday || "N/A";
-                document.getElementById('userRole').innerText = userData.Role || "N/A";
+                userRoleElement.innerText = userData.Role || 'Unknown';
             } else {
-                console.error('No such document!'); // No document found
+                console.error('No user found with this name!');
+                userLevelElement.innerText = 'Unknown';
             }
         } catch (error) {
-            console.error('Error fetching user data:', error); // Log errors
+            console.error('Error fetching user data:', error);
+            userLevelElement.innerText = 'Error';
         }
     } else {
         console.error('Name not found in localStorage!');
+        userLevelElement.innerText = 'Unknown';
     }
 }
 
-// Load user information on page load
-loadUserInfo();
+// Call the function on page load or when user data needs to be updated
+displayUserLevel();
 
 // Close modal function
 function closeModal() {
