@@ -983,17 +983,17 @@ function displayVideo(videoUrl) {
 }
 
 
-// Close the overlay and update the progress levels
 window.closeOverlay = async function() {
     document.getElementById('overlay').style.display = 'none';  
 
-    // Get the user's Name from localStorage
     const userName = localStorage.getItem('userName');
+    console.log('UserName from localStorage:', userName); 
+
     if (userName) {
         try {
             const userQuery = query(
                 collection(db, 'UserAccount'),
-                where('Name', '==', userName) 
+                where('Name', '==', userName)
             );
 
             const querySnapshot = await getDocs(userQuery);
@@ -1001,9 +1001,21 @@ window.closeOverlay = async function() {
             if (!querySnapshot.empty) {
                 const userDoc = querySnapshot.docs[0];
                 const userData = userDoc.data();
-                const userRef = userDoc.ref; 
+                const userRef = userDoc.ref;
 
-                unlockStages(userData.Beginner, userData.Learner, userData.Ready, userRef);
+                console.log('User Data:', userData);
+
+                if (userData.Role === 'Teacher' && userData.Ready === 5) {
+                    alert('Congratulations! You have been promoted to Teacher');
+                } else {
+                    console.log('Role or Ready field does not match:');
+                    console.log('Role:', userData.Role);
+                    console.log('Ready:', userData.Ready);
+                }
+
+                if (userData.Ready < 5) {
+                    await updateFirestoreLevel('Ready', 5, userRef);
+                }
             } else {
                 console.log('No user found with this name!');
             }
